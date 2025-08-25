@@ -44,6 +44,41 @@
   --section-pad-y:   96px;
 }
 
+  /* map the tick/cross colours used in the table */
+:root{
+  --primary-green:#00ff84;
+  --primary-red:#ef4444;
+}
+
+/* keep results card from ever shrinking and give the emphasis rows breathing room */
+.calculator-container > *{ min-width:0; }
+.calculator-results{ width:100%; }
+
+/* emphasis rows: full-width, same left/right, with gap between them */
+.calculator-results .highlight-box-red,
+.calculator-results .highlight-box-green{
+  display:block;
+  width:100%;
+  margin-top:14px;       /* <-- creates the gap so they don’t touch */
+  padding:18px;
+  border-radius:10px;
+}
+.highlight-box-red{
+  background:rgba(239,68,68,.10);
+  border:1px solid rgba(239,68,68,.35);
+}
+.highlight-box-green{
+  background:rgba(0,255,132,.10);
+  border:1px solid rgba(0,255,132,.35);
+}
+/* inside the emphasis rows, remove the divider line but keep alignment */
+.highlight-box-red .result-item,
+.highlight-box-green .result-item{
+  border-bottom:none;
+  padding:0;
+}
+
+
 /* =========================================================
    2) Base / layout
    ========================================================= */
@@ -426,8 +461,8 @@ td{ padding:20px 28px; color:var(--text-primary); }
             <label class="input-label">Current GMV ($)</label>
             <div class="input-wrapper">
                  <input type="range" id="mx_gmv_num" class="range-input"
-                        min="1000000" max="50000000" step="100000" 
-                        value="1365000" oninput="handleSlider('mexico','gmv',this)"/>
+       min="500000" max="10000000" step="50000"
+       value="1365000" oninput="handleSlider('mexico','gmv',this)"/>
             <span class="range-value" id="mx_gmv_val">$1,365,000</span>
 
             </div>
@@ -487,8 +522,9 @@ td{ padding:20px 28px; color:var(--text-primary); }
             <label class="input-label">Current GMV ($)</label>
             <div class="input-wrapper">
             <input type="range" id="br_gmv_num" class="range-input"
-                   min="1000000" max="50000000" step="100000"
-                   value="2730000" oninput="handleSlider('brazil','gmv',this)"/>
+       min="500000" max="10000000" step="50000"
+       value="2730000" oninput="handleSlider('brazil','gmv',this)"/>
+              
               <span class="range-value" id="br_gmv_val">$2,730,000</span>
             </div>
           </div>
