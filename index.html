@@ -252,7 +252,63 @@
     tbody tr:nth-child(even){ background:rgba(255,255,255,.03); }
     
     th,td{ color:var(--text-primary); }
-  
+
+  /* === AppNation purple override (drop in at the END of your <style>) === */
+:root{
+  /* Bright/vivid AppNation-ish purple */
+  --appnation-purple: #8B5CF6;      /* main */
+  --appnation-purple-strong:#7C3AED; /* hover/active */
+  --appnation-purple-rgb: 139, 92, 246;
+}
+
+/* Repoint anything that used "primary green" to purple */
+:root{
+  --primary-green: var(--appnation-purple);
+}
+
+/* Hero % and any .solid-green-text */
+.solid-green-text{ 
+  color: var(--appnation-purple) !important; 
+}
+
+/* Primary CTA pills (top + calculator) */
+.btn-cta-large{
+  background: var(--appnation-purple) !important;
+  color:#fff !important;
+  box-shadow: 0 0 16px rgba(var(--appnation-purple-rgb), .35) !important;
+}
+.btn-cta-large:hover{
+  background: var(--appnation-purple-strong) !important;
+  box-shadow: 0 0 22px rgba(var(--appnation-purple-rgb), .55) !important;
+}
+
+/* Calc toggle active state to purple */
+.calc-toggle-option.active{
+  background: var(--appnation-purple) !important;
+  color:#fff !important;
+  border-color: rgba(var(--appnation-purple-rgb), .35) !important;
+}
+
+/* Positive numbers to purple (was green) */
+.result-value.positive{
+  color: var(--appnation-purple) !important;
+}
+
+/* “Green” highlight box → purple glow */
+.highlight-box-green{
+  background: rgba(var(--appnation-purple-rgb), .12) !important;
+  border: 1px solid rgba(var(--appnation-purple-rgb), .35) !important;
+}
+
+/* Value hero subtle border to feel on-brand */
+.value-hero{
+  border-color: rgba(var(--appnation-purple-rgb), .28) !important;
+}
+
+/* Section headline highlight (dedicated Outpost entity) */
+.section-title .solid-green-text{
+  color: var(--appnation-purple) !important;
+}
   
 </style>
 
