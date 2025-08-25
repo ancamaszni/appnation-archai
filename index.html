@@ -36,7 +36,7 @@
   .nav-container{display:flex;justify-content:space-between;align-items:center}
   .logo{font-size:18px;font-weight:700;color:var(--text-primary);text-decoration:none;display:flex;gap:10px;align-items:center}
   .logo-square{width:28px;height:28px;border:3px solid var(--text-primary);border-radius:6px}
-  .nav-links{display:flex;align-items:center;gap:24px;text-transform:lowercase}
+  .nav-links{display:flex;align-items:center;gap:24px;}
   .nav-links a:not(.btn){color:var(--text-secondary);text-decoration:none;font-size:14px;font-weight:600}
   .nav-links a:not(.btn):hover{color:var(--text-primary)}
 
@@ -52,11 +52,27 @@
   /* Hero */
   .hero{padding:160px 0 96px;text-align:center;position:relative;background:linear-gradient(180deg,#08121d, #0c1a29)}
   .hero .container{max-width:920px}
-  h1{font-size:clamp(56px,9.6vw,96px);font-weight:800;line-height:.98;letter-spacing:-.025em;text-transform:lowercase;margin-bottom:26px}
+  h1{font-size:clamp(56px,9.6vw,96px);font-weight:800;line-height:.98;letter-spacing:-.025em;margin-bottom:26px}
   .hero-subtitle{max-width:800px;margin:0 auto;color:var(--text-secondary);font-size:20px}
   .solid-green-text{color:var(--primary-green);font-weight:800}
   .hero-buttons{display:flex;justify-content:center;gap:14px;margin-top:22px}
 
+  .hero-callout{
+  margin:32px auto 0;
+  max-width:880px;
+  background: var(--bg-card);
+  border:1px solid var(--border-color);
+  border-top:2px solid var(--primary-red);
+  border-radius:16px;
+  padding:22px 24px;
+}
+.hero-callout-text{
+  color: var(--text-secondary);
+  font-size:16px;
+  line-height:1.65;
+}
+.hero-callout strong{ color: var(--text-primary); }
+  
   /* Cards / panels */
   .card{background:var(--bg-card);border-radius:16px;padding:26px;border:1px solid var(--border-color)}
   .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px}
@@ -159,6 +175,13 @@
     <div class="hero-buttons">
       <a href="#calculator" class="btn btn-cta-large">Calculate impact →</a>
       <button class="btn btn-secondary" onclick="openModal()">Book demo</button>
+    </div>
+    <div class="hero-callout">
+      <p class="hero-callout-text">
+        <strong>Outpost</strong> partners with gaming platforms like <strong>AppNation</strong>
+        so they can sell in Mexico like a local. Offload your tax, compliance, payments,
+        legal and operational burdens to Outpost.
+      </p>
     </div>
   </div>
 </section>
@@ -357,6 +380,67 @@
   </div>
 </section>
 
+  <!-- Comparison Table -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">
+          We are the only enterprise-grade MoR, delivering the above with your
+        <span class="solid-green-text">dedicated Outpost entity</span>
+        </h2>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th style="background:rgba(16,185,129,.03);">
+                <div>
+                  <span>Outpost One</span>
+                  <div style="font-size:12px;color:var(--text-secondary);font-weight:400;margin-top:4px;">Dedicated Entity Model</div>
+                </div>
+              </th>
+              <th style="background:rgba(239,68,68,.03);">
+                <div>
+                  <span>Traditional MoRs</span>
+                  <div style="font-size:12px;color:var(--text-secondary);font-weight:400;margin-top:4px;">Shared Entity Model</div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Legal Entity</strong></td>
+              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Dedicated exclusively to your platform</td>
+              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Shared across multiple merchants</td>
+            </tr>
+            <tr>
+              <td><strong>Risk Exposure</strong></td>
+              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Fully isolated, no cross-contamination</td>
+              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Shared risk pool</td>
+            </tr>
+            <tr>
+              <td><strong>MCC Configuration</strong></td>
+              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Optimized for gaming platforms</td>
+              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Often fixed or limited</td>
+            </tr>
+            <tr>
+              <td><strong>PSP Relationships</strong></td>
+              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Platform-specific terms and routing</td>
+              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Pooled or constrained</td>
+            </tr>
+            <tr>
+              <td><strong>Audit Trail</strong></td>
+              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Clean, transparent records</td>
+              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Co-mingled activity</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
 <!-- FINAL CTA (kept) -->
 <section class="section" style="text-align:center;">
   <div class="container">
@@ -366,11 +450,16 @@
 </section>
 
 <!-- FOOTER (unchanged text) -->
-<footer class="disclaimer-footer">
-  <div class="container">
-    <p class="disclaimer-text">The cost savings estimates on this website are for informational purposes only and based on general assumptions and publicly available data. Actual results may vary...</p>
-  </div>
-</footer>
+ <!-- Footer -->
+  <footer class="disclaimer-footer">
+    <div class="container">
+      <div class="disclaimer-content">
+        <p class="disclaimer-text">
+          The cost savings estimates on this website are for informational purposes only and based on general assumptions and publicly available data. Actual results may vary significantly based on your specific business circumstances, transaction volumes, and market conditions. These estimates do not constitute guarantees, formal quotes, or professional advice. You should consult qualified advisors before making business decisions. Outpost disclaims all liability for any loss arising from reliance on these projections. Viewing this website does not create any client relationship. Governed by English law. 2025
+        </p>
+      </div>
+    </div>
+  </footer>
 
 <script>
   // --- State & constants ---
@@ -455,9 +544,8 @@
     document.getElementById('fx-card').textContent = fmtShort(payfx*gmv).replace('$','');
 
     // Update hero/nav/hero value to active country's numbers
-    if(country===current){
-      updateGlobals(country, net, (net/gmv));
-    }
+    if (country === current) {
+  document.getElementById('fx-card').textContent = fmtShort(payfx * gmv).replace('$','');
   }
 
   // --- Slider handlers ---
