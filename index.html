@@ -5,421 +5,266 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-  :root{
-    /* AppNation-ish palette */
-    --bg-primary:#0a0f13;
-    --bg-card:#111820;
-    --bg-secondary:#0c131a;
-
-    --text-primary:#ffffff;
-    --text-secondary:#8b9cae;
-    --text-tertiary:#6b7c8e;
-
-    --border-color:#1e2a36;     /* <-- restored (was missing) */
-    --border-light:#263442;
-
-    --primary-green:#00ff84;    /* bright green */
-    --primary-red:#ef4444;
-    --primary-blue:#3b82f6;
-  }
-
-/* --- AppNation look/feel overrides --- */
+/* =========================================================
+   1) Design tokens — change these to re-theme the site
+   ========================================================= */
 :root{
-  --primary-green:#00ff84;         /* bright AppNation green */
-  --bg-primary:#0a0f13;            /* deep charcoal */
-  --bg-card:#111820;
-  --text-primary:#ffffff;
-  --text-secondary:#8b9cae;
-  --text-tertiary:#6b7c8e;
-  --border-color:#1f2a36;
-  --accent-purple:#8b5cf6;
-  --primary-red: var(--accent-purple); /* maps all old ‘red’ accents to purple */
+  /* Brand palette (AppNation-ish) */
+  --accent-purple: #8B5CF6;
+  --accent-purple-strong: #7C3AED;
+  --accent-purple-rgb: 139, 92, 246;
+
+  --bg-primary:   #0a0f13; /* page */
+  --bg-secondary: #0c131a; /* section / footer */
+  --bg-card:      #111820; /* panels & cards */
+
+  --text-primary:   #ffffff;
+  --text-secondary: #8b9cae;
+  --text-tertiary:  #6b7c8e;
+
+  --border-color: #1f2a36;
+  --border-light: #263442;
+
+  /* Calculator +/- colours (stay green/red for clarity) */
+  --calc-green: #00ff84;
+  --calc-red:   #ef4444;
+
+  /* Slider cosmetics */
+  --slider-track:        #13202c;
+  --slider-track-border: #203041;
+
+  /* Typography scale */
+  --font-family: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Inter","SF Pro Text","Segoe UI", Roboto, Arial, sans-serif;
+  --font-size-base: 18px;         /* ↑ overall text size */
+  --line-height-base: 1.7;
+
+  /* Layout */
+  --container-width: 1120px;
+  --container-pad:   24px;
+  --section-pad-y:   96px;
 }
 
+/* =========================================================
+   2) Base / layout
+   ========================================================= */
+*{ margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+html,body{ height:100%; }
+body{
+  background:var(--bg-primary);
+  color:var(--text-primary);
+  font-family:var(--font-family);
+  font-size:var(--font-size-base);
+  line-height:var(--line-height-base);
+  letter-spacing:-0.01em;
+  overflow-x:hidden;
+}
+
+.container{ max-width:var(--container-width); margin:0 auto; padding:0 var(--container-pad); position:relative; z-index:1; }
+.section{ padding:var(--section-pad-y) 0; position:relative; z-index:1; }
+
+/* =========================================================
+   3) Navigation
+   ========================================================= */
+nav{
+  position:fixed; top:0; width:100%;
+  background:rgba(9,18,29,.6); backdrop-filter:blur(10px);
+  z-index:1000; padding:18px 0; border-bottom:1px solid var(--border-color);
+}
+nav.scrolled{ padding:12px 0; }
+.nav-container{ display:flex; justify-content:space-between; align-items:center; }
+.logo{ font-size:20px; font-weight:700; color:var(--text-primary); text-decoration:none; display:flex; gap:10px; align-items:center; }
+.logo-square{ width:28px; height:28px; border:3px solid var(--text-primary); border-radius:6px; }
+.nav-links{ display:flex; align-items:center; gap:24px; }
+.nav-links a:not(.btn){ color:var(--text-secondary); text-decoration:none; font-size:15px; font-weight:700; }
+.nav-links a:not(.btn):hover{ color:var(--text-primary); }
+
+/* =========================================================
+   4) Buttons
+   ========================================================= */
+.btn{
+  padding:12px 20px; border-radius:9999px; text-decoration:none; font-weight:800;
+  cursor:pointer; border:1px solid transparent; font-size:15px; line-height:1;
+  display:inline-block; transition:background .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.btn-primary{ background:#0d2538; color:#fff; border-color:#16324a; }
+.btn-primary:hover{ background:#0b2a45; }
+.btn-secondary{ background:transparent; color:#e6f0ff; border-color:#2a4662; }
+.btn-secondary:hover{ background:#11283c; }
+
+/* Primary CTAs (Hero + Calculator) — AppNation purple */
 .btn-cta-large{
-  background:var(--primary-green);
-  color:#0a0f13;
-  border:none;
-  padding:16px 28px;
-  font-size:17px;
-  font-weight:800;
-  border-radius:9999px;
-  box-shadow:0 0 16px rgba(0,255,132,.30);
-}
-.btn-cta-large:hover{ background:#00e678; box-shadow:0 0 20px rgba(0,255,132,.50); }
-
-.hero{ background:linear-gradient(180deg,#0a0f13,#0f1620); }
-.solid-green-text{ color:var(--primary-green); font-weight:900; }
-
-/*finish of Appnation look / feel section */
-  
-  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-  html,body{height:100%}
-   body{
-    background:var(--bg-primary);
-    color:var(--text-primary);
-    font-family:"Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Inter","SF Pro Text","Segoe UI", Roboto, Arial, sans-serif;
-    font-size:16px; line-height:1.6; letter-spacing:-0.01em; overflow-x:hidden;
-  }
-
-  .container{max-width:1120px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
-  .section{padding:88px 0;position:relative;z-index:1}
-
-  /* Nav */
-  nav{position:fixed;top:0;width:100%;background:rgba(9,18,29,.6);backdrop-filter:blur(10px);z-index:1000;padding:18px 0;border-bottom:1px solid var(--border-color)}
-  nav.scrolled{padding:12px 0}
-  .nav-container{display:flex;justify-content:space-between;align-items:center}
-  .logo{font-size:18px;font-weight:700;color:var(--text-primary);text-decoration:none;display:flex;gap:10px;align-items:center}
-  .logo-square{width:28px;height:28px;border:3px solid var(--text-primary);border-radius:6px}
-  .nav-links{display:flex;align-items:center;gap:24px;}
-  .nav-links a:not(.btn){color:var(--text-secondary);text-decoration:none;font-size:14px;font-weight:600}
-  .nav-links a:not(.btn):hover{color:var(--text-primary)}
-
-  /* Buttons */
-  .btn{padding:10px 18px;border-radius:9999px;text-decoration:none;font-weight:700;cursor:pointer;border:1px solid transparent;font-size:14px;line-height:1;display:inline-block;transition:background .15s ease,color .15s ease,border-color .15s ease}
-  .btn-primary{background:#0d2538;color:#fff;border-color:#16324a}
-  .btn-primary:hover{background:#0b2a45}
-  .btn-secondary{background:transparent;color:#e6f0ff;border-color:#2a4662}
-  .btn-secondary:hover{background:#11283c}
-
-  /* AppNation-style CTA */
-  .btn-cta-large{
-    background:var(--primary-green);
-    color:#0a0f13;
-    border:none;
-    padding:16px 28px;
-    font-size:17px;
-    font-weight:800;
-    border-radius:9999px;
-    box-shadow:0 0 16px rgba(0,255,132,0.3);
-  }
-  .btn-cta-large:hover{
-    background:#00e678;
-    box-shadow:0 0 20px rgba(0,255,132,0.5);
-  }
-
-  /* Hero */
-  .hero{padding:160px 0 96px;text-align:center;position:relative;background:linear-gradient(180deg,#08121d,#0c1a29)}
-  .hero .container{max-width:920px}
-  h1{font-size:clamp(56px,9.6vw,96px);font-weight:900;line-height:1.05;letter-spacing:-0.03em}
-  .hero-subtitle{max-width:800px;margin:12px auto 0;color:var(--text-secondary);font-size:20px}
-  .solid-green-text{color:var(--primary-green);font-weight:900}
-  .hero-buttons{display:flex;justify-content:center;gap:14px;margin-top:22px}
-
-  .hero-callout{
-    margin:32px auto 0;max-width:880px;background:var(--bg-card);
-    border-top:2px solid var(--accent-purple);
-    border-radius:16px;padding:22px 24px;  
-  }
-  .hero-callout-text{color:var(--text-secondary);font-size:16px;line-height:1.65}
-  .hero-callout strong{color:var(--text-primary)}
-
-  /* Cards / panels */
-  .card{background:var(--bg-card);border-radius:16px;padding:26px;border:1px solid var(--border-color)}
-  .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px}
-.card-icon{
-  width:56px;height:56px;
-  background:rgba(139,92,246,.12);
-  border:1px solid rgba(139,92,246,.25);
-  border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
-  color:var(--accent-purple);
-}
-  .card-value{font-size:26px;font-weight:800;margin-bottom:6px}
-  .card-label{font-size:14px;font-weight:700;color:var(--text-secondary);margin-bottom:10px}
-
-  .section-header{text-align:center;margin-bottom:46px}
-  .section-title{font-size:clamp(28px,4.5vw,44px);font-weight:900;letter-spacing:-.02em;margin-bottom:10px}
-  .section-subtitle{font-size:18px;color:var(--text-secondary);max-width:780px;margin:0 auto}
-
-  /* Calculator */
-  .calculator-toggle{display:flex;justify-content:center;margin-bottom:34px;gap:0;background:#0a1a2a;padding:4px;border-radius:12px;border:1px solid var(--border-color);width:fit-content;margin-left:auto;margin-right:auto}
-  .calc-toggle-option{padding:10px 18px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--text-secondary);background:transparent;border:none;font-size:14px}
-    /* override active state (purple) */
-    .calc-toggle-option.active{
-      background: rgba(139,92,246,.18);
-      color:#fff;
-      box-shadow: 0 0 0 1px rgba(139,92,246,.35) inset;
-    }
-  
-  
-  .calc-toggle-option.active{background:#0e2a43;color:#fff}
-  .calc-toggle-option:hover:not(.active){background:#102a43;color:#fff}
-
-  .calculator-container{display:grid;grid-template-columns:minmax(420px,.45fr) minmax(420px,.55fr);gap:44px;background:#0c1b2b;border-radius:20px;padding:44px;border:1px solid var(--border-color)}
-  .left-panel{position:sticky;top:96px;align-self:start}
-  .calculator-inputs{display:flex;flex-direction:column;gap:22px}
-
-  .inputs-title{font-size:22px;font-weight:800;margin-bottom:2px}
-  .inputs-subtitle{font-size:14px;color:var(--text-secondary)}
-  .input-label{display:block;font-weight:700;margin-bottom:10px;font-size:14px}
-  .input-wrapper{display:flex;flex-direction:column;gap:8px}
-  .range-input{-webkit-appearance:none;appearance:none;width:100%;height:6px;background:#14324c;border-radius:4px;outline:none}
-  .range-input::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;background:#1f91ff;border-radius:4px;cursor:pointer}
-  .range-value{font-size:18px;font-weight:800;color:#cfe3f9;text-align:right}
-
-  .calculator-results{background:#0b1827;border-radius:12px;padding:26px;border:1px solid var(--border-color)}
-  .calculator-results h3{font-size:20px;font-weight:800;margin-bottom:6px}
-  .calculator-subtitle{font-size:14px;color:var(--text-secondary);margin-bottom:14px}
-
-  .result-item{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border-color)}
-  .result-item:last-of-type{border-bottom:none}
-  .result-label{font-size:14px;font-weight:600}
-  .result-value{font-size:18px;font-weight:800;white-space:nowrap}
-  .result-value.positive{color:var(--primary-green)}
-  .result-value.negative{color:var(--primary-red)}
-
-  .highlight-box-red{background:rgba(239,68,68,.10);border:1px solid rgba(239,68,68,.35);border-radius:10px;padding:16px}
-  .highlight-box-green{background:rgba(0,255,132,.10);border:1px solid rgba(0,255,132,.35);border-radius:10px;padding:16px;margin-top:10px}
-  /* purple highlight (replaces old pink) */
-.highlight-pink{
-  background:rgba(139,92,246,.10);
-  border:1px solid rgba(139,92,246,.35);
-  border-radius:10px;
-  padding:16px;
-}
-.highlight-pink .result-value{ color:var(--accent-purple); }
-
-
-  .calc-cta-bottom{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:10px}
-  .calc-note{font-size:12px;color:var(--text-tertiary);text-align:center}
-
-  .value-hero{margin:64px auto;max-width:1060px;padding:44px 32px;background:#0c1b2b;border-radius:16px;text-align:center;border:1px solid var(--border-color)}
-  .value-hero-content{font-size:20px;font-weight:700}
-  .value-highlight{font-size:28px;font-weight:900;display:block;margin-top:8px}
-
-  .table-container{background:#0c1b2b;border-radius:16px;border:1px solid var(--border-color);overflow:hidden}
-  table{width:100%;border-collapse:collapse;font-size:16px}
-  thead{background:#0a1a2a;border-bottom:1px solid var(--border-color)}
-  th{padding:22px 26px;text-align:left;font-weight:800}
-  tbody tr{border-bottom:1px solid var(--border-color)}
-  td{padding:18px 26px}
-
-.disclaimer-footer{
-  background:var(--bg-secondary);
-  border-top:1px solid var(--border-color);
-  padding:48px 0;
-}
-.disclaimer-content{
-  max-width:900px;
-  margin:0 auto;
-  text-align:center;
-}
-.disclaimer-text{
-  color:var(--text-tertiary);
-  font-size:14px;
-  line-height:1.75;
-  }
-    @media(max-width:1024px){
-      .calculator-container{grid-template-columns:1fr;gap:28px;padding:32px}
-      .left-panel{position:static}
-    }
-    @media(max-width:768px){
-      .container{padding:0 18px}
-      h1{font-size:48px}
-      .hero{padding:140px 0 84px}
-      .grid-3{grid-template-columns:1fr}
-    }
-
-/* explanation block (from your earlier version) */
-.calculator-explanation{
-  max-width: 1120px;     /* match .container */
-  margin: 40px auto 0;   /* centered with same L/R */
-  padding: 32px 40px;    /* comfy inner padding */
-  background:var(--bg-card);
-  border:1px solid var(--border-color);
-  border-radius:12px;
-}
-.explanation-title{font-size:20px;font-weight:700;margin-bottom:18px}
-.explanation-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
-.explanation-item h4{font-size:16px;margin-bottom:8px}
-.explanation-item p{color:var(--text-secondary);font-size:14px;line-height:1.6}
-
-.table-container{
-  background:rgba(255,255,255,.02);
-  border:1px solid rgba(139,92,246,.25);
-  border-radius:16px;
-  box-shadow:0 1px 3px rgba(0,0,0,.5);
-  overflow:hidden;
-    }
-    
-    thead{
-      background:linear-gradient(180deg, rgba(139,92,246,.15), rgba(139,92,246,.06));
-      border-bottom:1px solid rgba(139,92,246,.25);
-    }
-    
-    tbody tr{ background:rgba(255,255,255,.01); border-bottom:1px solid rgba(255,255,255,.06); }
-    tbody tr:nth-child(even){ background:rgba(255,255,255,.03); }
-    
-    th,td{ color:var(--text-primary); }
-
-  /* === AppNation purple override (drop in at the END of your <style>) === */
-:root{
-  /* Bright/vivid AppNation-ish purple */
-  --appnation-purple: #8B5CF6;      /* main */
-  --appnation-purple-strong:#7C3AED; /* hover/active */
-  --appnation-purple-rgb: 139, 92, 246;
-}
-
-/* Repoint anything that used "primary green" to purple */
-:root{
-  --primary-green: var(--appnation-purple);
-}
-
-/* Hero % and any .solid-green-text */
-.solid-green-text{ 
-  color: var(--appnation-purple) !important; 
-}
-
-/* Primary CTA pills (top + calculator) */
-.btn-cta-large{
-  background: var(--appnation-purple) !important;
-  color:#fff !important;
-  box-shadow: 0 0 16px rgba(var(--appnation-purple-rgb), .35) !important;
+  background:var(--accent-purple); color:#fff;
+  border:none; padding:18px 30px; font-size:18px; font-weight:900; border-radius:9999px;
+  box-shadow:0 0 18px rgba(var(--accent-purple-rgb), .45);
 }
 .btn-cta-large:hover{
-  background: var(--appnation-purple-strong) !important;
-  box-shadow: 0 0 22px rgba(var(--appnation-purple-rgb), .55) !important;
+  background:var(--accent-purple-strong);
+  box-shadow:0 0 24px rgba(var(--accent-purple-rgb), .65);
 }
 
-/* Calc toggle active state to purple */
+/* =========================================================
+   5) Hero
+   ========================================================= */
+.hero{ padding:180px 0 110px; text-align:center; background:linear-gradient(180deg,#08121d,#0c1a29); }
+.hero .container{ max-width:920px; }
+h1{ font-size:clamp(64px, 9.6vw, 104px); font-weight:900; line-height:1.05; letter-spacing:-0.03em; }
+.hero-subtitle{ max-width:820px; margin:14px auto 0; color:var(--text-secondary); font-size:22px; }
+.solid-green-text{ color:var(--accent-purple); font-weight:900; } /* keep class name, use purple */
+.hero-buttons{ display:flex; justify-content:center; gap:16px; margin-top:26px; }
+
+.hero-callout{
+  margin:36px auto 0; max-width:880px; background:var(--bg-card);
+  border-top:2px solid var(--accent-purple);
+  border-radius:16px; padding:24px 26px;
+}
+.hero-callout-text{ color:var(--text-secondary); font-size:17px; line-height:1.7; }
+.hero-callout strong{ color:var(--text-primary); }
+
+/* =========================================================
+   6) Cards / features
+   ========================================================= */
+.card{ background:var(--bg-card); border-radius:16px; padding:28px; border:1px solid var(--border-color); }
+.grid-3{ display:grid; grid-template-columns:repeat(auto-fit, minmax(320px,1fr)); gap:24px; }
+.card-icon{
+  width:56px; height:56px; background:rgba(var(--accent-purple-rgb), .12);
+  border:1px solid rgba(var(--accent-purple-rgb), .25); border-radius:12px;
+  display:flex; align-items:center; justify-content:center; color:var(--accent-purple);
+}
+.card-value{ font-size:28px; font-weight:900; margin-bottom:8px; }
+.card-label{ font-size:15px; font-weight:800; color:var(--text-secondary); margin-bottom:10px; }
+
+.section-header{ text-align:center; margin-bottom:52px; }
+.section-title{ font-size:clamp(32px, 4.8vw, 52px); font-weight:900; letter-spacing:-.02em; margin-bottom:12px; }
+.section-subtitle{ font-size:20px; color:var(--text-secondary); max-width:820px; margin:0 auto; }
+
+/* =========================================================
+   7) Calculator
+   ========================================================= */
+.calculator-toggle{
+  display:flex; justify-content:center; gap:0; margin-bottom:38px;
+  background:#0a1a2a; padding:5px; border-radius:12px; border:1px solid var(--border-color);
+  width:fit-content; margin-left:auto; margin-right:auto;
+}
+.calc-toggle-option{
+  padding:12px 20px; border-radius:10px; cursor:pointer; font-weight:800;
+  color:var(--text-secondary); background:transparent; border:none; font-size:15px;
+}
 .calc-toggle-option.active{
-  background: var(--appnation-purple) !important;
-  color:#fff !important;
-  border-color: rgba(var(--appnation-purple-rgb), .35) !important;
+  background:var(--accent-purple); color:#fff; box-shadow:0 0 0 1px rgba(var(--accent-purple-rgb), .35) inset;
 }
 
-/* Positive numbers to purple (was green) */
-.result-value.positive{
-  color: var(--appnation-purple) !important;
+/* Calculator shell */
+.calculator-container{
+  display:grid; grid-template-columns:minmax(420px,.45fr) minmax(420px,.55fr); gap:48px;
+  background:#0c1b2b; border-radius:20px; padding:48px; border:1px solid var(--border-color);
 }
+.left-panel{ position:sticky; top:100px; align-self:start; }
+.calculator-inputs{ display:flex; flex-direction:column; gap:24px; }
+.inputs-title{ font-size:24px; font-weight:900; margin-bottom:4px; }
+.inputs-subtitle{ font-size:15px; color:var(--text-secondary); }
+.input-label{ display:block; font-weight:900; margin-bottom:12px; font-size:15px; }
+.input-wrapper{ display:flex; flex-direction:column; gap:10px; }
+.range-value{ font-size:20px; font-weight:900; color:#cfe3f9; text-align:right; }
 
-/* “Green” highlight box → purple glow */
-.highlight-box-green{
-  background: rgba(var(--appnation-purple-rgb), .12) !important;
-  border: 1px solid rgba(var(--appnation-purple-rgb), .35) !important;
-}
-
-/* Value hero subtle border to feel on-brand */
-.value-hero{
-  border-color: rgba(var(--appnation-purple-rgb), .28) !important;
-}
-
-/* Section headline highlight (dedicated Outpost entity) */
-.section-title .solid-green-text{
-  color: var(--appnation-purple) !important;
-}
-/* ===== Purple sliders (drop-in override) ===== */
-:root{
-  --appnation-purple:#8B5CF6;
-  --appnation-purple-strong:#7C3AED;
-  --appnation-purple-rgb:139,92,246;
-  --slider-track:#13202c;            /* dark track */
-  --slider-track-border:#203041;     /* subtle edge */
-}
-
-/* Let modern browsers tint the progress portion */
-.range-input{
-  accent-color: var(--appnation-purple);
-}
-
-/* WebKit (Chrome, Edge, Safari) */
-.range-input::-webkit-slider-runnable-track{
-  background: var(--slider-track);
-  height: 6px;
-  border-radius: 4px;
-  border: 1px solid var(--slider-track-border);
-}
+/* Sliders — purple */
+.range-input{ -webkit-appearance:none; appearance:none; width:100%; height:6px; border-radius:4px; outline:none; accent-color: var(--accent-purple); }
+.range-input::-webkit-slider-runnable-track{ background:var(--slider-track); height:6px; border-radius:4px; border:1px solid var(--slider-track-border); }
 .range-input::-webkit-slider-thumb{
-  -webkit-appearance:none;
-  appearance:none;
-  width: 18px; height: 18px;
-  border-radius: 4px;
-  background: var(--appnation-purple);
-  border: 0;
-  box-shadow: 0 0 0 1px rgba(0,0,0,.25),
-              0 0 12px rgba(var(--appnation-purple-rgb), .45);
-  margin-top: -7px; /* centers thumb on a 6px track */
+  -webkit-appearance:none; appearance:none; width:18px; height:18px; border-radius:4px; background:var(--accent-purple); border:0;
+  box-shadow:0 0 0 1px rgba(0,0,0,.25), 0 0 12px rgba(var(--accent-purple-rgb), .45); margin-top:-7px;
 }
-
-/* Firefox */
-.range-input::-moz-range-track{
-  background: var(--slider-track);
-  height: 6px;
-  border-radius: 4px;
-  border: 1px solid var(--slider-track-border);
-}
-.range-input::-moz-range-progress{
-  background: rgba(var(--appnation-purple-rgb), .6);
-  height: 6px;
-  border-radius: 4px;
-}
+.range-input::-moz-range-track{ background:var(--slider-track); height:6px; border-radius:4px; border:1px solid var(--slider-track-border); }
+.range-input::-moz-range-progress{ background:rgba(var(--accent-purple-rgb), .6); height:6px; border-radius:4px; }
 .range-input::-moz-range-thumb{
-  width: 18px; height: 18px;
-  border-radius: 4px;
-  background: var(--appnation-purple);
-  border: none;
-  box-shadow: 0 0 12px rgba(var(--appnation-purple-rgb), .45);
+  width:18px; height:18px; border-radius:4px; background:var(--accent-purple); border:none; box-shadow:0 0 12px rgba(var(--accent-purple-rgb), .45);
 }
 
-/* Old Edge/IE fallback */
-.range-input::-ms-track{
-  background: transparent; color: transparent; border-color: transparent; height: 6px;
+/* Results panel */
+.calculator-results{ background:#0b1827; border-radius:12px; padding:28px; border:1px solid var(--border-color); }
+.calculator-results h3{ font-size:22px; font-weight:900; margin-bottom:8px; }
+.calculator-subtitle{ font-size:15px; color:var(--text-secondary); margin-bottom:16px; }
+
+.result-item{ display:flex; justify-content:space-between; align-items:center; padding:18px 0; border-bottom:1px solid var(--border-color); }
+.result-item:last-of-type{ border-bottom:none; }
+.result-label{ font-size:16px; font-weight:800; }
+.result-value{
+  font-size:20px; font-weight:900; white-space:nowrap; letter-spacing:.01em; font-variant-numeric:tabular-nums;
 }
-.range-input::-ms-fill-lower{ background: rgba(var(--appnation-purple-rgb), .6); }
-.range-input::-ms-fill-upper{ background: var(--slider-track); }
-.range-input::-ms-thumb{
-  width: 18px; height: 18px; border-radius: 4px;
-  background: var(--appnation-purple); border: none;
+.result-value.positive{ color:var(--calc-green) !important; text-shadow:0 0 10px rgba(0,255,132,.18); }
+.result-value.negative{ color:var(--calc-red)   !important; text-shadow:0 0 10px rgba(239,68,68,.18); }
+
+/* Emphasis rows */
+.highlight-box-red{
+  background:rgba(239,68,68,.10); border:1px solid rgba(239,68,68,.35); border-radius:10px; padding:18px;
+}
+.highlight-box-purple{
+  background:rgba(var(--accent-purple-rgb), .12); border:1px solid rgba(var(--accent-purple-rgb), .35);
+  border-radius:10px; padding:18px;
 }
 
-  /* === Calculator numbers: lock colours to green/red === */
-:root{
-  --calc-green: #00ff84;   /* AppNation green */
-  --calc-red:   #ef4444;   /* red for negatives */
-}
+.calc-cta-bottom{ margin-top:22px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+.calc-note{ font-size:13px; color:var(--text-tertiary); text-align:center; }
 
-/* Strong, legible numbers */
-.calculator-results .result-value{
-  font-weight: 900;
-  font-size: 18px;                 /* tweak if you want larger */
-  letter-spacing: .01em;
-  font-variant-numeric: tabular-nums;
+/* =========================================================
+   8) Value hero
+   ========================================================= */
+.value-hero{
+  margin:72px auto; max-width:1060px; padding:48px 36px; background:#0c1b2b; border-radius:16px; text-align:center;
+  border:1px solid rgba(var(--accent-purple-rgb), .28);
 }
+.value-hero-content{ font-size:22px; font-weight:800; }
+.value-highlight{ font-size:30px; font-weight:900; display:block; margin-top:10px; }
 
-/* Force +/- colours in the calculator only */
-.calculator-results .result-value.positive{ color: var(--calc-green) !important; }
-.calculator-results .result-value.negative{ color: var(--calc-red)   !important; }
+/* =========================================================
+   9) Comparison table (lighter to “read as a table”)
+   ========================================================= */
+.table-container{
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(var(--accent-purple-rgb), .25);
+  border-radius:16px; box-shadow:0 1px 3px rgba(0,0,0,.5); overflow:hidden;
+}
+table{ width:100%; border-collapse:collapse; font-size:18px; }
+thead{
+  background:linear-gradient(180deg, rgba(var(--accent-purple-rgb), .15), rgba(var(--accent-purple-rgb), .06));
+  border-bottom:1px solid rgba(var(--accent-purple-rgb), .25);
+}
+th{ padding:24px 28px; text-align:left; font-weight:900; }
+tbody tr{ background:rgba(255,255,255,.01); border-bottom:1px solid rgba(255,255,255,.06); }
+tbody tr:nth-child(even){ background:rgba(255,255,255,.03); }
+td{ padding:20px 28px; color:var(--text-primary); }
 
-/* Optional: subtle glow so values pop on dark backgrounds */
-.calculator-results .result-value.positive{
-  text-shadow: 0 0 10px rgba(0,255,132,.18);
+/* =========================================================
+   10) “How we calculate” explanation (same side paddings)
+   ========================================================= */
+.calculator-explanation{
+  max-width:var(--container-width); margin:40px auto 0; padding:32px 40px;
+  background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px;
 }
-.calculator-results .result-value.negative{
-  text-shadow: 0 0 10px rgba(239,68,68,.18);
-}
+.explanation-title{ font-size:22px; font-weight:900; margin-bottom:18px; }
+.explanation-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:26px; }
+.explanation-item h4{ font-size:18px; margin-bottom:10px; }
+.explanation-item p{ color:var(--text-secondary); font-size:16px; line-height:1.7; }
 
-/* Keep the Unlock CTA purple (bright AppNation-ish) */
-:root{
-  --appnation-purple: #8B5CF6;
-  --appnation-purple-strong:#7C3AED;
-}
+/* =========================================================
+   11) Footer (centered like the screenshot)
+   ========================================================= */
+.disclaimer-footer{ background:var(--bg-secondary); border-top:1px solid var(--border-color); padding:56px 0; }
+.disclaimer-content{ max-width:900px; margin:0 auto; text-align:center; }
+.disclaimer-text{ color:var(--text-tertiary); font-size:15px; line-height:1.8; }
 
-.calc-cta-bottom .btn-cta-large,
-#mx_cta.btn-cta-large,
-#br_cta.btn-cta-large{
-  background: var(--appnation-purple) !important;
-  color:#0a0f13;
-  box-shadow: 0 0 18px rgba(139,92,246,.45);
-  border: none;
+/* =========================================================
+   12) Responsive
+   ========================================================= */
+@media (max-width:1024px){
+  .calculator-container{ grid-template-columns:1fr; gap:32px; padding:36px; }
+  .left-panel{ position:static; }
 }
-.calc-cta-bottom .btn-cta-large:hover,
-#mx_cta.btn-cta-large:hover,
-#br_cta.btn-cta-large:hover{
-  background: var(--appnation-purple-strong) !important;
-  box-shadow: 0 0 24px rgba(139,92,246,.65);
+@media (max-width:768px){
+  .container{ padding:0 18px; }
+  .hero{ padding:160px 0 96px; }
+  h1{ font-size:48px; }
+  .grid-3{ grid-template-columns:1fr; }
 }
-  
 </style>
 
 <!-- NAV -->
@@ -468,7 +313,7 @@
     <div class="section-header">
       <h2 class="section-title">The hidden cost of global expansion</h2>
       <p class="section-subtitle">
-        Global app platforms expanding are leaving substantial value on the table every year from inefficient payments and tax infrastructure or relying on App / Play stores for this.
+        Global app platforms expanding are leaving substantial value on the table every year from inefficient payments and tax infrastructure or relying on App / Play stores.
         We estimate it's costing AppNation $<span class="problem-dynamic">2.9M</span> per annum in App / Play store fees and additional costs.
       </p>
     </div>
@@ -485,7 +330,7 @@
         <div class="card-icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.5 3.5L7 15l4 4L22 7.5"/></svg>
         </div>
-        <div class="card-value">-<span id="fx-card">$564K</span></div>
+        <div class="card-value">$<span id="fx-card">$564K</span></div>
         <div class="card-label">Extra payments & FX costs</div>
         <p class="card-description">Expensive charges for refunds, chargebacks and high FX fees on payouts.</p>
       </div>
@@ -529,7 +374,7 @@
     <div class="calculator-container" id="calc-mexico">
       <div class="left-panel">
         <div class="calculator-inputs">
-          <h3 class="inputs-title">Your business in Mexico</h3>
+          <h3 class="inputs-title">ArchAI in Mexico</h3>
           <div class="input-group">
             <label class="input-label">Current GMV ($)</label>
             <div class="input-wrapper">
@@ -587,7 +432,7 @@
     <div class="calculator-container" id="calc-brazil" style="display:none;">
       <div class="left-panel">
         <div class="calculator-inputs">
-          <h3 class="inputs-title">Your business in Brazil</h3>
+          <h3 class="inputs-title">ArchAI in Brazil</h3>
           <div class="input-group">
             <label class="input-label">Current GMV ($)</label>
             <div class="input-wrapper">
@@ -656,21 +501,20 @@
       <p>
         The App / Play Store charge 30% commission to act as an ‘MoR’. They also
         charge fixed fees for refunds/chargebacks and take FX spread on payouts –
-        we assume this is ~3% of GMV.
+        we assume this is ~4% of GMV.
       </p>
     </div>
 
     <div class="explanation-item">
-      <h4>Other solutions – Direct</h4>
+      <h4>Indirect taxes</h4>
       <p>
-        Using a compliance platform with a PSP (or another MoR) adds ongoing costs
-        and FX. We assume PSP + FX is ~7% and lower approvals from international
-        acquiring. PE/TP items competitors don’t cover are also included.
+        For Mexico you pay the same IVA with app / play store and with Outpost, so there is no difference. 
+        In Brazil, we set up a structure that means no extra tax - otherwise, this would climb to >50% sales tax!
       </p>
     </div>
 
     <div class="explanation-item">
-      <h4>Outpost</h4>
+      <h4>Outpost fee</h4>
       <p>
         Outpost is a flat 8.5% of GMV with no extra lines. The calculator compares
         that against Store and Direct totals to show your savings.
