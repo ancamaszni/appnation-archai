@@ -32,6 +32,8 @@
   --text-secondary:#8b9cae;
   --text-tertiary:#6b7c8e;
   --border-color:#1f2a36;
+  --accent-purple:#8b5cf6;
+  --primary-red: var(--accent-purple); /* maps all old ‘red’ accents to purple */
 }
 
 .btn-cta-large{
@@ -115,7 +117,14 @@
   /* Cards / panels */
   .card{background:var(--bg-card);border-radius:16px;padding:26px;border:1px solid var(--border-color)}
   .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px}
-  .card-icon{width:56px;height:56px;background:#0a2136;border:1px solid #133a59;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#cfe3f9}
+.card-icon{
+  width:56px;height:56px;
+  background:rgba(139,92,246,.12);
+  border:1px solid rgba(139,92,246,.25);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--accent-purple);
+}
   .card-value{font-size:26px;font-weight:800;margin-bottom:6px}
   .card-label{font-size:14px;font-weight:700;color:var(--text-secondary);margin-bottom:10px}
 
@@ -162,6 +171,15 @@
 
   .highlight-box-red{background:rgba(239,68,68,.10);border:1px solid rgba(239,68,68,.35);border-radius:10px;padding:16px}
   .highlight-box-green{background:rgba(0,255,132,.10);border:1px solid rgba(0,255,132,.35);border-radius:10px;padding:16px;margin-top:10px}
+  /* purple highlight (replaces old pink) */
+.highlight-pink{
+  background:rgba(139,92,246,.10);
+  border:1px solid rgba(139,92,246,.35);
+  border-radius:10px;
+  padding:16px;
+}
+.highlight-pink .result-value{ color:var(--accent-purple); }
+
 
   .calc-cta-bottom{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:10px}
   .calc-note{font-size:12px;color:var(--text-tertiary);text-align:center}
