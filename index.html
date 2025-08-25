@@ -1,22 +1,15 @@
 <style>
-  :root{
-    --bg-primary:#0b1520;           /* dark background like screenshot */
-    --bg-secondary:#0e1b28;
-    --bg-tertiary:#0f2133;
-    --bg-card:#0e1b28;
-
-    --text-primary:#e6f0ff;
-    --text-secondary:#9db3c7;
-    --text-tertiary:#7e96ac;
-
-    --border-color:#183149;
-    --border-light:#1b3a57;
-
-    --primary-green:#22c55e;        /* keep green/red */
-    --primary-red:#ef4444;
-    --primary-amber:#f59e0b;
-    --primary-blue:#3b82f6;
-  }
+     :root{
+      --bg-primary:#0a0f13;     /* darker background */
+      --bg-card:#111820;        /* card background closer to AppNation */
+      --text-primary:#ffffff;   /* pure white text */
+      --text-secondary:#8b9cae; /* muted grey */
+      --text-tertiary:#6b7c8e;
+    
+      --primary-green:#00ff84;  /* AppNation bright green */
+      --primary-red:#ef4444;
+      --primary-blue:#3b82f6;
+    }
 
   *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
   html,body{height:100%}
@@ -52,10 +45,33 @@
   /* Hero */
   .hero{padding:160px 0 96px;text-align:center;position:relative;background:linear-gradient(180deg,#08121d, #0c1a29)}
   .hero .container{max-width:920px}
-  h1{font-size:clamp(56px,9.6vw,96px);font-weight:800;line-height:.98;letter-spacing:-.025em;margin-bottom:26px}
-  .hero-subtitle{max-width:800px;margin:0 auto;color:var(--text-secondary);font-size:20px}
-  .solid-green-text{color:var(--primary-green);font-weight:800}
-  .hero-buttons{display:flex;justify-content:center;gap:14px;margin-top:22px}
+  
+    h1{
+      font-size:clamp(56px,9.6vw,96px);
+      font-weight:900;
+      line-height:1.05;
+      letter-spacing:-0.03em;
+    }
+    
+    .solid-green-text{
+      color:var(--primary-green);
+      font-weight:900;
+    }
+    
+    .btn-cta-large{
+      background:var(--primary-green);
+      color:#0a0f13;
+      border:none;
+      padding:16px 28px;
+      font-size:17px;
+      font-weight:800;
+      border-radius:9999px;
+      box-shadow:0 0 16px rgba(0,255,132,0.3);
+    }
+    .btn-cta-large:hover{
+      background:#00e678;
+      box-shadow:0 0 20px rgba(0,255,132,0.5);
+    }
 
   .hero-callout{
   margin:32px auto 0;
@@ -168,7 +184,10 @@
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <h1>Get <span class="solid-green-text" id="hero-pct">21%</span> more out<br/> of Mexico with Outpost</h1>
+      <h1>
+        Get <span class="solid-green-text" id="hero-pct">21%</span> more out<br/>
+        of <span id="hero-country-title">Mexico</span> with Outpost
+      </h1>    
     <p class="hero-subtitle">
       AppNation is leaving $<span id="hero-value">2.9M</span> on the table every year in <span id="hero-country">Mexico</span>.<br><br><strong>Unlock it with Outpost.</strong>
     </p>
@@ -501,6 +520,7 @@
   function updateGlobals(country, netAmt, netPct){
     document.getElementById('hero-country').textContent = country === 'mexico' ? 'Mexico' : 'Brazil';
     document.getElementById('bottom-country').textContent = country === 'mexico' ? 'Mexico' : 'Brazil';
+    document.getElementById('hero-country-title').textContent = country === 'mexico' ? 'Mexico' : 'Brazil';
 
     const short = fmtShort(netAmt).replace('-','');           // "+$1.4M" → "$1.4M"
     document.querySelectorAll('.problem-dynamic,.bottom-dynamic,.nav-dynamic')
