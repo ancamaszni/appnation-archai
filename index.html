@@ -209,6 +209,19 @@ h1{ font-size:clamp(64px, 9.6vw, 104px); font-weight:900; line-height:1.05; lett
 .highlight-box-red{
   background:rgba(239,68,68,.10); border:1px solid rgba(239,68,68,.35); border-radius:10px; padding:18px;
 }
+  /* Positive "Net impact" box (green) */
+.highlight-box-green{
+  background: rgba(0,255,132,.10);
+  border: 1px solid rgba(0,255,132,.35);
+  border-radius: 10px;
+  padding: 18px;
+}
+/* remove inner divider for both emphasis rows */
+.highlight-box-red .result-item,
+.highlight-box-green .result-item{
+  border-bottom:none;
+  padding:0;
+}
 .highlight-box-purple{
   background:rgba(var(--accent-purple-rgb), .12); border:1px solid rgba(var(--accent-purple-rgb), .35);
   border-radius:10px; padding:18px;
@@ -412,8 +425,11 @@ td{ padding:20px 28px; color:var(--text-primary); }
           <div class="input-group">
             <label class="input-label">Current GMV ($)</label>
             <div class="input-wrapper">
-              <input type="range" id="mx_gmv_num" class="range-input" min="1000000" max="50000000" step="100000" value="14102000" oninput="handleSlider('mexico','gmv',this)"/>
-              <span class="range-value" id="mx_gmv_val">$14,102,000</span>
+                 <input type="range" id="mx_gmv_num" class="range-input"
+                        min="1000000" max="50000000" step="100000" 
+                        value="1365000" oninput="handleSlider('mexico','gmv',this)"/>
+            <span class="range-value" id="mx_gmv_val">$1,365,000</span>
+
             </div>
           </div>
           <div class="input-group">
@@ -470,8 +486,10 @@ td{ padding:20px 28px; color:var(--text-primary); }
           <div class="input-group">
             <label class="input-label">Current GMV ($)</label>
             <div class="input-wrapper">
-              <input type="range" id="br_gmv_num" class="range-input" min="1000000" max="50000000" step="100000" value="14102000" oninput="handleSlider('brazil','gmv',this)"/>
-              <span class="range-value" id="br_gmv_val">$14,102,000</span>
+            <input type="range" id="br_gmv_num" class="range-input"
+                   min="1000000" max="50000000" step="100000"
+                   value="2730000" oninput="handleSlider('brazil','gmv',this)"/>
+              <span class="range-value" id="br_gmv_val">$2,730,000</span>
             </div>
           </div>
           <div class="input-group">
@@ -746,11 +764,26 @@ td{ padding:20px 28px; color:var(--text-primary); }
   function openModal(){ window.open('https://calendly.com/will-outpostnow/30min','_blank'); }
 
   // Init
-  window.addEventListener('load', ()=>{
+window.addEventListener('load', ()=>{
+    // navbar shrink on scroll
     document.addEventListener('scroll', ()=>{
       const n = document.getElementById('navbar');
       if (window.scrollY > 50) n.classList.add('scrolled'); else n.classList.remove('scrolled');
     });
+
+    // ✅ sync sliders + labels with the initial Calc values
+    document.getElementById('mx_gmv_num').value = Calc.mexico.gmv;
+    document.getElementById('br_gmv_num').value = Calc.brazil.gmv;
+    document.getElementById('mx_gmv_val').textContent = currency0(Calc.mexico.gmv);
+    document.getElementById('br_gmv_val').textContent = currency0(Calc.brazil.gmv);
+
+    // (optional but tidy) also sync the % sliders/labels
+    document.getElementById('mx_payfx').value = Calc.mexico.payfx * 100;
+    document.getElementById('br_payfx').value = Calc.brazil.payfx * 100;
+    document.getElementById('mx_payfx_val').textContent = (Calc.mexico.payfx * 100).toFixed(1) + '%';
+    document.getElementById('br_payfx_val').textContent = (Calc.brazil.payfx * 100).toFixed(1) + '%';
+
+    // initial compute + show Mexico
     compute('mexico');
     compute('brazil');
     toggleCountry('mexico');
