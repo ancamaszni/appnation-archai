@@ -1,1778 +1,501 @@
 <style>
-  /* =========================================
-     AppNation-like light, airy aesthetic
-     Drop-in replacement for your whole <style>
-  ========================================== */
-
-  /* ================================
-     Variables
-  ================================= */
-  :root {
-    /* Neutrals */
-    --bg-primary: #ffffff;
-    --bg-secondary: #fafafa;
-    --bg-tertiary: #f5f5f5;
-    --bg-card: #ffffff;
-
-    --text-primary: #111111;
-    --text-secondary: #525252;
-    --text-tertiary: #8a8a8a;
-
-    --border-color: #e5e5e5;
-    --border-light: #eeeeee;
-
-    /* Subtle accent */
-    --accent: #111111;
-    --accent-hover: #000000;
-
-    /* Keep brand colors for data/accents only */
-    --primary-green: #10b981;
-    --primary-red:   #ef4444;
-    --primary-amber: #f59e0b;
-    --primary-blue:  #3b82f6;
-  }
-
-  /* ================================
-     Base & Typography
-  ================================= */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  html, body {
-    height: 100%;
-  }
-
-  body {
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: ui-sans-serif, system-ui, -apple-system, "Inter", "SF Pro Text", "Segoe UI", Roboto, Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    letter-spacing: -0.01em;
-    overflow-x: hidden;
-  }
-
-  /* Layout */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 40px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .section {
-    padding: 88px 0;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* ================================
-     Navigation
-  ================================= */
-  nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(255,255,255,0.9);
-    backdrop-filter: blur(8px);
-    z-index: 1000;
-    padding: 20px 0;
-    border-bottom: 1px solid var(--border-color);
-    transition: padding 0.2s ease;
-    box-shadow: none;
-  }
-
-  nav.scrolled { padding: 14px 0; }
-
-  .nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .logo {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--text-primary);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .logo-square {
-    width: 32px;
-    height: 32px;
-    border: 3px solid var(--text-primary);
-    border-radius: 6px;
-  }
-
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-    text-transform: lowercase;
-  }
-
-  .nav-links a:not(.btn) {
-    color: #6b7280;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .nav-links a:not(.btn):hover { color: var(--text-primary); }
-  .nav-links a:not(.btn)::after { display: none; }
-
-  /* ================================
-     Buttons
-  ================================= */
-  .btn {
-    padding: 10px 18px;
-    border-radius: 9999px; /* pill */
-    text-decoration: none;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    font-size: 14px;
-    line-height: 1;
-    display: inline-block;
-    box-shadow: none;
-    transition: background 0.15s ease, color 0.15s ease;
-  }
-
-  .btn-primary {
-    background: #111111;
-    color: #ffffff;
-  }
-  .btn-primary:hover { background: #000000; }
-
-  .btn-secondary {
-    background: #ffffff;
-    color: #111111;
-    border: 1px solid var(--border-color);
-  }
-  .btn-secondary:hover { background: var(--bg-secondary); }
-
-  /* neutral large CTA (replaces emoji hover rockets/coins) */
-  .btn-cta-large {
-    background: #111111;
-    color: #ffffff;
-    padding: 12px 22px;
-    border-radius: 9999px;
-    font-weight: 700;
-    font-size: 16px;
-  }
-  .btn-cta-large::before,
-  .btn-cta-large::after { content: none !important; }
-
-  /* ================================
-     Hero
-  ================================= */
-  .hero {
-    padding: 160px 0 96px;
-    text-align: center;
-    position: relative;
-    background: var(--bg-primary);
-  }
-
-  .hero-badge { display: none; } /* remove playful badge */
-
-  h1 {
-    font-size: clamp(44px, 8vw, 80px);
-    font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: -0.025em;
-    text-transform: lowercase;
-    margin-bottom: 24px;
-  }
-
-  .hero-subtitle {
-    max-width: 800px;
-    margin: 0 auto;
-    font-size: 18px;
-    color: var(--text-secondary);
-  }
-
-  /* ================================
-     Cards
-  ================================= */
-  .card {
-    background: var(--bg-card);
-    border-radius: 16px;
-    padding: 28px;
-    border: 1px solid var(--border-color);
-    box-shadow: none;
-    transition: transform 0.08s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .card::before { content: none; } /* remove green halo */
-  .card:hover { transform: translateY(-2px); }
-
-  .card-icon {
-    width: 60px;
-    height: 60px;
-    background: #f6f6f6;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    color: #111111;
-    transition: none;
-    cursor: default;
-    position: relative;
-  }
-  .card-icon::after { content: none !important; } /* remove +10 badge */
-
-  .card-value {
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--text-primary);
-  }
-
-  .card-label {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: var(--text-secondary);
-    text-transform: lowercase;
-  }
-
-  .card-description {
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-
-  .grid-3 {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 24px;
-  }
-
-  /* ================================
-     Section headers
-  ================================= */
-  .section-header {
-    text-align: center;
-    margin-bottom: 48px;
-  }
-
-  .section-title {
-    font-size: clamp(28px, 4.5vw, 44px);
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    text-transform: lowercase;
-    margin-bottom: 12px;
-  }
-
-  .section-subtitle {
-    font-size: 18px;
-    color: var(--text-secondary);
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  /* ================================
-     Calculator
-  ================================= */
-  .calculator-toggle {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 40px;
-    gap: 0;
-    background: var(--bg-secondary);
-    padding: 4px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .calc-toggle-option {
-    padding: 10px 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    color: var(--text-secondary);
-    background: transparent;
-    border: none;
-    font-size: 14px;
-  }
-
-  .calc-toggle-option.active {
-    background: #111111;
-    color: #ffffff;
-  }
-
-  .calc-toggle-option:hover:not(.active) {
-    color: var(--text-primary);
-    background: var(--bg-tertiary);
-  }
-
-  .calculator-container {
-    display: grid;
-    grid-template-columns: minmax(420px, 0.45fr) minmax(420px, 0.55fr);
-    gap: 48px;
-    background: #ffffff;
-    border-radius: 20px;
-    padding: 48px;
-    border: 1px solid var(--border-color);
-    box-shadow: none;
-    position: relative;
-  }
-
-  .left-panel {
-    position: sticky;
-    top: 100px;
-    align-self: start;
-  }
-
-  .calculator-inputs {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .inputs-title {
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 4px;
-    color: var(--text-primary);
-    padding-top: 24px;
-    line-height: 1.33;
-    text-transform: none;
-  }
-
-  .inputs-subtitle {
-    font-size: 14px;
-    color: var(--text-secondary);
-    font-style: normal;
-    margin-bottom: 16px;
-    margin-top: 0;
-    line-height: 1.5;
-  }
-
-  .input-group { transition: none; }
-  .input-group.hidden { display: none; }
-
-  .input-label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: var(--text-primary);
-    font-size: 14px;
-    text-transform: none;
-  }
-
-  .input-wrapper { display: flex; flex-direction: column; gap: 8px; }
-
-  .range-input {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 6px;
-    background: #eaeaea;
-    border-radius: 4px;
-    outline: none;
-  }
-
-  .range-input::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    background: #111111;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  .range-value {
-    font-size: 18px;
-    font-weight: 700;
-    color: #111111;
-    text-align: right;
-  }
-
-  .calculator-results {
-    background: var(--bg-secondary);
-    border-radius: 12px;
-    padding: 28px;
-    border: 1px solid var(--border-color);
-  }
-
-  .calculator-results h3 {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 6px;
-    color: var(--text-primary);
-    text-transform: none;
-  }
-
-  .calculator-subtitle {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-bottom: 16px;
-    font-style: normal;
-  }
-
-  .result-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border-color);
-  }
-  .result-item:last-of-type { border-bottom: none; }
-
-  .result-item.highlight,
-  .highlight-pink {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 18px 16px;
-    margin: 12px 0 0;
-  }
-
-  .result-label {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-primary);
-  }
-
-  .result-value {
-    font-size: 18px;
-    font-weight: 700;
-    white-space: nowrap;
-    color: var(--text-primary);
-  }
-  .result-value.positive { color: var(--text-primary); }
-  .result-value.negative { color: var(--text-primary); }
-
-  .calc-cta-bottom {
-    margin-top: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .calc-note {
-    font-size: 12px;
-    color: var(--text-tertiary);
-    text-align: center;
-  }
-
-  .calc-impact-note {
-    font-size: 16px;
-    color: var(--text-secondary);
-    font-weight: 600;
-    text-align: center;
-  }
-
-  .calculator-explanation {
-    margin-top: 28px;
-    padding: 24px;
-    background: var(--bg-secondary);
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-  }
-
-  .explanation-title {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 14px;
-    color: var(--text-primary);
-  }
-
-  .explanation-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-  }
-
-  .explanation-item { color: var(--text-secondary); line-height: 1.6; }
-  .explanation-item h4 {
-    color: var(--text-primary);
-    font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .explanation-item p { font-size: 14px; }
-
-  /* ================================
-     Impact / Metrics
-  ================================= */
-  .impact-item {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 48px;
-    align-items: center;
-    padding: 36px;
-    background: var(--bg-card);
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    transition: transform 0.08s ease;
-    margin-bottom: 36px;
-  }
-  .impact-item:hover { transform: translateY(-2px); }
-
-  .metric-icon {
-    width: 72px;
-    height: 72px;
-    background: #f6f6f6;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-    color: #111111;
-  }
-
-  .metric-value { display: flex; flex-direction: column; gap: 6px; text-align: center; }
-  .metric-number { font-size: 40px; font-weight: 800; color: var(--text-primary); line-height: 1; }
-  .metric-label { font-size: 16px; color: var(--text-secondary); }
-
-  /* ================================
-     Value Hero
-  ================================= */
-  .value-hero {
-    margin: 72px auto;
-    max-width: 1100px;
-    padding: 48px 36px;
-    background: #ffffff;
-    border-radius: 16px;
-    text-align: center;
-    border: 1px solid var(--border-color);
-    position: relative;
-    overflow: hidden;
-    box-shadow: none;
-  }
-  .value-hero::before { content: none; }
-
-  .value-hero-content {
-    position: relative;
-    z-index: 1;
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  .value-highlight {
-    color: var(--text-primary);
-    font-weight: 800;
-    font-size: 30px;
-    display: block;
-    margin-top: 8px;
-  }
-
-  /* ================================
-     Comparison Table
-  ================================= */
-  .table-container {
-    background: #ffffff;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-    box-shadow: none;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 16px;
-  }
-
-  thead {
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  th {
-    padding: 24px 28px;
-    text-align: left;
-    font-weight: 700;
-    color: var(--text-primary);
-    font-size: 15px;
-  }
-
-  tbody tr {
-    border-bottom: 1px solid var(--border-color);
-    transition: background 0.1s ease;
-  }
-
-  tbody tr:hover { background: #f9f9f9; }
-  tbody tr:last-child { border-bottom: none; }
-
-  td {
-    padding: 20px 28px;
-    vertical-align: top;
-    line-height: 1.6;
-    color: var(--text-primary);
-    font-size: 15px;
-  }
-
-  /* ================================
-     Footer
-  ================================= */
-  .disclaimer-footer {
-    background: var(--bg-secondary);
-    border-top: 1px solid var(--border-color);
-    padding: 36px 0;
-    margin-top: 0;
-  }
-
-  .disclaimer-content {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .disclaimer-text {
-    color: var(--text-secondary);
-    font-size: 13px;
-    line-height: 1.6;
-  }
-
-  /* ================================
-     Animations (kept minimal)
-  ================================= */
-  /* (none) — we deliberately removed flashy animations */
-
-  /* ================================
-     Responsive
-  ================================= */
-  @media (max-width: 1024px) {
-    .calculator-container {
-      grid-template-columns: 1fr;
-      gap: 32px;
-      padding: 36px;
-    }
-    .impact-item {
-      grid-template-columns: 1fr;
-      gap: 24px;
-      padding: 28px;
-    }
-    .left-panel { position: static; }
-  }
-
-  @media (max-width: 768px) {
-    .container { padding: 0 20px; }
-    .nav-links a:not(.btn) { display: none; }
-    h1 { font-size: 44px; }
-    .hero-subtitle { font-size: 16px; }
-    .grid-3 { grid-template-columns: 1fr; }
-    .section-title { font-size: 28px; }
-    .table-container { overflow-x: auto; }
-    table { min-width: 700px; }
+  :root{
+    --bg-primary:#0b1520;           /* dark background like screenshot */
+    --bg-secondary:#0e1b28;
+    --bg-tertiary:#0f2133;
+    --bg-card:#0e1b28;
+
+    --text-primary:#e6f0ff;
+    --text-secondary:#9db3c7;
+    --text-tertiary:#7e96ac;
+
+    --border-color:#183149;
+    --border-light:#1b3a57;
+
+    --primary-green:#22c55e;        /* keep green/red */
+    --primary-red:#ef4444;
+    --primary-amber:#f59e0b;
+    --primary-blue:#3b82f6;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  html,body{height:100%}
+  body{
+    background:var(--bg-primary);
+    color:var(--text-primary);
+    font-family: ui-sans-serif,system-ui,-apple-system,"Inter","SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;
+    font-size:16px;line-height:1.6;letter-spacing:-0.01em;overflow-x:hidden
+  }
+
+  .container{max-width:1120px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+  .section{padding:88px 0;position:relative;z-index:1}
+
+  /* Nav */
+  nav{position:fixed;top:0;width:100%;background:rgba(9,18,29,.6);backdrop-filter:blur(10px);z-index:1000;padding:18px 0;border-bottom:1px solid var(--border-color)}
+  nav.scrolled{padding:12px 0}
+  .nav-container{display:flex;justify-content:space-between;align-items:center}
+  .logo{font-size:18px;font-weight:700;color:var(--text-primary);text-decoration:none;display:flex;gap:10px;align-items:center}
+  .logo-square{width:28px;height:28px;border:3px solid var(--text-primary);border-radius:6px}
+  .nav-links{display:flex;align-items:center;gap:24px;text-transform:lowercase}
+  .nav-links a:not(.btn){color:var(--text-secondary);text-decoration:none;font-size:14px;font-weight:600}
+  .nav-links a:not(.btn):hover{color:var(--text-primary)}
+
+  /* Buttons */
+  .btn{padding:10px 18px;border-radius:9999px;text-decoration:none;font-weight:700;cursor:pointer;border:1px solid transparent;font-size:14px;line-height:1;display:inline-block;transition:background .15s ease,color .15s ease, border-color .15s ease}
+  .btn-primary{background:#0d2538;color:#fff;border-color:#16324a}
+  .btn-primary:hover{background:#0b2a45}
+  .btn-secondary{background:transparent;color:#e6f0ff;border-color:#2a4662}
+  .btn-secondary:hover{background:#11283c}
+  .btn-cta-large{background:#16a34a;color:#06101a;border-color:#16a34a;padding:14px 22px;font-size:16px}
+  .btn-cta-large:hover{background:#19914a}
+
+  /* Hero */
+  .hero{padding:160px 0 96px;text-align:center;position:relative;background:linear-gradient(180deg,#08121d, #0c1a29)}
+  .hero .container{max-width:920px}
+  h1{font-size:clamp(56px,9.6vw,96px);font-weight:800;line-height:.98;letter-spacing:-.025em;text-transform:lowercase;margin-bottom:26px}
+  .hero-subtitle{max-width:800px;margin:0 auto;color:var(--text-secondary);font-size:20px}
+  .solid-green-text{color:var(--primary-green);font-weight:800}
+  .hero-buttons{display:flex;justify-content:center;gap:14px;margin-top:22px}
+
+  /* Cards / panels */
+  .card{background:var(--bg-card);border-radius:16px;padding:26px;border:1px solid var(--border-color)}
+  .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px}
+  .card-icon{width:56px;height:56px;background:#0a2136;border:1px solid #133a59;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#cfe3f9}
+
+  .card-value{font-size:26px;font-weight:800;margin-bottom:6px}
+  .card-label{font-size:14px;font-weight:700;color:var(--text-secondary);margin-bottom:10px}
+
+  .section-header{text-align:center;margin-bottom:46px}
+  .section-title{font-size:clamp(28px,4.5vw,44px);font-weight:900;letter-spacing:-.02em;margin-bottom:10px}
+  .section-subtitle{font-size:18px;color:var(--text-secondary);max-width:780px;margin:0 auto}
+
+  /* Calculator */
+  .calculator-toggle{display:flex;justify-content:center;margin-bottom:34px;gap:0;background:#0a1a2a;padding:4px;border-radius:12px;border:1px solid var(--border-color);width:fit-content;margin-left:auto;margin-right:auto}
+  .calc-toggle-option{padding:10px 18px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--text-secondary);background:transparent;border:none;font-size:14px}
+  .calc-toggle-option.active{background:#0e2a43;color:#fff}
+  .calc-toggle-option:hover:not(.active){background:#102a43;color:#fff}
+
+  .calculator-container{display:grid;grid-template-columns:minmax(420px,.45fr) minmax(420px,.55fr);gap:44px;background:#0c1b2b;border-radius:20px;padding:44px;border:1px solid var(--border-color)}
+  .left-panel{position:sticky;top:96px;align-self:start}
+  .calculator-inputs{display:flex;flex-direction:column;gap:22px}
+
+  .inputs-title{font-size:22px;font-weight:800;margin-bottom:2px}
+  .inputs-subtitle{font-size:14px;color:var(--text-secondary)}
+  .input-label{display:block;font-weight:700;margin-bottom:10px;font-size:14px}
+  .input-wrapper{display:flex;flex-direction:column;gap:8px}
+  .range-input{-webkit-appearance:none;appearance:none;width:100%;height:6px;background:#14324c;border-radius:4px;outline:none}
+  .range-input::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;background:#1f91ff;border-radius:4px;cursor:pointer}
+  .range-value{font-size:18px;font-weight:800;color:#cfe3f9;text-align:right}
+
+  .calculator-results{background:#0b1827;border-radius:12px;padding:26px;border:1px solid var(--border-color)}
+  .calculator-results h3{font-size:20px;font-weight:800;margin-bottom:6px}
+  .calculator-subtitle{font-size:14px;color:var(--text-secondary);margin-bottom:14px}
+
+  .result-item{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border-color)}
+  .result-item:last-of-type{border-bottom:none}
+  .result-label{font-size:14px;font-weight:600}
+  .result-value{font-size:18px;font-weight:800;white-space:nowrap}
+  .result-value.positive{color:var(--primary-green)}
+  .result-value.negative{color:var(--primary-red)}
+
+  /* Soft highlight boxes (total / net impact) */
+  .highlight-box-red{background:rgba(239,68,68,.10);border:1px solid rgba(239,68,68,.35);border-radius:10px;padding:16px}
+  .highlight-box-green{background:rgba(34,197,94,.10);border:1px solid rgba(34,197,94,.35);border-radius:10px;padding:16px;margin-top:10px}
+
+  .calc-cta-bottom{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .calc-note{font-size:12px;color:var(--text-tertiary);text-align:center}
+
+  /* Value hero */
+  .value-hero{margin:64px auto;max-width:1060px;padding:44px 32px;background:#0c1b2b;border-radius:16px;text-align:center;border:1px solid var(--border-color)}
+  .value-hero-content{font-size:20px;font-weight:700}
+  .value-highlight{font-size:28px;font-weight:900;display:block;margin-top:8px}
+
+  /* Table */
+  .table-container{background:#0c1b2b;border-radius:16px;border:1px solid var(--border-color);overflow:hidden}
+  table{width:100%;border-collapse:collapse;font-size:16px}
+  thead{background:#0a1a2a;border-bottom:1px solid var(--border-color)}
+  th{padding:22px 26px;text-align:left;font-weight:800}
+  tbody tr{border-bottom:1px solid var(--border-color)}
+  td{padding:18px 26px}
+
+  /* Footer */
+  .disclaimer-footer{background:#0a1a2a;border-top:1px solid var(--border-color);padding:36px 0}
+  .disclaimer-text{color:var(--text-secondary);font-size:13px}
+
+  @media(max-width:1024px){
+    .calculator-container{grid-template-columns:1fr;gap:28px;padding:32px}
+    .left-panel{position:static}
+  }
+  @media(max-width:768px){
+    .container{padding:0 18px}
+    h1{font-size:48px}
+    .hero{padding:140px 0 84px}
+    .grid-3{grid-template-columns:1fr}
   }
 </style>
 
-<style>
-/* === Hero spacing & width (match screenshot) === */
-.hero { padding: 176px 0 112px; }
-.hero .container { max-width: 940px; }
-h1 { font-size: clamp(56px, 9.6vw, 96px); line-height: 0.95; margin-bottom: 28px; }
-.hero-subtitle { font-size: 20px; color: var(--text-secondary); margin-top: 8px; margin-bottom: 24px; }
-
-/* keep the % in green only */
-.solid-green-text { color: var(--primary-green); font-weight: 800; }
-
-/* === CTA group (spacing + alignment) — neutral/black buttons === */
-.hero-buttons { display:flex; justify-content:center; gap:16px; margin-top:20px; margin-bottom:8px; }
-.btn-cta-large {
-  background:#111111 !important; color:#fff !important;
-  padding:14px 22px; border-radius:9999px; font-weight:700; font-size:16px;
-}
-.btn-cta-large:hover { background:#000000 !important; }
-.btn-secondary {
-  background:#fff; border:1px solid var(--border-color); color:var(--text-primary);
-  padding:12px 20px; border-radius:9999px; font-weight:700;
-}
-
-/* === The callout card under the CTAs — neutral, not green === */
-.hero-callout {
-  margin:32px auto 0;
-  background:#fff;
-  border:1px solid var(--border-color);
-  border-radius:16px;
-  padding:22px 24px;
-  max-width:880px;
-  box-shadow:0 10px 28px rgba(0,0,0,0.06);
-}
-.hero-callout-text { font-size:16px; line-height:1.65; color:var(--text-secondary); }
-.hero-callout strong { color:var(--text-primary); }
-
-/* keep section rhythm below hero */
-.section#problem { padding-top: 88px; }
-
-/* mobile */
-@media (max-width:768px){
-  .hero { padding:140px 0 80px; }
-  .hero .container { max-width:100%; }
-  .hero-subtitle { font-size:18px; }
-  .hero-buttons { flex-direction:column; gap:12px; }
-  .hero-callout { margin-top:24px; padding:18px; border-radius:14px; }
-}
-</style>
-
-
-</head>
-<body>
-  <!-- Navigation -->
-  <nav id="navbar">
-    <div class="container">
-      <div class="nav-container">
-        <a href="/" class="logo">
-          <span class="logo-square"></span>
-          <span>AppNation x Outpost</span>
-        </a>
-        <div class="nav-links">
-          <a href="#problem">Problem</a>
-          <a href="#solution">Solution</a>
-          <a href="#calculator">Calculator</a>
-          <a href="#" class="btn btn-primary" onclick="openModal()">
-            Unlock $<span class="dynamic-value">2.9M</span> with Outpost
-          </a>
-        </div>
+<!-- NAV -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-container">
+      <a href="#" class="logo"><span class="logo-square"></span><span>AppNation x Outpost</span></a>
+      <div class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#solution">Solution</a>
+        <a href="#calculator">Calculator</a>
+        <a href="#" class="btn btn-primary" id="nav-cta" onclick="openModal()">Unlock $<span class="nav-dynamic">2.9M</span> with Outpost</a>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-badge">
-        <span class="badge-dot"></span>
-        <span>Unlock revenue in Mexico</span>
-      </div>
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <h1>Get <span class="solid-green-text" id="hero-pct">21%</span> more out<br/> of Mexico with Outpost</h1>
+    <p class="hero-subtitle">
+      AppNation is leaving $<span id="hero-value">2.9M</span> on the table every year in <span id="hero-country">Mexico</span>.<br><br><strong>Unlock it with Outpost.</strong>
+    </p>
+    <div class="hero-buttons">
+      <a href="#calculator" class="btn btn-cta-large">Calculate impact →</a>
+      <button class="btn btn-secondary" onclick="openModal()">Book demo</button>
+    </div>
+  </div>
+</section>
 
-      <h1>
-  
-        Get <span class="solid-green-text dynamic-percentage-mexico">21%</span> more out<br/> of Mexico with Outpost
-      </h1>
-
-      <p class="hero-subtitle">
-        AppNation is leaving $<span class="dynamic-value-mexico">2.9M</span> on the table every year in Mexico.
-        <br/><br/><strong>Unlock it with Outpost.</strong>
+<!-- PROBLEM (unchanged content – trimmed for brevity) -->
+<section class="section" id="problem">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">The hidden cost of global expansion</h2>
+      <p class="section-subtitle">
+        Global gaming platforms expanding to Mexico are leaving substantial value on the table every year from inefficient payments and tax infrastructure.
+        We estimate it's costing AppNation $<span class="problem-dynamic">2.9M</span> per annum in app store fees and additional costs.
       </p>
-
-      <div class="hero-buttons">
-        <a href="#calculator" class="btn btn-cta-large">Calculate impact →</a>
-        <button class="btn btn-secondary" onclick="openModal()">Book demo</button>
-      </div>
-
-      <div class="hero-callout">
-        <p class="hero-callout-text">
-          <strong>Outpost</strong> partners with gaming platforms like <strong>AppNation</strong> so they can sell in Mexico like a local.
-          Offload your tax, compliance, payments, legal and operational burdens to Outpost.
-        </p>
-      </div>
     </div>
-  </section>
-
-  <!-- Problem Section -->
-  <section class="section" id="problem" style="background: var(--bg-secondary);">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">The hidden cost of global expansion</h2>
-        <p class="section-subtitle">
-          Global gaming platforms expanding to Mexico are leaving substantial value on the table every year from inefficient payments and tax infrastructure.
-          We estimate it's costing AppNation $<span class="dynamic-value">2.9M</span> per annum in app store fees and additional costs.
-        </p>
-      </div>
-
-      <div class="grid-3">
-        <div class="card">
-          <div class="card-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="12" y1="1" x2="12" y2="23" />
-              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-            </svg>
-          </div>
-          <div class="card-value">30% of GMV</div>
-          <div class="card-label">App/Play Store fee</div>
-          <p class="card-description">App / Play Store commissions erode margins locally and impose many restrictions.</p>
-        </div>
-
-        <div class="card green">
-          <div class="card-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 3v18h18" />
-              <path d="M18.5 3.5L7 15l4 4L22 7.5" />
-            </svg>
-          </div>
-          <div class="card-value">-<span class="dynamic-fx">$564K</span></div>
-          <div class="card-label">Extra payments & FX costs</div>
-          <p class="card-description">Expensive charges for refunds and chargebacks with App / Play Store and high FX fees on payouts.</p>
-        </div>
-
-       <div class="card amber">
+    <div class="grid-3">
+      <div class="card">
         <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10" />
-            <polyline points="12,6 12,12 16,14" />
-          </svg>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="card-value">30% of GMV</div>
+        <div class="card-label">App/Play Store fee</div>
+        <p class="card-description">App / Play Store commissions erode margins locally and impose many restrictions.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.5 3.5L7 15l4 4L22 7.5"/></svg>
+        </div>
+        <div class="card-value">-<span id="fx-card">$564K</span></div>
+        <div class="card-label">Extra payments & FX costs</div>
+        <p class="card-description">Expensive charges for refunds, chargebacks and high FX fees on payouts.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
         </div>
         <div class="card-value">500+ hours</div>
         <div class="card-label">Time to set up alternatives</div>
-        <p class="card-description">Setting up payment infrastructure, tax compliance, and legal entities takes significant time and resources.</p>
-      </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Solution Section -->
-  <section class="section" id="solution">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">The solution: Outpost One.</h2>
-        <p class="section-subtitle">Outpost One is a complete Merchant of Record solution. We become the local seller for gaming platforms and handle local payment infrastructure, indirect tax compliance and tax liability to deliver tangible uplift to your bottom line.</p>
-      </div>
-
-      <div class="impact-item">
-        <div style="display:flex;align-items:center;gap:24px;justify-content:center;">
-          <div class="metric-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              <path d="M9 12l2 2 4-4" />
-            </svg>
-          </div>
-          <div class="metric-value">
-            <span class="metric-number"><span class="dynamic-outpost-fee-pct">8.5%</span></span>
-            <span class="metric-label">All in one fee</span>
-          </div>
-        </div>
-        <div>
-          <h3 style="font-size:20px;font-weight:600;margin-bottom:8px;"><span class="dynamic-outpost-fee-pct">8.5%</span> fee only</h3>
-          <p style="color:var(--text-secondary);">Outpost One comes with an all-in-one fee that covers payments and indirect tax compliance obligations - we simply require a minimum volume through our platform in Year 1.</p>
-        </div>
-      </div>
-
-      <div class="impact-item">
-        <div style="display:flex;align-items:center;gap:24px;justify-content:center;">
-          <div class="metric-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              <path d="M9 12l2 2 4-4" />
-            </svg>
-          </div>
-          <div class="metric-value">
-            <span class="metric-number">MoR</span>
-            <span class="metric-label">End-to-end coverage</span>
-          </div>
-        </div>
-        <div>
-          <h3 style="font-size:20px;font-weight:600;margin-bottom:8px;">End-to-end coverage</h3>
-          <p style="color:var(--text-secondary);margin-bottom:24px;">As your Merchant of Record, Outpost becomes the legal re-seller of your platform in Mexico and handles the full tax compliance through an optimized structure we design for you.</p>
-          <p style="color:var(--text-secondary);">We also handle and optimize payments end to end - so you benefit from the same approval rates and APM access, as well as optimized FX on payouts.</p>
-        </div>
-      </div>
-
-      <div class="impact-item">
-        <div style="display:flex;align-items:center;gap:24px;justify-content:center;">
-          <div class="metric-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </div>
-          <div class="metric-value">
-            <span class="metric-number"><span class="dynamic-less-vs-alt">35%</span></span>
-            <span class="metric-label">less vs. alternatives</span>
-          </div>
-        </div>
-        <div>
-          <h3 style="font-size:20px;font-weight:600;margin-bottom:8px;"><span class="dynamic-less-vs-alt">35%</span> less vs. alternatives</h3>
-          <p style="color:var(--text-secondary);">Outpost yields a superior outcome from every angle - we optimize your tax structure, cover your legal and tax liability in market, and optimize payments. We deliver all this through an Outpost entity set up just for you.</p>
-        </div>
-      </div>
-
-      <div class="value-hero">
-        <div class="value-hero-content">
-          <span>Total value unlocked by Outpost</span>
-          <span class="value-highlight dynamic-total-value">+$2.9M to your bank account</span>
-        </div>
+        <p class="card-description">Standing up payments, tax compliance, and legal entities takes significant time.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Calculator Section -->
-<!-- Country Toggle + Calculators -->
-<section class="section" id="calculator" style="background: var(--bg-secondary);">
+<!-- SOLUTION (kept same layout) -->
+<section class="section" id="solution">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">The solution: Outpost One.</h2>
+      <p class="section-subtitle">Outpost One is a complete Merchant of Record solution. We become the local seller and handle payment infrastructure and indirect tax compliance to deliver tangible uplift.</p>
+    </div>
+
+    <div class="value-hero">
+      <div class="value-hero-content">
+        <span>Total value unlocked by Outpost</span>
+        <span class="value-highlight" id="total-value">+$2.9M to your bank account</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="section" id="calculator">
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">The impact Outpost can have</h2>
     </div>
 
-          <!-- Top-level toggle -->
-          <div class="calculator-toggle">
-            <button class="calc-toggle-option active" id="btn-mexico" onclick="toggleCountry('mexico')">Impact in Mexico</button>
-            <button class="calc-toggle-option" id="btn-brazil" onclick="toggleCountry('brazil')">Impact in Brazil</button>
-          </div>
-      
-          <!-- Mexico Calculator -->
-          <div class="calculator-container" id="calc-mexico">
-            <!-- Left Panel -->
-            <div class="left-panel">
-              <div class="calculator-inputs">
-                <h3 class="inputs-title">Your business in Mexico</h3>
-                <div class="input-group">
-                  <label class="input-label">Current GMV ($)</label>
-                  <div class="input-wrapper">
-                    <input
-                      type="range" id="mx_gmv_num" class="range-input"
-                      min="1000000" max="50000000" step="100000" value="14102000"
-                      oninput="handleSlider('mexico','gmv',this)"
-                    />
-                    <span class="range-value" id="mx_gmv_val">$14,102,000</span>
-                  </div>
-                </div>
-      
-                <div class="input-group">
-                  <label class="input-label">Additional payments fees and FX (%)</label>
-                  <div class="input-wrapper">
-                    <input
-                      type="range" id="mx_payfx" class="range-input"
-                      min="2" max="10" step="0.5" value="4"
-                      oninput="handleSlider('mexico','payfx',this)"
-                    />
-                    <span class="range-value" id="mx_payfx_val">4.0%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-      
-            <!-- Results Panel -->
-            <div>
-              <div class="calculator-results">
-                <h3>App / Play Store vs. Outpost</h3>
-                <p class="calculator-subtitle">as a % of in-market GMV</p>
-      
-                <div class="result-item">
-                  <span class="result-label">App store / play store fee</span>
-                  <span class="result-value negative" id="mx_app_fee">-30.0%</span>
-                </div>
-                <div class="result-item">
-                  <span class="result-label">Additional payments costs</span>
-                  <span class="result-value negative" id="mx_addl_payments">-4.0%</span>
-                </div>
-      
-                <div class="highlight-pink">
-                  <div class="result-item" style="border-bottom:none;padding:0;">
-                    <span class="result-label"><strong>Total with App / Play store</strong></span>
-                    <span class="result-value" id="mx_total_app">-34.0%</span>
-                  </div>
-                </div>
-      
-                <div class="result-item highlight">
-                  <span class="result-label"><strong>Net impact with Outpost</strong></span>
-                  <span class="result-value positive" id="mx_net">+25.5%</span>
-                </div>
-              </div>
+    <div class="calculator-toggle">
+      <button class="calc-toggle-option active" id="btn-mexico" onclick="toggleCountry('mexico')">Impact in Mexico</button>
+      <button class="calc-toggle-option" id="btn-brazil" onclick="toggleCountry('brazil')">Impact in Brazil</button>
+    </div>
+
+    <!-- Mexico -->
+    <div class="calculator-container" id="calc-mexico">
+      <div class="left-panel">
+        <div class="calculator-inputs">
+          <h3 class="inputs-title">Your business in Mexico</h3>
+
+          <div class="input-group">
+            <label class="input-label">Current GMV ($)</label>
+            <div class="input-wrapper">
+              <input type="range" id="mx_gmv_num" class="range-input" min="1000000" max="50000000" step="100000" value="14102000" oninput="handleSlider('mexico','gmv',this)"/>
+              <span class="range-value" id="mx_gmv_val">$14,102,000</span>
             </div>
           </div>
 
-            <!-- Brazil Calculator -->
-            <div class="calculator-container" id="calc-brazil" style="display:none;">
-              <!-- Left Panel -->
-              <div class="left-panel">
-                <div class="calculator-inputs">
-                  <h3 class="inputs-title">Your business in Brazil</h3>
-                  <div class="input-group">
-                    <label class="input-label">Current GMV ($)</label>
-                    <div class="input-wrapper">
-                      <input
-                        type="range" id="br_gmv_num" class="range-input"
-                        min="1000000" max="50000000" step="100000" value="14102000"
-                        oninput="handleSlider('brazil','gmv',this)"
-                      />
-                      <span class="range-value" id="br_gmv_val">$14,102,000</span>
-                    </div>
-                  </div>
-        
-                  <div class="input-group">
-                    <label class="input-label">Additional payments fees and FX (%)</label>
-                    <div class="input-wrapper">
-                      <input
-                        type="range" id="br_payfx" class="range-input"
-                        min="2" max="10" step="0.5" value="4"
-                        oninput="handleSlider('brazil','payfx',this)"
-                      />
-                      <span class="range-value" id="br_payfx_val">4.0%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-        
-              <!-- Results Panel -->
-              <div>
-                <div class="calculator-results">
-                  <h3>App / Play Store vs. Outpost</h3>
-                  <p class="calculator-subtitle">as a % of in-market GMV</p>
-        
-                  <div class="result-item">
-                    <span class="result-label">App store / play store fee</span>
-                    <span class="result-value negative" id="br_app_fee">-30.0%</span>
-                  </div>
-                  <div class="result-item">
-                    <span class="result-label">Additional payments costs</span>
-                    <span class="result-value negative" id="br_addl_payments">-4.0%</span>
-                  </div>
-                  <div class="result-item">
-                    <span class="result-label">Effective tax</span>
-                    <span class="result-value negative" id="br_tax">-25.0%</span>
-                  </div>
-        
-                  <div class="highlight-pink">
-                    <div class="result-item" style="border-bottom:none;padding:0;">
-                      <span class="result-label"><strong>Total with App / Play store</strong></span>
-                      <span class="result-value" id="br_total_app">-59.0%</span>
-                    </div>
-                  </div>
-        
-                  <div class="result-item highlight">
-                    <span class="result-label"><strong>Net impact with Outpost</strong></span>
-                    <span class="result-value positive" id="br_net">+20.7%</span>
-                  </div>
-                </div>
-              </div>
+          <div class="input-group">
+            <label class="input-label">Additional payments fees and FX (%)</label>
+            <div class="input-wrapper">
+              <input type="range" id="mx_payfx" class="range-input" min="2" max="10" step="0.5" value="4" oninput="handleSlider('mexico','payfx',this)"/>
+              <span class="range-value" id="mx_payfx_val">4.0%</span>
             </div>
-          </div>
-        </section>
-        
-        <script>
-              
-  // State
-      const Calc = {
-        mexico: { gmv: 14102000, payfx: 0.04 },
-        brazil: { gmv: 14102000, payfx: 0.04 }
-      };
-
-        // Constants
-        const APP_FEE = 0.30;
-        const OUTPOST_FEE = 0.085;
-        const TAX_BR = 0.25;
-        
-        // Toggle country
-        function toggleCountry(country) {
-          document.getElementById('btn-mexico').classList.toggle('active', country==='mexico');
-          document.getElementById('btn-brazil').classList.toggle('active', country==='brazil');
-          document.getElementById('calc-mexico').style.display = country==='mexico' ? 'grid':'none';
-          document.getElementById('calc-brazil').style.display = country==='brazil' ? 'grid':'none';
-          compute(country);  
-        }
-
-        // Handle sliders
-        function handleSlider(country, field, el) {
-          const val = parseFloat(el.value);
-          if (field==='gmv') {
-            Calc[country].gmv = val;
-            document.getElementById(country==='mexico'?'mx_gmv_val':'br_gmv_val').textContent = formatCurrency(val);
-          } else if (field==='payfx') {
-            Calc[country].payfx = val/100;
-            document.getElementById(country==='mexico'?'mx_payfx_val':'br_payfx_val').textContent = val.toFixed(1)+'%';
-          }
-          compute(country);
-        }
-
-      // Compute results
-      function compute(country) {
-        const gmv = Calc[country].gmv;
-        const payfx = Calc[country].payfx;
-        const appFee = APP_FEE*gmv;
-        const addl = payfx*gmv;
-        const tax = country==='brazil' ? TAX_BR*gmv : 0;
-        const totalApp = appFee+addl+tax;
-        const outpost = OUTPOST_FEE*gmv;
-        const net = totalApp-outpost;
-      
-        if(country==='mexico'){
-          document.getElementById('mx_app_fee').textContent = pct(appFee/gmv);
-          document.getElementById('mx_addl_payments').textContent = pct(addl/gmv);
-          document.getElementById('mx_total_app').textContent = pct(totalApp/gmv);
-          document.getElementById('mx_net').textContent = pct(net/gmv);
-        } else {
-          document.getElementById('br_app_fee').textContent = pct(appFee/gmv);
-          document.getElementById('br_addl_payments').textContent = pct(addl/gmv);
-          document.getElementById('br_tax').textContent = pct(tax/gmv);
-          document.getElementById('br_total_app').textContent = pct(totalApp/gmv);
-          document.getElementById('br_net').textContent = pct(net/gmv);
-        }
-      }
-      
-      // Helpers
-      function pct(n){return (n*100).toFixed(1)+'%';}
-      function formatCurrency(val){
-        return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(val);
-      }
-      
-      // Init
-      window.addEventListener('load',()=>{compute('mexico');compute('brazil');});
-      </script>
-
-      <!-- Explanation Section -->
-     <div class="calculator-explanation">
-        <h3 class="explanation-title">How we calculate your savings</h3>
-        <div class="explanation-grid">
-          <div class="explanation-item">
-            <h4>App / Play Store </h4>
-            <p>
-              The App / Play Store charge 30% commission to act as an 'MoR'. They also charge you a fixed fee for refunds and chargebacks, as well as FX spread on payouts - we assumed this is c.3% of GMV.
-            </p>
-          </div>
-      
-          <div class="explanation-item">
-            <h4>Other solutions - Direct</h4>
-            <p>
-            You use a platform for compliance and handle payments with a PSP, or use another MoR (more expensive). Compliance cost also includes PE and TP costs that competitors do  not cover. 
-              We calculated the cost competitors based on your GMV and avg. tx value and assumed a PSP + FX cost of 7%. Finally, Your approval rates would suffer because of international acquiring. 
-            </p>
-          </div>
-      
-          <div class="explanation-item">
-            <h4>Outpost</h4>
-            <p>
-              Outpost is a flat 8.5% fee on GMV, with no extra lines. The calculator compares that against Store and Direct totals to show your savings.
-            </p>
           </div>
         </div>
       </div>
 
-    </div>
-  </section>
+      <div>
+        <div class="calculator-results">
+          <h3>App / Play Store vs. Outpost</h3>
+          <p class="calculator-subtitle">as a % of in-market GMV</p>
 
-  <!-- Comparison Table -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">
-          We are the only enterprise-grade MoR, delivering the above with your
-        <span class="solid-green-text">dedicated Outpost entity</span>
-        </h2>
-      </div>
+          <div class="result-item">
+            <span class="result-label">App store / play store fee</span>
+            <span class="result-value negative" id="mx_app_fee">-30.0% = -$1.7M</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Additional payments costs</span>
+            <span class="result-value negative" id="mx_addl_payments">-4.0% = -$169.2K</span>
+          </div>
 
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th style="background:rgba(16,185,129,.03);">
-                <div>
-                  <span>Outpost One</span>
-                  <div style="font-size:12px;color:var(--text-secondary);font-weight:400;margin-top:4px;">Dedicated Entity Model</div>
-                </div>
-              </th>
-              <th style="background:rgba(239,68,68,.03);">
-                <div>
-                  <span>Traditional MoRs</span>
-                  <div style="font-size:12px;color:var(--text-secondary);font-weight:400;margin-top:4px;">Shared Entity Model</div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Legal Entity</strong></td>
-              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Dedicated exclusively to your platform</td>
-              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Shared across multiple merchants</td>
-            </tr>
-            <tr>
-              <td><strong>Risk Exposure</strong></td>
-              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Fully isolated, no cross-contamination</td>
-              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Shared risk pool</td>
-            </tr>
-            <tr>
-              <td><strong>MCC Configuration</strong></td>
-              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Optimized for gaming platforms</td>
-              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Often fixed or limited</td>
-            </tr>
-            <tr>
-              <td><strong>PSP Relationships</strong></td>
-              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Platform-specific terms and routing</td>
-              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Pooled or constrained</td>
-            </tr>
-            <tr>
-              <td><strong>Audit Trail</strong></td>
-              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Clean, transparent records</td>
-              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Co-mingled activity</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+          <div class="highlight-box-red" style="margin-top:10px">
+            <div class="result-item" style="border-bottom:none;padding:0;">
+              <span class="result-label"><strong>Total with App / Play store</strong></span>
+              <span class="result-value negative" id="mx_total_app">-34.0% = -$1.9M</span>
+            </div>
+          </div>
 
-  <!-- Final CTA -->
-  <section class="section" style="text-align:center;background:var(--bg-secondary);border-top:1px solid var(--border-color);">
-    <div class="container">
-      <h2 class="section-title">
-        Unlocking $<span class="dynamic-value">2.9M</span> in Mexico?<br/>That's a lot of Robux!
-      </h2>
-      <button class="btn btn-cta-large" style="margin-top:40px;" onclick="openModal()">Book demo →</button>
-    </div>
-  </section>
+          <div class="highlight-box-green">
+            <div class="result-item" style="border-bottom:none;padding:0;">
+              <span class="result-label"><strong>Net impact with Outpost</strong></span>
+              <span class="result-value positive" id="mx_net">+25.5% = +$1.4M</span>
+            </div>
+          </div>
 
-  <!-- Footer -->
-  <footer class="disclaimer-footer">
-    <div class="container">
-      <div class="disclaimer-content">
-        <p class="disclaimer-text">
-          The cost savings estimates on this website are for informational purposes only and based on general assumptions and publicly available data. Actual results may vary significantly based on your specific business circumstances, transaction volumes, and market conditions. These estimates do not constitute guarantees, formal quotes, or professional advice. You should consult qualified advisors before making business decisions. Outpost disclaims all liability for any loss arising from reliance on these projections. Viewing this website does not create any client relationship. Governed by English law. 2025
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Scripts -->
-  <script>
-    // Achievement System
-    const achievements = {
-      firstClick: { id: 'firstClick', icon: '🎯', title: 'First Click!', desc: 'Started your journey', unlocked: false },
-      scrollMaster: { id: 'scrollMaster', icon: '📜', title: 'Scroll Master', desc: 'Scrolled 50% of the page', unlocked: false },
-      calculator: { id: 'calculator', icon: '🧮', title: 'Number Cruncher', desc: 'Used the calculator', unlocked: false },
-      maxValue: { id: 'maxValue', icon: '💎', title: 'High Roller', desc: 'Set GMV to maximum', unlocked: false },
-      explorer: { id: 'explorer', icon: '🗺️', title: 'Explorer', desc: 'Visited all sections', unlocked: false },
-      hoverMaster: { id: 'hoverMaster', icon: '✨', title: 'Hover Master', desc: 'Hovered 10 elements', unlocked: false },
-      speedRunner: { id: 'speedRunner', icon: '⚡', title: 'Speed Runner', desc: 'Quick site navigation', unlocked: false },
-      togglePro: { id: 'togglePro', icon: '🔄', title: 'Toggle Pro', desc: 'Switched calculator modes', unlocked: false },
-      stackBuilder: { id: 'stackBuilder', icon: '🏗️', title: 'Stack Builder', desc: 'Built the full stack', unlocked: false },
-      completionist: { id: 'completionist', icon: '👑', title: 'Completionist', desc: 'Unlocked all achievements', unlocked: false }
-    };
-
-    let unlockedCount = 0;
-    let hoverCount = 0;
-    let sectionsVisited = new Set();
-    let startTime = Date.now();
-
-    function unlockAchievement(achievementId) {
-      const achievement = achievements[achievementId];
-      if (!achievement || achievement.unlocked) return;
-      
-      achievement.unlocked = true;
-      unlockedCount++;
-      
-      // Create achievement notification
-      const notification = document.createElement('div');
-      notification.className = 'achievement';
-      notification.innerHTML = `
-        <div class="achievement-icon">${achievement.icon}</div>
-        <div class="achievement-content">
-          <div class="achievement-title">Achievement Unlocked!</div>
-          <div class="achievement-desc">${achievement.title}: ${achievement.desc}</div>
+          <div class="calc-cta-bottom">
+            <button class="btn btn-cta-large" id="mx_cta" onclick="openModal()">UNLOCK $1.4M — BOOK A DEMO</button>
+            <div class="calc-note">*Net value is inclusive of Outpost’s flat fee.</div>
+          </div>
         </div>
-      `;
-      
-      document.getElementById('achievementContainer').appendChild(notification);
-      setTimeout(() => notification.remove(), 4000);
-      
-      // Update tracker
-      document.getElementById('achievementCurrent').textContent = unlockedCount;
-      
-      // Launch confetti for achievement
-      launchMiniConfetti();
-      
-      // Check for completionist
-      if (unlockedCount === Object.keys(achievements).length - 1) {
-        setTimeout(() => unlockAchievement('completionist'), 1000);
-      }
+      </div>
+    </div>
+
+    <!-- Brazil -->
+    <div class="calculator-container" id="calc-brazil" style="display:none;">
+      <div class="left-panel">
+        <div class="calculator-inputs">
+          <h3 class="inputs-title">Your business in Brazil</h3>
+
+          <div class="input-group">
+            <label class="input-label">Current GMV ($)</label>
+            <div class="input-wrapper">
+              <input type="range" id="br_gmv_num" class="range-input" min="1000000" max="50000000" step="100000" value="14102000" oninput="handleSlider('brazil','gmv',this)"/>
+              <span class="range-value" id="br_gmv_val">$14,102,000</span>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">Additional payments fees and FX (%)</label>
+            <div class="input-wrapper">
+              <input type="range" id="br_payfx" class="range-input" min="2" max="10" step="0.5" value="4" oninput="handleSlider('brazil','payfx',this)"/>
+              <span class="range-value" id="br_payfx_val">4.0%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="calculator-results">
+          <h3>App / Play Store vs. Outpost</h3>
+          <p class="calculator-subtitle">as a % of in-market GMV</p>
+
+          <div class="result-item">
+            <span class="result-label">App store / play store fee</span>
+            <span class="result-value negative" id="br_app_fee">-30.0% = -$1.7M</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Additional payments costs</span>
+            <span class="result-value negative" id="br_addl_payments">-4.0% = -$169.2K</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Effective tax</span>
+            <span class="result-value negative" id="br_tax">-25.0% = -$1.2M</span>
+          </div>
+
+          <div class="highlight-box-red" style="margin-top:10px">
+            <div class="result-item" style="border-bottom:none;padding:0;">
+              <span class="result-label"><strong>Total with App / Play store</strong></span>
+              <span class="result-value negative" id="br_total_app">-59.0% = -$3.3M</span>
+            </div>
+          </div>
+
+          <div class="highlight-box-green">
+            <div class="result-item" style="border-bottom:none;padding:0;">
+              <span class="result-label"><strong>Net impact with Outpost</strong></span>
+              <span class="result-value positive" id="br_net">+20.7% = +$1.1M</span>
+            </div>
+          </div>
+
+          <div class="calc-cta-bottom">
+            <button class="btn btn-cta-large" id="br_cta" onclick="openModal()">UNLOCK $1.1M — BOOK A DEMO</button>
+            <div class="calc-note">*Net value is inclusive of Outpost’s flat fee.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA (kept) -->
+<section class="section" style="text-align:center;">
+  <div class="container">
+    <h2 class="section-title">Unlocking $<span class="bottom-dynamic">2.9M</span> in <span id="bottom-country">Mexico</span>?<br/>That's a lot of Robux!</h2>
+    <button class="btn btn-cta-large" style="margin-top:32px;" onclick="openModal()">Book demo →</button>
+  </div>
+</section>
+
+<!-- FOOTER (unchanged text) -->
+<footer class="disclaimer-footer">
+  <div class="container">
+    <p class="disclaimer-text">The cost savings estimates on this website are for informational purposes only and based on general assumptions and publicly available data. Actual results may vary...</p>
+  </div>
+</footer>
+
+<script>
+  // --- State & constants ---
+  const Calc = {
+    mexico:{ gmv:14102000, payfx:0.04 },
+    brazil:{ gmv:14102000, payfx:0.04 }
+  };
+  const APP_FEE = 0.30;
+  const OUTPOST_FEE = 0.085;
+  const TAX_BR = 0.25;
+  let current = 'mexico';
+
+  // --- Formatters ---
+  function fmtShort(v){ // $ in K/M with 1dp
+    const s = v < 0 ? '-' : '';
+    const n = Math.abs(v);
+    if(n>=1e6) return s+'$'+(n/1e6).toFixed(1).replace(/\.0$/,'')+'M';
+    if(n>=1e3) return s+'$'+(n/1e3).toFixed(1).replace(/\.0$/,'')+'K';
+    return s+'$'+Math.round(n).toString();
+  }
+  function fmtPct(p){ return (p*100).toFixed(1)+'%'; }
+  function pctEqMoney(p, money){ // "-30.0% = -$1.7M"
+    const signP = p>=0?'+':'-';
+    const signM = money>=0?'+':'-';
+    return `${signP}${fmtPct(Math.abs(p))} = ${signM}${fmtShort(Math.abs(money)).replace('+','')}`;
+  }
+  function currency0(n){
+    return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);
+  }
+
+  // --- UI helpers ---
+  function setText(id, text, cls){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.textContent = text;
+    el.classList.toggle('positive', cls==='pos');
+    el.classList.toggle('negative', cls==='neg');
+  }
+  function updateGlobals(country, netAmt, netPct){
+    // hero + nav + other dynamic bits switch to active country numbers
+    document.getElementById('hero-country').textContent = country==='mexico'?'Mexico':'Brazil';
+    document.getElementById('bottom-country').textContent = country==='mexico'?'Mexico':'Brazil';
+
+    const short = fmtShort(netAmt).replace('-','');
+    document.querySelectorAll('.problem-dynamic,.bottom-dynamic,.nav-dynamic').forEach(el=>el.textContent = short.replace('$',''));
+    document.getElementById('hero-value').textContent = short.replace('$','');
+    document.getElementById('total-value').textContent = `+${currency0(Math.max(0, netAmt))} to your bank account`;
+    document.getElementById('hero-pct').textContent = Math.round(netPct*100)+'%';
+    document.getElementById('nav-cta').innerHTML = `Unlock ${short} with Outpost`;
+  }
+
+  // --- Core compute ---
+  function compute(country){
+    const gmv   = Calc[country].gmv;
+    const payfx = Calc[country].payfx;
+
+    const appFee = APP_FEE*gmv;
+    const addl   = payfx*gmv;
+    const tax    = country==='brazil' ? TAX_BR*gmv : 0;
+    const totalApp = appFee+addl+tax;
+
+    const outpost = OUTPOST_FEE*gmv;
+    const net = totalApp - outpost;
+
+    // Update rows as "% = $K/M"
+    if(country==='mexico'){
+      setText('mx_app_fee',       pctEqMoney(-APP_FEE, -appFee), 'neg');
+      setText('mx_addl_payments', pctEqMoney(-payfx,  -addl),   'neg');
+      setText('mx_total_app',     pctEqMoney(-(APP_FEE+payfx), -(totalApp)), 'neg');
+      setText('mx_net',           pctEqMoney((APP_FEE+payfx-OUTPOST_FEE),  net), 'pos');
+      document.getElementById('mx_cta').textContent = `UNLOCK ${fmtShort(net)} — BOOK A DEMO`;
+    }else{
+      setText('br_app_fee',       pctEqMoney(-APP_FEE, -appFee), 'neg');
+      setText('br_addl_payments', pctEqMoney(-payfx,  -addl),    'neg');
+      setText('br_tax',           pctEqMoney(-TAX_BR, -tax),     'neg');
+      setText('br_total_app',     pctEqMoney(-(APP_FEE+payfx+TAX_BR), -(totalApp)), 'neg');
+      setText('br_net',           pctEqMoney((APP_FEE+payfx+TAX_BR-OUTPOST_FEE),  net), 'pos');
+      document.getElementById('br_cta').textContent = `UNLOCK ${fmtShort(net)} — BOOK A DEMO`;
     }
 
-    function launchMiniConfetti() {
-      const colors = ['#ef4444', '#10b981', '#3b82f6', '#f59e0b'];
-      for (let i = 0; i < 15; i++) {
-        setTimeout(() => {
-          const confetti = document.createElement('div');
-          confetti.className = 'confetti';
-          confetti.style.right = '20px';
-          confetti.style.top = '60px';
-          confetti.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
-          confetti.style.background = confetti.style.getPropertyValue('--color');
-          confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-          document.body.appendChild(confetti);
-          setTimeout(() => confetti.remove(), 3000);
-        }, i * 30);
-      }
+    // FX callout card number
+    document.getElementById('fx-card').textContent = fmtShort(payfx*gmv).replace('$','');
+
+    // Update hero/nav/hero value to active country's numbers
+    if(country===current){
+      updateGlobals(country, net, (net/gmv));
     }
+  }
 
-    function trackSection(sectionId) {
-      sectionsVisited.add(sectionId);
-      if (sectionsVisited.size >= 4) {
-        unlockAchievement('explorer');
-      }
+  // --- Slider handlers ---
+  function handleSlider(country, field, el){
+    const val = parseFloat(el.value);
+    if(field==='gmv'){
+      Calc[country].gmv = val;
+      document.getElementById(country==='mexico'?'mx_gmv_val':'br_gmv_val').textContent = currency0(val);
+    }else{
+      Calc[country].payfx = val/100;
+      document.getElementById(country==='mexico'?'mx_payfx_val':'br_payfx_val').textContent = val.toFixed(1)+'%';
     }
+    compute(country);
+  }
 
-    // Particle effect on button clicks
-    function createParticles(e) {
-      const colors = ['#ef4444', '#10b981', '#3b82f6', '#f59e0b'];
-      for (let i = 0; i < 8; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle active';
-        particle.style.left = e.clientX + 'px';
-        particle.style.top = e.clientY + 'px';
-        particle.style.width = '8px';
-        particle.style.height = '8px';
-        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.borderRadius = '50%';
-        particle.style.setProperty('--x', (Math.random() - 0.5) * 100 + 'px');
-        particle.style.setProperty('--y', (Math.random() - 0.5) * 100 + 'px');
-        document.body.appendChild(particle);
-        setTimeout(() => particle.remove(), 800);
-      }
-    }
+  // --- Toggle country ---
+  function toggleCountry(country){
+    current = country;
+    document.getElementById('btn-mexico').classList.toggle('active', country==='mexico');
+    document.getElementById('btn-brazil').classList.toggle('active', country==='brazil');
+    document.getElementById('calc-mexico').style.display = country==='mexico'?'grid':'none';
+    document.getElementById('calc-brazil').style.display = country==='brazil'?'grid':'none';
+    compute('mexico'); compute('brazil'); // keep both fresh
+  }
 
-    // Confetti on CTA click
-    function launchConfetti() {
-      const colors = ['#ef4444', '#10b981', '#3b82f6', '#f59e0b', '#8b5cf6'];
-      for (let i = 0; i < 30; i++) {
-        setTimeout(() => {
-          const confetti = document.createElement('div');
-          confetti.className = 'confetti';
-          confetti.style.left = Math.random() * 100 + '%';
-          confetti.style.top = '-10px';
-          confetti.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
-          confetti.style.background = confetti.style.getPropertyValue('--color');
-          confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-          document.body.appendChild(confetti);
-          setTimeout(() => confetti.remove(), 3000);
-        }, i * 50);
-      }
-    }
+  // --- Misc ---
+  function openModal(){ window.open('https://calendly.com/will-outpostnow/30min','_blank'); }
 
-    // Mexico-style calculator constants (from "AppNation MX w Appstore")
-    const MexicoCalc = {
-      OUTPOST_FEE: 0.085,
-      APP_STORE_FEE: 0.30,
-    
-      // Payments & FX defaults
-      PAYMENTS_APP_PCT: 0.03,
-      PAYMENTS_DIRECT_PCT: 0.07,
-    
-      // Approvals
-      APPROVAL_UPLIFT_PER_POINT: 0.003,
-      APPROVAL_CURRENT: 0.65,
-      APPROVAL_NEW: 0.85,
-    
-      // Invoicing / compliance
-      INVOICE_MULTIPLIER: 2.0,
-      INVOICE_COST: 0.05,
-    
-      // Transfer pricing
-      REVENUE_BOOKED_MARKET: 0.07,
-      CORP_TAX_MEXICO: 0.30,
-      CORP_TAX_HOME: 0.21,
-    
-      // ✅ Effective tax assumptions - applies for Brazil only 
-      EFFECTIVE_TAX_APP_PCT: 0.25,      // 25% on App/Play store
-      EFFECTIVE_TAX_DIRECT_PCT: 0.52,   // 52% when going direct
-      OUTPOST_EFFECTIVE_TAX_PCT: 0.2975 // 29.75% with Outpost (optimised)
-    };
-
-
-    // Live state
-    const Live = {
-      activeCalc: 'calc1',
-      gmv_usd: 5640800,  // Default from spreadsheet
-      avg_txn_usd: 10, //transaction size
-      e_pct: 0.04,  // 4% additional payments/FX
-      netImpact: 0
-    };
-
-    // Utility functions
-    const utils = {
-      formatCurrency(a) {
-        return new Intl.NumberFormat('en-US', {
-          style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0
-        }).format(a || 0);
-      },
-      formatShortCurrency(a) {
-        const sign = (a || 0) < 0 ? '-' : '';
-        const v = Math.abs(a || 0);
-        if (v >= 1000000) return sign + (v / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-        if (v >= 1000)    return sign + Math.round(v / 1000) + 'K';
-        return sign + Math.round(v);
-      },
-      formatPercent(val, decimals = 1) {
-        return (val * 100).toFixed(decimals) + '%';
-      }
-    };
-
-    function formatShortMoney1dp(a) {
-      const v = Math.abs(a || 0);
-      if (v >= 1e6) return `$${(v / 1e6).toFixed(1)}M`;
-      if (v >= 1e3) return `$${(v / 1e3).toFixed(1)}K`;
-    return `$${v.toFixed(1)}`;
-    }
-    
-    function formatPctEqShortMoney(amount, pct) {
-      const pctStr   = (pct >= 0 ? '+' : '-') + utils.formatPercent(Math.abs(pct));
-      const moneyStr = (amount >= 0 ? '+' : '-') + formatShortMoney1dp(Math.abs(amount));
-      return `${pctStr} = ${moneyStr}`;
-    }
-
-    function formatMoneyEqPercent(value, percent) {
-      const moneyStr = (value >= 0 ? '+' : '-') + utils.formatCurrency(Math.abs(value));
-      const pctStr   = (percent >= 0 ? '+' : '-') + utils.formatPercent(Math.abs(percent));
-      return `${moneyStr} = ${pctStr}`;
-    }
-
-    // Calculators
-    // App / Play Store vs Outpost — matches Excel model exactly
-    function runCalc1(gmv, additionalFees) {
-      // App/Play side - only fee and additional payments (no separate tax)
-      const appStoreFee        = MexicoCalc.APP_STORE_FEE * gmv;
-      const additionalPayments = additionalFees * gmv;
-      const totalApp           = appStoreFee + additionalPayments;
-    
-      // Outpost side - only the fee (no separate tax)
-      const outpostFee   = MexicoCalc.OUTPOST_FEE * gmv;
-      const totalOutpost = outpostFee;
-    
-      const netImpact = totalApp - totalOutpost;
-    
-      // Percents (as % of GMV)
-      const appStoreFeePct        = MexicoCalc.APP_STORE_FEE;
-      const additionalPaymentsPct = additionalFees;
-      const totalAppPct           = appStoreFeePct + additionalPaymentsPct;
-    
-      const outpostFeePct   = MexicoCalc.OUTPOST_FEE;
-      const totalOutpostPct = outpostFeePct;
-    
-      const netImpactPct = totalAppPct - totalOutpostPct;
-    
-      return {
-        appStoreFee, additionalPayments, totalApp,
-        outpostFee, totalOutpost, netImpact,
-        appStoreFeePct, additionalPaymentsPct, totalAppPct,
-        outpostFeePct, totalOutpostPct, netImpactPct
-      };
-    }
-    
-    // "Other solutions" (Direct) vs Outpost — transfer-pricing folded into ongoing
-   function runCalc2(gmv, atv, additionalFees) {
-      const numTransactions = atv > 0 ? gmv / atv : 0;
-    
-      // Stripe-style block
-      const stripeTaxCost   = 0.005 * gmv + 0.4 * numTransactions * MexicoCalc.INVOICE_MULTIPLIER;
-      const stripeInvoicing = MexicoCalc.INVOICE_MULTIPLIER * numTransactions * MexicoCalc.INVOICE_COST;
-      const stripeTotal     = stripeTaxCost + stripeInvoicing;
-    
-      // Quaderno-style block
-      const quadernoCost      = 100 * (numTransactions / 2500) * 12 * MexicoCalc.INVOICE_MULTIPLIER;
-      const quadernoInvoicing = MexicoCalc.INVOICE_MULTIPLIER * numTransactions * MexicoCalc.INVOICE_COST;
-      const quadernoTotal     = quadernoCost + quadernoInvoicing;
-    
-      // Average + transfer pricing (tax impact is included here)
-      const avgCompliance   = (stripeTotal + quadernoTotal) / 2;
-      const transferPricing =
-        MexicoCalc.REVENUE_BOOKED_MARKET * gmv *
-        (MexicoCalc.CORP_TAX_MEXICO - MexicoCalc.CORP_TAX_HOME);
-      const ongoingCompliance = avgCompliance + transferPricing;
-    
-      // Direct payments & FX (slider; default 7%)
-      const paymentsFx = additionalFees * gmv;
-    
-      // Lost revenue from lower approvals
-      const approvalImpact =
-        gmv *
-        (MexicoCalc.APPROVAL_NEW - MexicoCalc.APPROVAL_CURRENT) *
-        MexicoCalc.APPROVAL_UPLIFT_PER_POINT *
-        100;
-    
-      // Total = ongoing + payments + approvals (NO separate tax line)
-      const totalDirect = ongoingCompliance + paymentsFx + approvalImpact;
-    
-      // Outpost = just the fee (no separate tax in this model)
-      const outpostFee   = MexicoCalc.OUTPOST_FEE * gmv;
-      const totalOutpost = outpostFee;
-    
-      const netImpact = totalDirect - totalOutpost;
-    
-      // Percents
-      const ongoingCompliancePct = ongoingCompliance / gmv;
-      const paymentsFxPct        = additionalFees;
-      const approvalImpactPct    = approvalImpact / gmv;
-      const totalDirectPct       = totalDirect / gmv;
-    
-      const outpostFeePct   = MexicoCalc.OUTPOST_FEE;
-      const totalOutpostPct = outpostFeePct;
-    
-      const netImpactPct = totalDirectPct - totalOutpostPct;
-    
-      return {
-        ongoingCompliance, paymentsFx, approvalImpact, totalDirect,
-        outpostFee, totalOutpost, netImpact,
-        ongoingCompliancePct, paymentsFxPct, approvalImpactPct,
-        totalDirectPct, outpostFeePct, totalOutpostPct, netImpactPct
-      };
-    }
-
-    // Paint functions
-    function paintCalc1(r) {
-      // Line items: show as % of GMV
-      document.getElementById('c1_app_fee').textContent = formatPctEqShortMoney(-r.appStoreFee, -r.appStoreFeePct);
-      document.getElementById('c1_addl_payments').textContent = formatPctEqShortMoney(-r.additionalPayments, -r.additionalPaymentsPct);
-      document.getElementById('c1_indirect_tax').textContent = formatPctEqShortMoney(-r.appStoreTax, -r.appStoreTaxPct);
-    
-      // TOTAL with App / Play store => "money = percent"
-     const totalEl = document.getElementById('c1_total_app');
-    totalEl.textContent = formatPctEqShortMoney(-r.totalApp, -r.totalAppPct);
-    totalEl.classList.add('negative');
-    totalEl.classList.remove('positive');
-
-      // NET impact with Outpost — show % = $
-      const netEl = document.getElementById('c1_net');
-      netEl.textContent = formatPctEqShortMoney(r.netImpact, r.netImpactPct);
-      netEl.classList.toggle('positive', r.netImpactPct >= 0);
-      netEl.classList.toggle('negative', r.netImpactPct < 0);
-    }
-    
-   function paintCalc2(r) {
-      // Line items: show as % of GMV
-      document.getElementById('c2_tp_ongoing').textContent = formatPctEqShortMoney(-r.ongoingCompliance, -r.ongoingCompliancePct);
-      document.getElementById('c2_payfx').textContent = formatPctEqShortMoney(-r.paymentsFx, -r.paymentsFxPct);
-      document.getElementById('c2_lower_approvals').textContent = formatPctEqShortMoney(-r.approvalImpact, -r.approvalImpactPct);
-    
-      // TOTAL with other solutions — show % = $
-      const totalEl = document.getElementById('c2_total_comp');
-      totalEl.textContent = formatPctEqShortMoney(-r.totalDirect, -r.totalDirectPct);
-      totalEl.classList.add('negative');
-      totalEl.classList.remove('positive');
-    
-      // NET impact with Outpost — show % = $
-      const netEl = document.getElementById('c2_net');
-      netEl.textContent = formatPctEqShortMoney(r.netImpact, r.netImpactPct);
-      netEl.classList.toggle('positive', r.netImpactPct >= 0);
-      netEl.classList.toggle('negative', r.netImpactPct < 0);
-    }
-    // Update UI functions
-    function updateSiteDynamics() {
-      // Compute these FIRST so we can safely use complianceDiff below
-      const r1 = runCalc1(Live.gmv_usd, Live.e_pct);
-      const r2 = runCalc2(Live.gmv_usd, Live.avg_txn_usd, Live.e_pct);
-      const complianceDiff = Math.max(0, r2.totalDirect - r1.totalApp);
-
-      document.querySelectorAll('.dynamic-compliance').forEach(el =>
-        el.textContent = '$' + utils.formatShortCurrency(complianceDiff)
-      );
-
-    
-      const shortValue = utils.formatShortCurrency(Live.netImpact);
-      const pct = Live.gmv_usd > 0 ? Math.round((Live.netImpact / Live.gmv_usd) * 100) : 0;
-    
-      document.querySelectorAll('.dynamic-value').forEach(el => el.textContent = shortValue);
-      document.querySelectorAll('.dynamic-total-value').forEach(el =>
-        el.textContent = '+' + utils.formatCurrency(Live.netImpact) + ' to your bank account'
-      );
-      document.querySelectorAll('.dynamic-value-mexico').forEach(el => el.textContent = shortValue);
-      document.querySelectorAll('.dynamic-percentage-mexico').forEach(el => el.textContent = pct + '%');
-    
-      // Payments & compliance callouts
-      document.querySelectorAll('.dynamic-fx').forEach(el =>
-        el.textContent = '$' + utils.formatShortCurrency(Live.e_pct * Live.gmv_usd)
-      );
-    
-      // Solution section
-      document.querySelectorAll('.dynamic-outpost-fee-pct').forEach(el =>
-        el.textContent = (MexicoCalc.OUTPOST_FEE * 100).toFixed(1) + '%'
-      );
-    
-      const lessVsAlt = Live.activeCalc === 'calc1'
-        ? Math.round((r1.netImpact / r1.totalApp) * 100)
-        : Math.round((r2.netImpact / r2.totalDirect) * 100);
-    
-      document.querySelectorAll('.dynamic-less-vs-alt').forEach(el => el.textContent = lessVsAlt + '%');
-    }
-
-   function updateCTA() {
-      const ctaText = document.getElementById('calc-cta-text');
-      const impactNote = document.getElementById('calc-impact-note');
-      if (ctaText) {
-        ctaText.textContent = `Unlock $${utils.formatShortCurrency(Live.netImpact)} — Book a demo`;
-      }
-    }
-
-    function computeAndPaint() {
-      const r1 = runCalc1(Live.gmv_usd, Live.e_pct);
-      const r2 = runCalc2(Live.gmv_usd, Live.avg_txn_usd, Live.e_pct);
-
-      paintCalc1(r1);
-      paintCalc2(r2);
-
-      Live.netImpact = Live.activeCalc === 'calc1' ? r1.netImpact : r2.netImpact;
-      updateSiteDynamics();
-      updateCTA();
-    }
-
-    // Handlers
-    function handleGMVSlider(el) {
-      const raw = parseInt(el.value, 10) || 0;
-      Live.gmv_usd = raw;
-      document.getElementById('in_gmv_val').textContent = utils.formatCurrency(Live.gmv_usd);
-      computeAndPaint();
-      
-      unlockAchievement('calculator');
-      if (raw >= 50000000) {
-        unlockAchievement('maxValue');
-      }
-    }
-
-    function handleATVSlider(el) {
-      const raw = parseInt(el.value, 10) || 0;
-      Live.avg_txn_usd = raw;
-      document.getElementById('in_atv_val').textContent = utils.formatCurrency(Live.avg_txn_usd);
-      computeAndPaint();
-    }
-
-    function handlePayFxInput(el) {
-      const eVal = (parseFloat(el.value) || 0) / 100;
-      Live.e_pct = eVal;
-      document.getElementById('in_payfx_val').textContent = (eVal * 100).toFixed(1) + '%';
-      computeAndPaint();
-    }
-
-    function toggleCalc(which) {
-      Live.activeCalc = which;
-    
-      // UI toggles
-      document.getElementById('btn-calc1').classList.toggle('active', which === 'calc1');
-      document.getElementById('btn-calc2').classList.toggle('active', which === 'calc2');
-      document.getElementById('panel-calc1').style.display = which === 'calc1' ? 'block' : 'none';
-      document.getElementById('panel-calc2').style.display = which === 'calc2' ? 'block' : 'none';
-      document.getElementById('atv-group').classList.toggle('hidden', which !== 'calc2');
-    
-      // Update payments/FX slider + label
-      const payfxEl = document.getElementById('in_payfx');
-      const payfxValEl = document.getElementById('in_payfx_val');
-    
-      if (which === 'calc2') {
-        Live.e_pct = MexicoCalc.PAYMENTS_DIRECT_PCT; // 7%
-        payfxEl.value = 7;
-        payfxValEl.textContent = '7.0%';
-      } else {
-        Live.e_pct = MexicoCalc.PAYMENTS_APP_PCT; // 3%
-        payfxEl.value = 3;
-        payfxValEl.textContent = '3.0%';
-      }
-    
-      // Make the track color follow the knob
-      setProgress(payfxEl);
-    
-      // Recompute and award cheevo
-      computeAndPaint();
-      unlockAchievement('togglePro');
-    }
-
-    function openModal() {
-    window.open('https://calendly.com/will-outpostnow/30min','_blank');
-    }
-
-    window.toggleCalc = toggleCalc;
-    window.handleGMVSlider = handleGMVSlider;
-    window.handleATVSlider = handleATVSlider;
-    window.handlePayFxInput = handlePayFxInput;
-    window.openModal = openModal;
-
-    // Initialize
-    window.addEventListener('load', () => {
-      // Scroll effect
-      document.addEventListener('scroll', () => {
-        const n = document.getElementById('navbar');
-        if (window.scrollY > 50) n.classList.add('scrolled'); 
-        else n.classList.remove('scrolled');
-        
-        // Check scroll achievement
-        const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-        if (scrollPercent >= 50) {
-          unlockAchievement('scrollMaster');
-        }
-      });
-
-      // Smooth scrolling
-      document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(a => {
-        a.addEventListener('click', e => {
-          const href = a.getAttribute('href');
-          if (!href || href === '#') return;     // let your modal handler run
-          e.preventDefault();
-          const target = document.getElementById(href.slice(1));
-          if (target) {
-            window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-            trackSection(href.slice(1));
-          }
-        });
-      });
-
-      // Initialize achievements counter
-      document.getElementById('achievementTotal').textContent = Object.keys(achievements).length;
-
-      // Track hover events
-      document.querySelectorAll('.card, .btn, .impact-item').forEach(el => {
-        el.addEventListener('mouseenter', () => {
-          hoverCount++;
-          if (hoverCount >= 10) unlockAchievement('hoverMaster');
-        });
-      });
-
-      // Track first click
-      document.addEventListener('click', () => {
-        unlockAchievement('firstClick');
-      }, { once: true });
-
-      // Speed runner achievement
-      setTimeout(() => {
-        if (sectionsVisited.size >= 3) {
-          unlockAchievement('speedRunner');
-        }
-      }, 30000);
-
-      // Add particle effects to all buttons
-      document.querySelectorAll('.btn').forEach(btn => {
-        btn.addEventListener('click', createParticles);
-      });
-
-      // Mexico sheet defaults
-      Live.gmv_usd = 5640800;
-      const gmvSlider = document.getElementById('in_gmv_num');
-      gmvSlider.value = 5640800;
-      document.getElementById('in_gmv_val').textContent = utils.formatCurrency(5640800);
-      setProgress(gmvSlider);                 // <— add this
-    
-      // Start on calc1 with 3% payments+FX
-      Live.e_pct = MexicoCalc.PAYMENTS_APP_PCT;
-      const payfx = document.getElementById('in_payfx');
-      payfx.value = 3;
-      document.getElementById('in_payfx_val').textContent = '3.0%';
-      setProgress(payfx);                      // <— and this
-
-      // Initialize the calculator
-      computeAndPaint();
-      
-      // Hide tax rows (Mexico model doesn’t show them)
-      document.querySelector('#c1_indirect_tax').closest('.result-item').style.display = 'none';
-      document.querySelector('#c2_tax_comp').closest('.result-item').style.display = 'none';
+  // Init
+  window.addEventListener('load', ()=>{
+    // sticky nav style
+    document.addEventListener('scroll',()=>{
+      const n=document.getElementById('navbar');
+      if(window.scrollY>50) n.classList.add('scrolled'); else n.classList.remove('scrolled');
     });
-  </script>
-  <script>
-    function setProgress(slider){
-      const min = +slider.min || 0, max = +slider.max || 100, val = +slider.value || 0;
-      const pct = ((val - min) / (max - min)) * 100;
-      slider.style.setProperty('--progress', pct + '%');
-    }
-    document.addEventListener('input', e => {
-      if (e.target.matches('.range-input')) setProgress(e.target);
-    });
-    window.addEventListener('load', () => {
-      document.querySelectorAll('.range-input').forEach(setProgress);
-    });
-    </script>
-</body>
-</html>
+    // first paint
+    compute('mexico');
+    compute('brazil');
+    toggleCountry('mexico');
+  });
+</script>
