@@ -907,135 +907,218 @@ h1 { font-size: clamp(56px, 9.6vw, 96px); line-height: 0.95; margin-bottom: 28px
   </section>
 
   <!-- Calculator Section -->
-  <section class="section" id="calculator" style="background: var(--bg-secondary);">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">
-          The impact Outpost can have<br/>for AppNation in Mexico
-        </h2>
-      </div>
+<!-- Country Toggle + Calculators -->
+<section class="section" id="calculator" style="background: var(--bg-secondary);">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">The impact Outpost can have</h2>
+    </div>
 
-      <div class="calculator-toggle">
-        <button class="calc-toggle-option active" id="btn-calc1" onclick="toggleCalc('calc1')">App / Play Store vs. Outpost</button>
-        <button class="calc-toggle-option" id="btn-calc2" onclick="toggleCalc('calc2')">Other solutions vs. Outpost</button>
-      </div>
-
-      <div class="calculator-container">
-        <!-- Left Panel -->
-        <div class="left-panel">
-          <div class="calculator-inputs">
-            <h3 class="inputs-title">Your business in Mexico</h3>
-            <div class="input-group">
-              <label class="input-label">Current GMV ($)</label>
-              <div class="input-wrapper">
-                <input
-                  type="range" id="in_gmv_num" class="range-input"
-                  min="1000000" max="50000000" step="100000" value="14102000"
-                  oninput="handleGMVSlider(this)"
-                />
-                <span class="range-value" id="in_gmv_val">$14,102,000</span>
+          <!-- Top-level toggle -->
+          <div class="calculator-toggle">
+            <button class="calc-toggle-option active" id="btn-mexico" onclick="toggleCountry('mexico')">Impact in Mexico</button>
+            <button class="calc-toggle-option" id="btn-brazil" onclick="toggleCountry('brazil')">Impact in Brazil</button>
+          </div>
+      
+          <!-- Mexico Calculator -->
+          <div class="calculator-container" id="calc-mexico">
+            <!-- Left Panel -->
+            <div class="left-panel">
+              <div class="calculator-inputs">
+                <h3 class="inputs-title">Your business in Mexico</h3>
+                <div class="input-group">
+                  <label class="input-label">Current GMV ($)</label>
+                  <div class="input-wrapper">
+                    <input
+                      type="range" id="mx_gmv_num" class="range-input"
+                      min="1000000" max="50000000" step="100000" value="14102000"
+                      oninput="handleSlider('mexico','gmv',this)"
+                    />
+                    <span class="range-value" id="mx_gmv_val">$14,102,000</span>
+                  </div>
+                </div>
+      
+                <div class="input-group">
+                  <label class="input-label">Additional payments fees and FX (%)</label>
+                  <div class="input-wrapper">
+                    <input
+                      type="range" id="mx_payfx" class="range-input"
+                      min="2" max="10" step="0.5" value="4"
+                      oninput="handleSlider('mexico','payfx',this)"
+                    />
+                    <span class="range-value" id="mx_payfx_val">4.0%</span>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div class="input-group hidden" id="atv-group">
-              <label class="input-label">Average Transaction Value ($)</label>
-              <div class="input-wrapper">
-                <input
-                  type="range" id="in_atv_num" class="range-input"
-                  min="5" max="100" step="5" value="10"
-                  oninput="handleATVSlider(this)"
-                />
-                <span class="range-value" id="in_atv_val">$10</span>
-              </div>
-            </div>
-
-            <div class="input-group">
-              <label class="input-label">Additional payments fees and FX (%)</label>
-              <div class="input-wrapper">
-                <input
-                  type="range" id="in_payfx" class="range-input"
-                  min="2" max="10" step="0.5" value="4"
-                  oninput="handlePayFxInput(this)"
-                />
-                <span class="range-value" id="in_payfx_val">4.0%</span>
+      
+            <!-- Results Panel -->
+            <div>
+              <div class="calculator-results">
+                <h3>App / Play Store vs. Outpost</h3>
+                <p class="calculator-subtitle">as a % of in-market GMV</p>
+      
+                <div class="result-item">
+                  <span class="result-label">App store / play store fee</span>
+                  <span class="result-value negative" id="mx_app_fee">-30.0%</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Additional payments costs</span>
+                  <span class="result-value negative" id="mx_addl_payments">-4.0%</span>
+                </div>
+      
+                <div class="highlight-pink">
+                  <div class="result-item" style="border-bottom:none;padding:0;">
+                    <span class="result-label"><strong>Total with App / Play store</strong></span>
+                    <span class="result-value" id="mx_total_app">-34.0%</span>
+                  </div>
+                </div>
+      
+                <div class="result-item highlight">
+                  <span class="result-label"><strong>Net impact with Outpost</strong></span>
+                  <span class="result-value positive" id="mx_net">+25.5%</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Results Panel -->
-        <div>
-          <!-- Calc 1 Results -->
-          <div class="calculator-results" id="panel-calc1">
-            <h3>App / Play store vs. Outpost</h3>
-            <p class="calculator-subtitle">as a % of in-market GMV</p>
-
-            <div class="result-item">
-              <span class="result-label">App store / play store fee</span>
-              <span class="result-value negative" id="c1_app_fee">-30.0%</span>
-            </div>
-            <div class="result-item">
-              <span class="result-label">Additional payments costs</span>
-              <span class="result-value negative" id="c1_addl_payments">-4.0%</span>
-            </div>
-            <div class="result-item">
-              <span class="result-label">Effective tax</span>
-              <span class="result-value negative" id="c1_indirect_tax">-25.0%</span>
-            </div>
-
-            <div class="highlight-pink">
-              <div class="result-item" style="border-bottom:none;padding:0;">
-                <span class="result-label"><strong>Total with App / Play store</strong></span>
-                <span class="result-value" id="c1_total_app">-59.0%</span>
+            <!-- Brazil Calculator -->
+            <div class="calculator-container" id="calc-brazil" style="display:none;">
+              <!-- Left Panel -->
+              <div class="left-panel">
+                <div class="calculator-inputs">
+                  <h3 class="inputs-title">Your business in Brazil</h3>
+                  <div class="input-group">
+                    <label class="input-label">Current GMV ($)</label>
+                    <div class="input-wrapper">
+                      <input
+                        type="range" id="br_gmv_num" class="range-input"
+                        min="1000000" max="50000000" step="100000" value="14102000"
+                        oninput="handleSlider('brazil','gmv',this)"
+                      />
+                      <span class="range-value" id="br_gmv_val">$14,102,000</span>
+                    </div>
+                  </div>
+        
+                  <div class="input-group">
+                    <label class="input-label">Additional payments fees and FX (%)</label>
+                    <div class="input-wrapper">
+                      <input
+                        type="range" id="br_payfx" class="range-input"
+                        min="2" max="10" step="0.5" value="4"
+                        oninput="handleSlider('brazil','payfx',this)"
+                      />
+                      <span class="range-value" id="br_payfx_val">4.0%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+              <!-- Results Panel -->
+              <div>
+                <div class="calculator-results">
+                  <h3>App / Play Store vs. Outpost</h3>
+                  <p class="calculator-subtitle">as a % of in-market GMV</p>
+        
+                  <div class="result-item">
+                    <span class="result-label">App store / play store fee</span>
+                    <span class="result-value negative" id="br_app_fee">-30.0%</span>
+                  </div>
+                  <div class="result-item">
+                    <span class="result-label">Additional payments costs</span>
+                    <span class="result-value negative" id="br_addl_payments">-4.0%</span>
+                  </div>
+                  <div class="result-item">
+                    <span class="result-label">Effective tax</span>
+                    <span class="result-value negative" id="br_tax">-25.0%</span>
+                  </div>
+        
+                  <div class="highlight-pink">
+                    <div class="result-item" style="border-bottom:none;padding:0;">
+                      <span class="result-label"><strong>Total with App / Play store</strong></span>
+                      <span class="result-value" id="br_total_app">-59.0%</span>
+                    </div>
+                  </div>
+        
+                  <div class="result-item highlight">
+                    <span class="result-label"><strong>Net impact with Outpost</strong></span>
+                    <span class="result-value positive" id="br_net">+20.7%</span>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div class="result-item highlight">
-              <span class="result-label"><strong>Net impact with Outpost</strong></span>
-              <span class="result-value positive" id="c1_net">+20.7%</span>
-            </div>
           </div>
+        </section>
+        
+        <script>
+              
+  // State
+      const Calc = {
+        mexico: { gmv: 14102000, payfx: 0.04 },
+        brazil: { gmv: 14102000, payfx: 0.04 }
+      };
 
-          <!-- Calc 2 Results -->
-          <div class="calculator-results" id="panel-calc2" style="display:none">
-            <h3>Other solutions vs. Outpost</h3>
-            <p class="calculator-subtitle">as a % of in-market GMV</p>
+        // Constants
+        const APP_FEE = 0.30;
+        const OUTPOST_FEE = 0.085;
+        const TAX_BR = 0.25;
+        
+        // Toggle country
+        function toggleCountry(country) {
+          document.getElementById('btn-mexico').classList.toggle('active', country==='mexico');
+          document.getElementById('btn-brazil').classList.toggle('active', country==='brazil');
+          document.getElementById('calc-mexico').style.display = country==='mexico' ? 'grid':'none';
+          document.getElementById('calc-brazil').style.display = country==='brazil' ? 'grid':'none';
+          compute(country);  
+        }
 
-            <div class="result-item">
-              <span class="result-label">Ongoing compliance cost</span>
-              <span class="result-value negative" id="c2_tp_ongoing">-6.7%</span>
-            </div>
-            <div class="result-item">
-              <span class="result-label">Payments & FX costs</span>
-              <span class="result-value negative" id="c2_payfx">-7.0%</span>
-            </div>
-          
-            <div class="result-item">
-              <span class="result-label">Lower approval rates</span>
-              <span class="result-value negative" id="c2_lower_approvals">-4.5%</span>
-            </div>
+        // Handle sliders
+        function handleSlider(country, field, el) {
+          const val = parseFloat(el.value);
+          if (field==='gmv') {
+            Calc[country].gmv = val;
+            document.getElementById(country==='mexico'?'mx_gmv_val':'br_gmv_val').textContent = formatCurrency(val);
+          } else if (field==='payfx') {
+            Calc[country].payfx = val/100;
+            document.getElementById(country==='mexico'?'mx_payfx_val':'br_payfx_val').textContent = val.toFixed(1)+'%';
+          }
+          compute(country);
+        }
 
-            <div class="highlight-pink">
-              <div class="result-item" style="border-bottom:none;padding:0;">
-                <span class="result-label"><strong>Total with other solutions</strong></span>
-                <span class="result-value" id="c2_total_comp">-71.0%</span>
-              </div>
-            </div>
-
-            <div class="result-item highlight">
-              <span class="result-label"><strong>Net impact* with Outpost</strong></span>
-              <span class="result-value positive" id="c2_net">+32.8%</span>
-            </div>
-          </div>
-
-          <div class="calc-cta-bottom">
-            <button class="btn btn-cta-large" onclick="openModal()">
-              <span id="calc-cta-text">Unlock $2.9M — Book a demo</span>
-            </button>
-            <p class="calc-note">*Net value is inclusive of Outpost's flat fee</p>
-          </div>
-        </div>
-      </div>
+      // Compute results
+      function compute(country) {
+        const gmv = Calc[country].gmv;
+        const payfx = Calc[country].payfx;
+        const appFee = APP_FEE*gmv;
+        const addl = payfx*gmv;
+        const tax = country==='brazil' ? TAX_BR*gmv : 0;
+        const totalApp = appFee+addl+tax;
+        const outpost = OUTPOST_FEE*gmv;
+        const net = totalApp-outpost;
+      
+        if(country==='mexico'){
+          document.getElementById('mx_app_fee').textContent = pct(appFee/gmv);
+          document.getElementById('mx_addl_payments').textContent = pct(addl/gmv);
+          document.getElementById('mx_total_app').textContent = pct(totalApp/gmv);
+          document.getElementById('mx_net').textContent = pct(net/gmv);
+        } else {
+          document.getElementById('br_app_fee').textContent = pct(appFee/gmv);
+          document.getElementById('br_addl_payments').textContent = pct(addl/gmv);
+          document.getElementById('br_tax').textContent = pct(tax/gmv);
+          document.getElementById('br_total_app').textContent = pct(totalApp/gmv);
+          document.getElementById('br_net').textContent = pct(net/gmv);
+        }
+      }
+      
+      // Helpers
+      function pct(n){return (n*100).toFixed(1)+'%';}
+      function formatCurrency(val){
+        return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(val);
+      }
+      
+      // Init
+      window.addEventListener('load',()=>{compute('mexico');compute('brazil');});
+      </script>
 
       <!-- Explanation Section -->
      <div class="calculator-explanation">
