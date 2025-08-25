@@ -309,6 +309,116 @@
 .section-title .solid-green-text{
   color: var(--appnation-purple) !important;
 }
+/* ===== Purple sliders (drop-in override) ===== */
+:root{
+  --appnation-purple:#8B5CF6;
+  --appnation-purple-strong:#7C3AED;
+  --appnation-purple-rgb:139,92,246;
+  --slider-track:#13202c;            /* dark track */
+  --slider-track-border:#203041;     /* subtle edge */
+}
+
+/* Let modern browsers tint the progress portion */
+.range-input{
+  accent-color: var(--appnation-purple);
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+.range-input::-webkit-slider-runnable-track{
+  background: var(--slider-track);
+  height: 6px;
+  border-radius: 4px;
+  border: 1px solid var(--slider-track-border);
+}
+.range-input::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  appearance:none;
+  width: 18px; height: 18px;
+  border-radius: 4px;
+  background: var(--appnation-purple);
+  border: 0;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.25),
+              0 0 12px rgba(var(--appnation-purple-rgb), .45);
+  margin-top: -7px; /* centers thumb on a 6px track */
+}
+
+/* Firefox */
+.range-input::-moz-range-track{
+  background: var(--slider-track);
+  height: 6px;
+  border-radius: 4px;
+  border: 1px solid var(--slider-track-border);
+}
+.range-input::-moz-range-progress{
+  background: rgba(var(--appnation-purple-rgb), .6);
+  height: 6px;
+  border-radius: 4px;
+}
+.range-input::-moz-range-thumb{
+  width: 18px; height: 18px;
+  border-radius: 4px;
+  background: var(--appnation-purple);
+  border: none;
+  box-shadow: 0 0 12px rgba(var(--appnation-purple-rgb), .45);
+}
+
+/* Old Edge/IE fallback */
+.range-input::-ms-track{
+  background: transparent; color: transparent; border-color: transparent; height: 6px;
+}
+.range-input::-ms-fill-lower{ background: rgba(var(--appnation-purple-rgb), .6); }
+.range-input::-ms-fill-upper{ background: var(--slider-track); }
+.range-input::-ms-thumb{
+  width: 18px; height: 18px; border-radius: 4px;
+  background: var(--appnation-purple); border: none;
+}
+
+  /* === Calculator numbers: lock colours to green/red === */
+:root{
+  --calc-green: #00ff84;   /* AppNation green */
+  --calc-red:   #ef4444;   /* red for negatives */
+}
+
+/* Strong, legible numbers */
+.calculator-results .result-value{
+  font-weight: 900;
+  font-size: 18px;                 /* tweak if you want larger */
+  letter-spacing: .01em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Force +/- colours in the calculator only */
+.calculator-results .result-value.positive{ color: var(--calc-green) !important; }
+.calculator-results .result-value.negative{ color: var(--calc-red)   !important; }
+
+/* Optional: subtle glow so values pop on dark backgrounds */
+.calculator-results .result-value.positive{
+  text-shadow: 0 0 10px rgba(0,255,132,.18);
+}
+.calculator-results .result-value.negative{
+  text-shadow: 0 0 10px rgba(239,68,68,.18);
+}
+
+/* Keep the Unlock CTA purple (bright AppNation-ish) */
+:root{
+  --appnation-purple: #8B5CF6;
+  --appnation-purple-strong:#7C3AED;
+}
+
+.calc-cta-bottom .btn-cta-large,
+#mx_cta.btn-cta-large,
+#br_cta.btn-cta-large{
+  background: var(--appnation-purple) !important;
+  color:#0a0f13;
+  box-shadow: 0 0 18px rgba(139,92,246,.45);
+  border: none;
+}
+.calc-cta-bottom .btn-cta-large:hover,
+#mx_cta.btn-cta-large:hover,
+#br_cta.btn-cta-large:hover{
+  background: var(--appnation-purple-strong) !important;
+  box-shadow: 0 0 24px rgba(139,92,246,.65);
+}
   
 </style>
 
