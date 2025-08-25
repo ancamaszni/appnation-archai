@@ -724,13 +724,28 @@ td{ padding:20px 28px; color:var(--text-primary); }
     el.classList.toggle('positive', cls === 'pos');
     el.classList.toggle('negative', cls === 'neg');
   }
+   // --- UI helpers (PASTE THIS BLOCK) ---
+  function setTxt(id, val){ const el = document.getElementById(id); if (el) el.textContent = val; }
+  function setHtml(id, val){ const el = document.getElementById(id); if (el) el.innerHTML   = val; }
+
   function updateGlobals(country, netAmt, netPct){
     const countryName = country === 'mexico' ? 'Mexico' : 'Brazil';
-    document.getElementById('hero-country').textContent = countryName;
-    document.getElementById('hero-country-title').textContent = countryName;
-    document.getElementById('bottom-country').textContent = countryName;
-    document.getElementById('callout-country').textContent = countryName;
 
+    setTxt('hero-country', countryName);
+    setTxt('hero-country-title', countryName);
+    setTxt('bottom-country', countryName);
+    setTxt('callout-country', countryName); // ok if missing
+
+    const short = fmtShort(netAmt).replace('-','');
+
+    document.querySelectorAll('.problem-dynamic,.bottom-dynamic,.nav-dynamic')
+      .forEach(el => el.textContent = short.replace('$',''));
+
+    setTxt('total-value', `+${currency0(Math.max(0, netAmt))} to your bank account`);
+    setTxt('hero-pct', Math.round(netPct * 100) + '%');
+    setHtml('nav-cta', `Unlock ${short} with Outpost`);
+  }
+  
     const short = fmtShort(netAmt).replace('-','');
     document.querySelectorAll('.problem-dynamic,.bottom-dynamic,.nav-dynamic')
       .forEach(el => el.textContent = short.replace('$',''));
