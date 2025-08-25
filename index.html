@@ -464,8 +464,8 @@
 <script>
   // --- State & constants ---
   const Calc = {
-    mexico:{ gmv:14102000, payfx:0.04 },
-    brazil:{ gmv:14102000, payfx:0.04 }
+    mexico: { gmv: 14102000, payfx: 0.04 },
+    brazil: { gmv: 14102000, payfx: 0.04 }
   };
   const APP_FEE = 0.30;
   const OUTPOST_FEE = 0.085;
@@ -473,41 +473,41 @@
   let current = 'mexico';
 
   // --- Formatters ---
-  function fmtShort(v){ // $ in K/M with 1dp
+  function fmtShort(v){
     const s = v < 0 ? '-' : '';
     const n = Math.abs(v);
-    if(n>=1e6) return s+'$'+(n/1e6).toFixed(1).replace(/\.0$/,'')+'M';
-    if(n>=1e3) return s+'$'+(n/1e3).toFixed(1).replace(/\.0$/,'')+'K';
-    return s+'$'+Math.round(n).toString();
+    if (n >= 1e6) return s + '$' + (n / 1e6).toFixed(1).replace(/\.0$/,'') + 'M';
+    if (n >= 1e3) return s + '$' + (n / 1e3).toFixed(1).replace(/\.0$/,'') + 'K';
+    return s + '$' + Math.round(n);
   }
-  function fmtPct(p){ return (p*100).toFixed(1)+'%'; }
-  function pctEqMoney(p, money){ // "-30.0% = -$1.7M"
-    const signP = p>=0?'+':'-';
-    const signM = money>=0?'+':'-';
+  function fmtPct(p){ return (p * 100).toFixed(1) + '%'; }
+  function pctEqMoney(p, money){
+    const signP = p >= 0 ? '+' : '-';
+    const signM = money >= 0 ? '+' : '-';
     return `${signP}${fmtPct(Math.abs(p))} = ${signM}${fmtShort(Math.abs(money)).replace('+','')}`;
   }
   function currency0(n){
-    return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);
+    return new Intl.NumberFormat('en-US', { style:'currency', currency:'USD', maximumFractionDigits:0 }).format(n);
   }
 
   // --- UI helpers ---
   function setText(id, text, cls){
     const el = document.getElementById(id);
-    if(!el) return;
+    if (!el) return;
     el.textContent = text;
-    el.classList.toggle('positive', cls==='pos');
-    el.classList.toggle('negative', cls==='neg');
+    el.classList.toggle('positive', cls === 'pos');
+    el.classList.toggle('negative', cls === 'neg');
   }
   function updateGlobals(country, netAmt, netPct){
-    // hero + nav + other dynamic bits switch to active country numbers
-    document.getElementById('hero-country').textContent = country==='mexico'?'Mexico':'Brazil';
-    document.getElementById('bottom-country').textContent = country==='mexico'?'Mexico':'Brazil';
+    document.getElementById('hero-country').textContent = country === 'mexico' ? 'Mexico' : 'Brazil';
+    document.getElementById('bottom-country').textContent = country === 'mexico' ? 'Mexico' : 'Brazil';
 
-    const short = fmtShort(netAmt).replace('-','');
-    document.querySelectorAll('.problem-dynamic,.bottom-dynamic,.nav-dynamic').forEach(el=>el.textContent = short.replace('$',''));
+    const short = fmtShort(netAmt).replace('-','');           // "+$1.4M" → "$1.4M"
+    document.querySelectorAll('.problem-dynamic,.bottom-dynamic,.nav-dynamic')
+      .forEach(el => el.textContent = short.replace('$','')); // "1.4M"
     document.getElementById('hero-value').textContent = short.replace('$','');
     document.getElementById('total-value').textContent = `+${currency0(Math.max(0, netAmt))} to your bank account`;
-    document.getElementById('hero-pct').textContent = Math.round(netPct*100)+'%';
+    document.getElementById('hero-pct').textContent = Math.round(netPct * 100) + '%';
     document.getElementById('nav-cta').innerHTML = `Unlock ${short} with Outpost`;
   }
 
@@ -516,47 +516,46 @@
     const gmv   = Calc[country].gmv;
     const payfx = Calc[country].payfx;
 
-    const appFee = APP_FEE*gmv;
-    const addl   = payfx*gmv;
-    const tax    = country==='brazil' ? TAX_BR*gmv : 0;
-    const totalApp = appFee+addl+tax;
+    const appFee   = APP_FEE * gmv;
+    const addl     = payfx * gmv;
+    const tax      = country === 'brazil' ? TAX_BR * gmv : 0;
+    const totalApp = appFee + addl + tax;
 
-    const outpost = OUTPOST_FEE*gmv;
-    const net = totalApp - outpost;
+    const outpost  = OUTPOST_FEE * gmv;
+    const net      = totalApp - outpost;
 
-    // Update rows as "% = $K/M"
-    if(country==='mexico'){
+    // Update rows
+    if (country === 'mexico') {
       setText('mx_app_fee',       pctEqMoney(-APP_FEE, -appFee), 'neg');
-      setText('mx_addl_payments', pctEqMoney(-payfx,  -addl),   'neg');
-      setText('mx_total_app',     pctEqMoney(-(APP_FEE+payfx), -(totalApp)), 'neg');
-      setText('mx_net',           pctEqMoney((APP_FEE+payfx-OUTPOST_FEE),  net), 'pos');
+      setText('mx_addl_payments', pctEqMoney(-payfx,  -addl),    'neg');
+      setText('mx_total_app',     pctEqMoney(-(APP_FEE + payfx), -(totalApp)), 'neg');
+      setText('mx_net',           pctEqMoney((APP_FEE + payfx - OUTPOST_FEE), net), 'pos');
       document.getElementById('mx_cta').textContent = `UNLOCK ${fmtShort(net)} — BOOK A DEMO`;
-    }else{
+    } else {
       setText('br_app_fee',       pctEqMoney(-APP_FEE, -appFee), 'neg');
       setText('br_addl_payments', pctEqMoney(-payfx,  -addl),    'neg');
       setText('br_tax',           pctEqMoney(-TAX_BR, -tax),     'neg');
-      setText('br_total_app',     pctEqMoney(-(APP_FEE+payfx+TAX_BR), -(totalApp)), 'neg');
-      setText('br_net',           pctEqMoney((APP_FEE+payfx+TAX_BR-OUTPOST_FEE),  net), 'pos');
+      setText('br_total_app',     pctEqMoney(-(APP_FEE + payfx + TAX_BR), -(totalApp)), 'neg');
+      setText('br_net',           pctEqMoney((APP_FEE + payfx + TAX_BR - OUTPOST_FEE), net), 'pos');
       document.getElementById('br_cta').textContent = `UNLOCK ${fmtShort(net)} — BOOK A DEMO`;
     }
 
-    // FX callout card number
-    document.getElementById('fx-card').textContent = fmtShort(payfx*gmv).replace('$','');
-
-    // Update hero/nav/hero value to active country's numbers
+    // Only update global/hero/FX when this country is active
     if (country === current) {
-  document.getElementById('fx-card').textContent = fmtShort(payfx * gmv).replace('$','');
-  }
+      document.getElementById('fx-card').textContent = fmtShort(payfx * gmv).replace('$','');
+      updateGlobals(country, net, net / gmv);
+    }
+  } // ← this closing brace was missing before
 
   // --- Slider handlers ---
   function handleSlider(country, field, el){
     const val = parseFloat(el.value);
-    if(field==='gmv'){
+    if (field === 'gmv') {
       Calc[country].gmv = val;
-      document.getElementById(country==='mexico'?'mx_gmv_val':'br_gmv_val').textContent = currency0(val);
-    }else{
-      Calc[country].payfx = val/100;
-      document.getElementById(country==='mexico'?'mx_payfx_val':'br_payfx_val').textContent = val.toFixed(1)+'%';
+      document.getElementById(country === 'mexico' ? 'mx_gmv_val' : 'br_gmv_val').textContent = currency0(val);
+    } else {
+      Calc[country].payfx = val / 100;
+      document.getElementById(country === 'mexico' ? 'mx_payfx_val' : 'br_payfx_val').textContent = val.toFixed(1) + '%';
     }
     compute(country);
   }
@@ -564,22 +563,23 @@
   // --- Toggle country ---
   function toggleCountry(country){
     current = country;
-    document.getElementById('btn-mexico').classList.toggle('active', country==='mexico');
-    document.getElementById('btn-brazil').classList.toggle('active', country==='brazil');
-    document.getElementById('calc-mexico').style.display = country==='mexico'?'grid':'none';
-    document.getElementById('calc-brazil').style.display = country==='brazil'?'grid':'none';
-    compute('mexico'); compute('brazil'); // keep both fresh
+    document.getElementById('btn-mexico').classList.toggle('active', country === 'mexico');
+    document.getElementById('btn-brazil').classList.toggle('active', country === 'brazil');
+    document.getElementById('calc-mexico').style.display = country === 'mexico' ? 'grid' : 'none';
+    document.getElementById('calc-brazil').style.display = country === 'brazil' ? 'grid' : 'none';
+    compute('mexico');  // keep both fresh
+    compute('brazil');
   }
 
-  // --- Misc ---
+  // --- Calendly ---
   function openModal(){ window.open('https://calendly.com/will-outpostnow/30min','_blank'); }
 
   // Init
   window.addEventListener('load', ()=>{
     // sticky nav style
-    document.addEventListener('scroll',()=>{
-      const n=document.getElementById('navbar');
-      if(window.scrollY>50) n.classList.add('scrolled'); else n.classList.remove('scrolled');
+    document.addEventListener('scroll', ()=>{
+      const n = document.getElementById('navbar');
+      if (window.scrollY > 50) n.classList.add('scrolled'); else n.classList.remove('scrolled');
     });
     // first paint
     compute('mexico');
@@ -587,3 +587,4 @@
     toggleCountry('mexico');
   });
 </script>
+
