@@ -1,0 +1,2586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roblox x Outpost: Unlock Revenue in Mexico</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    
+    /* Achievement System */
+    .achievement-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .achievement {
+      background: linear-gradient(135deg, var(--bg-card) 0%, #1f1f1f 100%);
+      border: 2px solid var(--primary-amber);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 300px;
+      opacity: 0;
+      transform: translateX(400px);
+      animation: achievementSlide 4s ease forwards;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 40px rgba(245, 158, 11, 0.3);
+    }
+
+    @keyframes achievementSlide {
+      0% {
+        opacity: 0;
+        transform: translateX(400px);
+      }
+      10% {
+        opacity: 1;
+        transform: translateX(0) scale(1.05);
+      }
+      15% {
+        transform: translateX(0) scale(1);
+      }
+      85% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(400px);
+      }
+    }
+
+    .achievement-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary-amber) 0%, #d97706 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      animation: achievementGlow 1s ease infinite;
+    }
+
+    @keyframes achievementGlow {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(245, 158, 11, 0.8), 0 0 40px rgba(245, 158, 11, 0.4);
+      }
+    }
+
+    .achievement-content {
+      flex: 1;
+    }
+
+    .achievement-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary-amber);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 2px;
+    }
+
+    .achievement-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Achievement tracker */
+    .achievement-tracker {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 16px;
+      z-index: 100;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .achievement-tracker:hover {
+      transform: scale(1.05);
+      border-color: var(--primary-amber);
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+    }
+
+    .achievement-count {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .achievement-progress {
+      color: var(--primary-amber);
+    }
+
+    /* Particle system */
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 9999;
+    }
+
+    .particle.active {
+      animation: particleBurst 0.8s ease-out forwards;
+    }
+
+    @keyframes particleBurst {
+      0% {
+        transform: translate(0, 0) scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--x), var(--y)) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* Confetti animation */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--color);
+      animation: confettiFall 3s linear forwards;
+      z-index: 9999;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(0) rotateZ(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotateZ(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* ================================
+       Variables - Professional SaaS Colors
+    ================================= */
+    :root {
+      /* Primary colors - high contrast */
+      --primary-red: #ef4444;     /* Clean red reference to Roblox */
+      --primary-green: #10b981;   /* Success green */
+      --primary-blue: #3b82f6;    /* Professional blue */
+      --primary-amber: #f59e0b;   /* Warning/highlight */
+      
+      /* Backgrounds - dark for contrast */
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-tertiary: #1a1a1a;
+      --bg-card: #141414;
+      
+      /* Text hierarchy */
+      --text-primary: #ffffff;
+      --text-secondary: #a3a3a3;
+      --text-tertiary: #737373;
+      
+      /* UI elements */
+      --border-color: #262626;
+      --border-light: #404040;
+      
+      /* Accent states */
+      --accent: var(--primary-green);
+      --accent-hover: #059669;
+      --danger: var(--primary-red);
+      --warning: var(--primary-amber);
+    }
+
+    /* ================================
+       Base & Typography
+    ================================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Subtle grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Animated building blocks background */
+    .blocks-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .floating-block {
+      position: absolute;
+      border-radius: 8px;
+      opacity: 0.08;
+      animation: floatBlock 20s infinite ease-in-out;
+    }
+
+    .floating-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 2px solid currentColor;
+      border-radius: inherit;
+      opacity: 0.5;
+    }
+
+    .floating-block:nth-child(1) {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary-red) 0%, transparent 100%);
+      color: var(--primary-red);
+      top: 10%;
+      left: 5%;
+      animation-duration: 25s;
+      animation-delay: 0s;
+    }
+
+    .floating-block:nth-child(2) {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary-green) 0%, transparent 100%);
+      color: var(--primary-green);
+      top: 60%;
+      right: 10%;
+      animation-duration: 30s;
+      animation-delay: 5s;
+    }
+
+    .floating-block:nth-child(3) {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, var(--primary-blue) 0%, transparent 100%);
+      color: var(--primary-blue);
+      bottom: 30%;
+      left: 20%;
+      animation-duration: 22s;
+      animation-delay: 10s;
+    }
+
+    .floating-block:nth-child(4) {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--primary-amber) 0%, transparent 100%);
+      color: var(--primary-amber);
+      top: 40%;
+      left: 60%;
+      animation-duration: 28s;
+      animation-delay: 3s;
+    }
+
+    .floating-block:nth-child(5) {
+      width: 55px;
+      height: 55px;
+      background: linear-gradient(135deg, var(--primary-green) 0%, transparent 100%);
+      color: var(--primary-green);
+      bottom: 10%;
+      right: 30%;
+      animation-duration: 26s;
+      animation-delay: 7s;
+    }
+
+    .floating-block:nth-child(6) {
+      width: 65px;
+      height: 65px;
+      background: linear-gradient(135deg, var(--primary-red) 0%, transparent 100%);
+      color: var(--primary-red);
+      top: 80%;
+      left: 40%;
+      animation-duration: 24s;
+      animation-delay: 12s;
+    }
+
+    @keyframes floatBlock {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg) scale(1);
+      }
+      20% {
+        transform: translateY(-30px) rotate(90deg) scale(1.1);
+      }
+      40% {
+        transform: translateY(20px) rotate(180deg) scale(0.95);
+      }
+      60% {
+        transform: translateY(-15px) rotate(270deg) scale(1.05);
+      }
+      80% {
+        transform: translateY(25px) rotate(360deg) scale(0.9);
+      }
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section {
+      padding: 100px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ================================
+       Navigation
+    ================================= */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      padding: 20px 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    nav.scrolled {
+      padding: 15px 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: opacity 0.2s ease;
+    }
+
+    .logo:hover {
+      opacity: 0.9;
+    }
+
+    /* Roblox square O logo */
+    .logo-square {
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--primary-red);
+      border-radius: 6px;
+      display: inline-block;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .logo:hover .logo-square {
+      transform: rotate(45deg);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .nav-links a:not(.btn) {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a:not(.btn)::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .nav-links a:not(.btn):hover {
+      color: var(--text-primary);
+    }
+
+    .nav-links a:not(.btn):hover::after {
+      transform: scaleX(1);
+    }
+
+    /* ================================
+       Buttons
+    ================================= */
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      border: none;
+      font-size: 14px;
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: var(--primary-green);
+      color: white;
+      position: relative;
+      overflow: visible;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+      border-radius: inherit;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+    }
+
+    .btn-primary:hover::after {
+      transform: translateX(100%);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-light);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--text-secondary);
+    }
+
+    .btn-cta-large {
+      background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-hover) 100%);
+      color: white;
+      font-size: 18px;
+      padding: 16px 32px;
+      font-weight: 600;
+      position: relative;
+      overflow: visible;
+      transform-style: preserve-3d;
+      transition: all 0.3s ease;
+    }
+
+    .btn-cta-large::before {
+      content: '🚀';
+      position: absolute;
+      left: -30px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .btn-cta-large::after {
+      content: '💰';
+      position: absolute;
+      right: -30px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .btn-cta-large:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+      animation: wiggle 0.5s ease;
+    }
+
+    .btn-cta-large:hover::before {
+      opacity: 1;
+      left: -40px;
+      animation: rocketLaunch 1s ease infinite;
+    }
+
+    .btn-cta-large:hover::after {
+      opacity: 1;
+      right: -40px;
+      animation: coinFlip 1s ease infinite;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: translateY(-2px) scale(1.05) rotate(0deg); }
+      25% { transform: translateY(-2px) scale(1.05) rotate(-2deg); }
+      75% { transform: translateY(-2px) scale(1.05) rotate(2deg); }
+    }
+
+    @keyframes rocketLaunch {
+      0%, 100% { transform: translateY(-50%) translateX(0); }
+      50% { transform: translateY(-60%) translateX(-5px); }
+    }
+
+    @keyframes coinFlip {
+      0%, 100% { transform: translateY(-50%) rotateY(0deg); }
+      50% { transform: translateY(-50%) rotateY(180deg); }
+    }
+
+    /* ================================
+       Hero Section
+    ================================= */
+    .hero {
+      padding: 180px 0 120px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--primary-red);
+      padding: 8px 20px;
+      border-radius: 24px;
+      font-size: 14px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      font-weight: 500;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--primary-red);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    h1 {
+      font-size: clamp(48px, 8vw, 72px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 30px;
+      animation: fadeInUp 0.8s ease;
+      position: relative;
+    }
+
+    /* Game controller floating animation */
+    .game-icon {
+      position: absolute;
+      font-size: 40px;
+      opacity: 0.15;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .game-icon.controller {
+      top: -40px;
+      right: 10%;
+      animation-delay: 0s;
+    }
+
+    .game-icon.dice {
+      bottom: -30px;
+      left: 15%;
+      animation-delay: 1s;
+      font-size: 35px;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(-5deg);
+      }
+      50% {
+        transform: translateY(-10px) rotate(5deg);
+      }
+    }
+
+   .gradient-text {
+      color: var(--primary-green);
+      display: inline;
+      background: none;
+      -webkit-text-fill-color: var(--primary-green);
+    }
+
+    .dynamic-percentage-mexico {
+      color: var(--primary-green) !important;
+      background: none !important;
+      -webkit-text-fill-color: var(--primary-green) !important;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(20px, 3vw, 24px);
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 50px;
+      line-height: 1.6;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+
+    .hero-callout {
+      margin-top: 80px;
+      padding: 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeInUp 0.8s ease 0.6s both;
+      position: relative;
+    }
+
+    .hero-callout::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent 0%, var(--primary-red) 20%, var(--primary-red) 80%, transparent 100%);
+      opacity: 0.8;
+    }
+
+    .hero-callout-text {
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .hero-callout-text strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* ================================
+       Cards
+    ================================= */
+    .card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 36px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--primary-green) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      transform: scale(0.5);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary-green);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .card:hover::before {
+      opacity: 0.05;
+      transform: scale(1);
+    }
+
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 24px;
+      color: var(--primary-red);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .card-icon::after {
+      content: '+10';
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: var(--primary-amber);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover .card-icon {
+      transform: scale(1.1) rotate(10deg);
+      background: rgba(239, 68, 68, 0.15);
+      animation: bounce 0.6s ease infinite;
+    }
+
+    .card:hover .card-icon::after {
+      opacity: 1;
+      transform: scale(1);
+      animation: scoreFloat 1s ease forwards;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: scale(1.1) rotate(10deg) translateY(0); }
+      50% { transform: scale(1.1) rotate(10deg) translateY(-5px); }
+    }
+
+    @keyframes scoreFloat {
+      0% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1) translateY(-30px);
+        opacity: 0;
+      }
+    }
+
+    .card.green .card-icon {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--primary-green);
+    }
+
+    .card.green:hover .card-icon {
+      background: rgba(16, 185, 129, 0.15);
+    }
+
+    .card.amber .card-icon {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--primary-amber);
+    }
+
+    .card.amber:hover .card-icon {
+      background: rgba(245, 158, 11, 0.15);
+    }
+
+    .card-value {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .card-label {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .card-description {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+    }
+
+    /* ================================
+       Roblox Square Animation
+    ================================= */
+    .roblox-square {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--primary-red);
+      border-radius: 8px;
+      margin: 0 8px;
+      animation: rotateSquare 8s linear infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes rotateSquare {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(90deg); }
+      50% { transform: rotate(180deg); }
+      75% { transform: rotate(270deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* ================================
+       Calculator Section
+    ================================= */
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title {
+      font-size: clamp(36px, 5vw, 48px);
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: 20px;
+      color: var(--text-secondary);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .calculator-toggle {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 50px;
+      gap: 0;
+      background: var(--bg-secondary);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .calc-toggle-option {
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: transparent;
+      border: none;
+      font-size: 16px;
+    }
+
+    .calc-toggle-option.active {
+      background: var(--primary-green);
+      color: white;
+    }
+
+    .calc-toggle-option:hover:not(.active) {
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+    }
+
+    .calculator-container {
+      display: grid;
+      grid-template-columns: minmax(420px, 0.45fr) minmax(420px, 0.55fr);
+      gap: 60px;
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 60px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    /* Left panel */
+    .left-panel {
+      position: sticky;
+      top: 100px;
+      align-self: start;
+    }
+
+    .calculator-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+     .inputs-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+      padding-top: 40px;
+      line-height: 1.33;
+    }
+    
+     .inputs-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 24px;
+      padding-top: 0px;
+      margin-top: -4px;
+      line-height: 1.6;
+    }
+
+    /* Input Styling */
+    .input-group {
+      transition: all 0.3s ease;
+    }
+
+    .input-group.hidden {
+      display: none;
+    }
+
+    .input-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+      font-size: 16px;
+    }
+
+    .input-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .range-input {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: var(--border-color);
+      border-radius: 3px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .range-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: var(--primary-green);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      transform: rotate(45deg);
+    }
+
+    .range-input::-webkit-slider-thumb:hover {
+      transform: rotate(45deg) scale(1.2);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+    }
+
+    .range-value {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--primary-green);
+      text-align: right;
+    }
+
+    /* Results Panel */
+    .calculator-results {
+      background: rgba(16, 185, 129, 0.05);
+      border-radius: 12px;
+      padding: 40px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .calculator-results h3 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .calculator-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 24px;
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .result-item:last-of-type {
+      border-bottom: none;
+    }
+
+    .result-item.highlight {
+      background: rgba(16, 185, 129, 0.1);
+      margin: 20px -20px 0;
+      padding: 24px 20px;
+      border-radius: 8px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .result-label {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .result-value {
+      font-size: 20px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .result-value.positive {
+      color: var(--primary-green);
+    }
+
+    .result-value.negative {
+      color: var(--primary-red);
+    }
+
+    .highlight-pink {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px -20px;
+    }
+
+    .highlight-pink .result-value {
+      color: var(--primary-red);
+    }
+
+    .calc-cta-bottom {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .calc-note {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      font-style: italic;
+      text-align: center;
+    }
+
+    .calc-impact-note {
+      font-size: 18px;
+      color: var(--primary-green);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* Explanation section */
+    .calculator-explanation {
+      margin-top: 40px;
+      padding: 32px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .explanation-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+    }
+
+    .explanation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+
+    .explanation-item {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .explanation-item h4 {
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .explanation-item p {
+      font-size: 14px;
+    }
+
+    /* Impact Items */
+    .impact-item {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 60px;
+      align-items: center;
+      padding: 48px;
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+      margin-bottom: 48px;
+    }
+
+    .impact-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      border-color: var(--border-light);
+    }
+
+    .metric-icon {
+      width: 72px;
+      height: 72px;
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      color: var(--primary-green);
+    }
+
+    .metric-value {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .metric-number {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--primary-green);
+      line-height: 1;
+    }
+
+    .metric-label {
+      font-size: 18px;
+      color: var(--text-secondary);
+    }
+
+    /* Value Hero */
+    .value-hero {
+      margin: 80px auto;
+      max-width: 1100px;
+      padding: 60px 40px;
+      background: var(--bg-card);
+      border-radius: 16px;
+      text-align: center;
+      border: 2px solid var(--primary-green);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .value-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .value-hero-content {
+      position: relative;
+      z-index: 1;
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .value-highlight {
+      color: var(--primary-green);
+      font-weight: 700;
+      font-size: 32px;
+      display: block;
+      margin-top: 10px;
+    }
+
+    /* Comparison Table */
+    .table-container {
+      background: var(--bg-card);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    thead {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      padding: 28px 32px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 16px;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    td {
+      padding: 24px 32px;
+      vertical-align: top;
+      line-height: 1.6;
+      color: var(--text-primary);
+    }
+
+    /* Footer */
+    .disclaimer-footer {
+      background: var(--bg-tertiary);
+      border-top: 1px solid var(--border-color);
+      padding: 40px 0;
+      margin-top: 0;
+    }
+
+    .disclaimer-content {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .disclaimer-text {
+      color: var(--text-tertiary);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ================================
+       Animations
+    ================================= */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ================================
+       Responsive
+    ================================= */
+    @media (max-width: 1024px) {
+      .calculator-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 40px;
+      }
+      
+      .impact-item {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      
+      .left-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 20px;
+      }
+      
+      .nav-links a:not(.btn) {
+        display: none;
+      }
+      
+      h1 {
+        font-size: 48px;
+      }
+      
+      .hero-subtitle {
+        font-size: 18px;
+      }
+      
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      
+      .section-title {
+        font-size: 32px;
+      }
+      
+      .table-container {
+        overflow-x: auto;
+      }
+      
+      table {
+        min-width: 700px;
+      }
+    }
+        /* ================================
+   FUN/GAMER THEME (scoped)
+           — add class="theme-gamer" to <body>
+        ================================ */
+        .theme-gamer{
+          /* Palette */
+          --roblox-red:#e2231a; --roblox-red-dark:#c71e17;
+          --roblox-green:#00b06f; --roblox-blue:#0084ff;
+          --roblox-purple:#8b5cf6; --robux-gold:#ffd700;
+        
+          /* Override your existing neutrals with a richer, fun look */
+          --bg-primary:#1a1a2e; --bg-secondary:#16213e; --bg-tertiary:#0f3460; --bg-card:#1e293b;
+          --text-primary:#ffffff; --text-secondary:#cbd5e1; --text-tertiary:#94a3b8;
+          --border-color:#334155; --border-light:#42546b;
+        
+          --accent:var(--roblox-green);
+          --accent-hover:#00d485;
+        
+          /* Glow helpers */
+          --glow-green: 0 8px 24px rgba(0,176,111,.35);
+          --glow-gold:  0 8px 24px rgba(255,215,0,.35);
+          --glow-red:   0 8px 24px rgba(226,35,26,.25);
+        
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          background: radial-gradient(1200px 600px at 10% -10%, rgba(124,92,255,.12), transparent 40%),
+                      radial-gradient(1000px 500px at 90% 110%, rgba(0,229,168,.10), transparent 40%),
+                      linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
+          color: var(--text-primary);
+        }
+        
+        /* NAV polish */
+        .theme-gamer nav{
+          background: rgba(26,26,46,.95);
+          backdrop-filter: blur(20px);
+          border-bottom: 2px solid var(--border-color);
+          transition: all .25s ease;
+        }
+        .theme-gamer nav.scrolled{
+          border-bottom-color: var(--roblox-red);
+          box-shadow: 0 4px 20px rgba(0,0,0,.35);
+        }
+        
+        /* Buttons */
+        .theme-gamer .btn{
+          border-radius: 12px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: .05em;
+          position: relative;
+          overflow: hidden;
+          transition: transform .18s ease, box-shadow .2s ease, filter .2s ease;
+        }
+        .theme-gamer .btn-primary{
+          background: linear-gradient(135deg, var(--roblox-green) 0%, #00a060 100%);
+          box-shadow: var(--glow-green);
+          color:#fff;
+        }
+        .theme-gamer .btn-primary:hover{ transform: translateY(-2px) scale(1.03); filter:saturate(1.05); }
+        .theme-gamer .btn-secondary{
+          background: rgba(255,255,255,.08);
+          border: 1px solid var(--border-color);
+          color:#fff;
+        }
+        .theme-gamer .btn-cta-large{
+          background: linear-gradient(135deg, var(--roblox-green) 0%, #00a060 100%);
+          box-shadow: var(--glow-green);
+        }
+        
+        /* Cards */
+        .theme-gamer .card{
+          background: linear-gradient(135deg, var(--bg-card) 0%, rgba(30,41,59,.9) 100%);
+          border: 2px solid var(--border-color);
+          border-radius: 20px;
+          transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+        }
+        .theme-gamer .card:hover{
+          transform: translateY(-6px) scale(1.01);
+          border-color: var(--roblox-green);
+          box-shadow: 0 18px 38px rgba(0,176,111,.25);
+        }
+        .theme-gamer .card-icon{
+          background: rgba(226,35,26,.13);
+          color: var(--roblox-red);
+        }
+        
+        /* Calculator toggle + container */
+        .theme-gamer .calculator-toggle{
+          background: rgba(30,41,59,.55);
+          border: 2px solid var(--border-color);
+          backdrop-filter: blur(10px);
+          border-radius: 16px;
+        }
+        .theme-gamer .calc-toggle-option.active{
+          background: linear-gradient(135deg, var(--roblox-green) 0%, #00a060 100%);
+          color:#fff;
+          box-shadow: var(--glow-green);
+        }
+        
+        /* Range sliders (optional visual upgrade; no JS changes needed) */
+        .theme-gamer .range-input{
+          -webkit-appearance:none; appearance:none; height:8px; border-radius:4px; outline:none;
+          background: linear-gradient(to right, var(--roblox-green) 0%, var(--roblox-green) var(--progress,50%), var(--border-color) var(--progress,50%), var(--border-color) 100%);
+        }
+        .theme-gamer .range-input::-webkit-slider-thumb{
+          -webkit-appearance:none; appearance:none;
+          width:24px; height:24px; border-radius:6px; transform:rotate(45deg);
+          background: linear-gradient(135deg, var(--robux-gold) 0%, #ffb700 100%);
+          box-shadow: var(--glow-gold);
+          transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .theme-gamer .range-input::-webkit-slider-thumb:hover{ transform: rotate(45deg) scale(1.12); }
+        
+        /* Results panel */
+        .theme-gamer .calculator-results{
+          background: linear-gradient(135deg, rgba(0,176,111,.10) 0%, rgba(0,176,111,.05) 100%);
+          border: 2px solid rgba(0,176,111,.30);
+          border-radius: 20px;
+        }
+        .theme-gamer .result-item.highlight{
+          background: linear-gradient(135deg, rgba(255,215,0,.22) 0%, rgba(255,215,0,.12) 100%);
+          border: 2px solid var(--robux-gold);
+          border-radius: 16px;
+          box-shadow: var(--glow-gold);
+        }
+        .theme-gamer .result-value.positive{
+          color: var(--roblox-green);
+          text-shadow: 0 0 10px rgba(0,176,111,.5);
+        }
+        .theme-gamer .result-value.negative{
+          color: var(--roblox-red);
+          text-shadow: 0 0 10px rgba(226,35,26,.45);
+        }
+        
+        /* Tables */
+        .theme-gamer .table-container{
+          background: var(--bg-card);
+          border: 2px solid var(--border-color);
+          border-radius: 20px;
+          box-shadow: 0 10px 40px rgba(0,0,0,.35);
+        }
+        .theme-gamer thead{
+          background: linear-gradient(135deg, rgba(139,92,246,.20) 0%, rgba(139,92,246,.10) 100%);
+        }
+        
+        /* ================================
+           Achievements — themed visuals, same HTML/JS
+        ================================ */
+        .theme-gamer .achievement{
+          background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+          border: 2px solid rgba(255,255,255,.10);
+          border-radius: 14px;
+          box-shadow: 0 10px 30px rgba(0,0,0,.35), 0 0 18px rgba(124,92,255,.25);
+        }
+        .theme-gamer .achievement-icon{
+          background: linear-gradient(135deg, var(--robux-gold) 0%, #ffb700 100%);
+          color:#1a1a2e;
+          box-shadow: var(--glow-gold);
+        }
+        .theme-gamer .achievement-title{
+          color: var(--robux-gold);
+          text-shadow: 0 0 10px rgba(255,215,0,.35);
+        }
+        .theme-gamer .achievement-desc{
+          color: var(--text-secondary);
+        }
+        .theme-gamer .achievement-tracker{
+          background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+          border: 2px solid rgba(255,255,255,.10);
+          border-radius: 14px;
+          box-shadow: 0 10px 30px rgba(0,0,0,.35);
+        }
+        .theme-gamer .achievement-tracker:hover{
+          transform: scale(1.05);
+          border-color: var(--roblox-green);
+          box-shadow: 0 4px 20px rgba(0,176,111,.35);
+        }
+        .theme-gamer .achievement-progress{ color: var(--robux-gold); }
+        
+        /* Confetti & particles pick up theme colours automatically */
+        .theme-gamer .confetti{ box-shadow: 0 0 10px rgba(255,255,255,.15); }
+        
+        /* Utilities */
+        .theme-gamer .gradient-text{
+          background: linear-gradient(135deg, var(--roblox-green) 0%, var(--robux-gold) 100%);
+          -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+        }
+  </style>
+</head>
+
+<body class="theme-gamer">
+  <!-- Achievement system -->
+  <div class="achievement-container" id="achievementContainer"></div>
+  
+  <!-- Achievement tracker -->
+  <div class="achievement-tracker" id="achievementTracker">
+    <div class="achievement-count">
+      <span>🏆</span>
+      <span class="achievement-progress">
+        <span id="achievementCurrent">0</span>/<span id="achievementTotal">10</span> Achievements
+      </span>
+    </div>
+  </div>
+
+  <!-- Animated blocks background -->
+  <div class="blocks-container">
+    <div class="floating-block"></div>
+    <div class="floating-block"></div>
+    <div class="floating-block"></div>
+    <div class="floating-block"></div>
+    <div class="floating-block"></div>
+    <div class="floating-block"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="container">
+      <div class="nav-container">
+        <a href="/" class="logo">
+          <span class="logo-square"></span>
+          <span>Roblox x Outpost</span>
+        </a>
+        <div class="nav-links">
+          <a href="#problem">Problem</a>
+          <a href="#solution">Solution</a>
+          <a href="#calculator">Calculator</a>
+          <a href="#" class="btn btn-primary" onclick="openModal()">
+            Unlock $<span class="dynamic-value">2.9M</span> with Outpost
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>Unlock revenue in Mexico</span>
+      </div>
+
+      <h1>
+        <span class="game-icon controller">🎮</span>
+        <span class="game-icon dice">🎲</span>
+        Get <span class="solid-green-text dynamic-percentage-mexico">21%</span> more out<br/>
+        of Mexico with <span class="roblox-square"></span>utpost
+      </h1>
+
+      <p class="hero-subtitle">
+        Roblox is leaving $<span class="dynamic-value-mexico">2.9M</span> on the table every year in Mexico.
+        <br/><br/><strong>Unlock it with Outpost.</strong>
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#calculator" class="btn btn-cta-large">Calculate impact →</a>
+        <button class="btn btn-secondary" onclick="openModal()">Book demo</button>
+      </div>
+
+      <div class="hero-callout">
+        <p class="hero-callout-text">
+          <strong>Outpost</strong> partners with gaming platforms like <strong>Roblox</strong> so they can sell in Mexico like a local.
+          Offload your tax, compliance, payments, legal and operational burdens to Outpost.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem Section -->
+  <section class="section" id="problem" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">The hidden cost of global expansion</h2>
+        <p class="section-subtitle">
+          Global gaming platforms expanding to Mexico are leaving substantial value on the table every year from inefficient payments and tax infrastructure.
+          We estimate it's costing Roblox $<span class="dynamic-value">2.9M</span> per annum in app store fees and additional costs.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23" />
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+          </div>
+          <div class="card-value">30% of GMV</div>
+          <div class="card-label">App/Play Store fee</div>
+          <p class="card-description">App / Play Store commissions erode margins locally and impose many restrictions.</p>
+        </div>
+
+        <div class="card green">
+          <div class="card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 3v18h18" />
+              <path d="M18.5 3.5L7 15l4 4L22 7.5" />
+            </svg>
+          </div>
+          <div class="card-value">-<span class="dynamic-fx">$564K</span></div>
+          <div class="card-label">Extra payments & FX costs</div>
+          <p class="card-description">Expensive charges for refunds and chargebacks with App / Play Store and high FX fees on payouts.</p>
+        </div>
+
+       <div class="card amber">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12,6 12,12 16,14" />
+          </svg>
+        </div>
+        <div class="card-value">500+ hours</div>
+        <div class="card-label">Time to set up alternatives</div>
+        <p class="card-description">Setting up payment infrastructure, tax compliance, and legal entities takes significant time and resources.</p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution Section -->
+  <section class="section" id="solution">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">The solution: Outpost One.</h2>
+        <p class="section-subtitle">Outpost One is a complete Merchant of Record solution. We become the local seller for gaming platforms and handle local payment infrastructure, indirect tax compliance and tax liability to deliver tangible uplift to your bottom line.</p>
+      </div>
+
+      <div class="impact-item">
+        <div style="display:flex;align-items:center;gap:24px;justify-content:center;">
+          <div class="metric-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <path d="M9 12l2 2 4-4" />
+            </svg>
+          </div>
+          <div class="metric-value">
+            <span class="metric-number"><span class="dynamic-outpost-fee-pct">8.5%</span></span>
+            <span class="metric-label">All in one fee</span>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-size:20px;font-weight:600;margin-bottom:8px;"><span class="dynamic-outpost-fee-pct">8.5%</span> fee only</h3>
+          <p style="color:var(--text-secondary);">Outpost One comes with an all-in-one fee that covers payments and indirect tax compliance obligations - we simply require a minimum volume through our platform in Year 1.</p>
+        </div>
+      </div>
+
+      <div class="impact-item">
+        <div style="display:flex;align-items:center;gap:24px;justify-content:center;">
+          <div class="metric-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <path d="M9 12l2 2 4-4" />
+            </svg>
+          </div>
+          <div class="metric-value">
+            <span class="metric-number">MoR</span>
+            <span class="metric-label">End-to-end coverage</span>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-size:20px;font-weight:600;margin-bottom:8px;">End-to-end coverage</h3>
+          <p style="color:var(--text-secondary);margin-bottom:24px;">As your Merchant of Record, Outpost becomes the legal re-seller of your platform in Mexico and handles the full tax compliance through an optimized structure we design for you.</p>
+          <p style="color:var(--text-secondary);">We also handle and optimize payments end to end - so you benefit from the same approval rates and APM access, as well as optimized FX on payouts.</p>
+        </div>
+      </div>
+
+      <div class="impact-item">
+        <div style="display:flex;align-items:center;gap:24px;justify-content:center;">
+          <div class="metric-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </div>
+          <div class="metric-value">
+            <span class="metric-number"><span class="dynamic-less-vs-alt">35%</span></span>
+            <span class="metric-label">less vs. alternatives</span>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-size:20px;font-weight:600;margin-bottom:8px;"><span class="dynamic-less-vs-alt">35%</span> less vs. alternatives</h3>
+          <p style="color:var(--text-secondary);">Outpost yields a superior outcome from every angle - we optimize your tax structure, cover your legal and tax liability in market, and optimize payments. We deliver all this through an Outpost entity set up just for you.</p>
+        </div>
+      </div>
+
+      <div class="value-hero">
+        <div class="value-hero-content">
+          <span>Total value unlocked by Outpost</span>
+          <span class="value-highlight dynamic-total-value">+$2.9M to your bank account</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator Section -->
+  <section class="section" id="calculator" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">
+          The impact Outpost can have<br/>for Roblox in Mexico
+        </h2>
+      </div>
+
+      <div class="calculator-toggle">
+        <button class="calc-toggle-option active" id="btn-calc1" onclick="toggleCalc('calc1')">App / Play Store vs. Outpost</button>
+        <button class="calc-toggle-option" id="btn-calc2" onclick="toggleCalc('calc2')">Other solutions vs. Outpost</button>
+      </div>
+
+      <div class="calculator-container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+          <div class="calculator-inputs">
+            <h3 class="inputs-title">Your business in Mexico</h3>
+            <div class="input-group">
+              <label class="input-label">Current GMV ($)</label>
+              <div class="input-wrapper">
+                <input
+                  type="range" id="in_gmv_num" class="range-input"
+                  min="1000000" max="50000000" step="100000" value="14102000"
+                  oninput="handleGMVSlider(this)"
+                />
+                <span class="range-value" id="in_gmv_val">$14,102,000</span>
+              </div>
+            </div>
+
+            <div class="input-group hidden" id="atv-group">
+              <label class="input-label">Average Transaction Value ($)</label>
+              <div class="input-wrapper">
+                <input
+                  type="range" id="in_atv_num" class="range-input"
+                  min="5" max="100" step="5" value="10"
+                  oninput="handleATVSlider(this)"
+                />
+                <span class="range-value" id="in_atv_val">$10</span>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label class="input-label">Additional payments fees and FX (%)</label>
+              <div class="input-wrapper">
+                <input
+                  type="range" id="in_payfx" class="range-input"
+                  min="2" max="10" step="0.5" value="4"
+                  oninput="handlePayFxInput(this)"
+                />
+                <span class="range-value" id="in_payfx_val">4.0%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div>
+          <!-- Calc 1 Results -->
+          <div class="calculator-results" id="panel-calc1">
+            <h3>App / Play store vs. Outpost</h3>
+            <p class="calculator-subtitle">as a % of in-market GMV</p>
+
+            <div class="result-item">
+              <span class="result-label">App store / play store fee</span>
+              <span class="result-value negative" id="c1_app_fee">-30.0%</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Additional payments costs</span>
+              <span class="result-value negative" id="c1_addl_payments">-4.0%</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Effective tax</span>
+              <span class="result-value negative" id="c1_indirect_tax">-25.0%</span>
+            </div>
+
+            <div class="highlight-pink">
+              <div class="result-item" style="border-bottom:none;padding:0;">
+                <span class="result-label"><strong>Total with App / Play store</strong></span>
+                <span class="result-value" id="c1_total_app">-59.0%</span>
+              </div>
+            </div>
+
+            <div class="result-item highlight">
+              <span class="result-label"><strong>Net impact with Outpost</strong></span>
+              <span class="result-value positive" id="c1_net">+20.7%</span>
+            </div>
+          </div>
+
+          <!-- Calc 2 Results -->
+          <div class="calculator-results" id="panel-calc2" style="display:none">
+            <h3>Other solutions vs. Outpost</h3>
+            <p class="calculator-subtitle">as a % of in-market GMV</p>
+
+            <div class="result-item">
+              <span class="result-label">Ongoing compliance cost</span>
+              <span class="result-value negative" id="c2_tp_ongoing">-6.7%</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Payments & FX costs</span>
+              <span class="result-value negative" id="c2_payfx">-7.0%</span>
+            </div>
+          
+            <div class="result-item">
+              <span class="result-label">Lower approval rates</span>
+              <span class="result-value negative" id="c2_lower_approvals">-4.5%</span>
+            </div>
+
+            <div class="highlight-pink">
+              <div class="result-item" style="border-bottom:none;padding:0;">
+                <span class="result-label"><strong>Total with other solutions</strong></span>
+                <span class="result-value" id="c2_total_comp">-71.0%</span>
+              </div>
+            </div>
+
+            <div class="result-item highlight">
+              <span class="result-label"><strong>Net impact* with Outpost</strong></span>
+              <span class="result-value positive" id="c2_net">+32.8%</span>
+            </div>
+          </div>
+
+          <div class="calc-cta-bottom">
+            <button class="btn btn-cta-large" onclick="openModal()">
+              <span id="calc-cta-text">Unlock $2.9M — Book a demo</span>
+            </button>
+            <p class="calc-note">*Net value is inclusive of Outpost's flat fee</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Explanation Section -->
+     <div class="calculator-explanation">
+        <h3 class="explanation-title">How we calculate your savings</h3>
+        <div class="explanation-grid">
+          <div class="explanation-item">
+            <h4>App / Play Store </h4>
+            <p>
+              The App / Play Store charge 30% commission to act as an 'MoR'. They also charge you a fixed fee for refunds and chargebacks, as well as FX spread on payouts - we assumed this is c.3% of GMV.
+            </p>
+          </div>
+      
+          <div class="explanation-item">
+            <h4>Other solutions - Direct</h4>
+            <p>
+            You use a platform for compliance and handle payments with a PSP, or use another MoR (more expensive). Compliance cost also includes PE and TP costs that competitors do  not cover. 
+              We calculated the cost competitors based on your GMV and avg. tx value and assumed a PSP + FX cost of 7%. Finally, Your approval rates would suffer because of international acquiring. 
+            </p>
+          </div>
+      
+          <div class="explanation-item">
+            <h4>Outpost</h4>
+            <p>
+              Outpost is a flat 8.5% fee on GMV, with no extra lines. The calculator compares that against Store and Direct totals to show your savings.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">
+          We are the only enterprise-grade MoR, delivering the above with your
+        <span class="solid-green-text">dedicated Outpost entity</span>
+        </h2>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th style="background:rgba(16,185,129,.03);">
+                <div>
+                  <span>Outpost One</span>
+                  <div style="font-size:12px;color:var(--text-secondary);font-weight:400;margin-top:4px;">Dedicated Entity Model</div>
+                </div>
+              </th>
+              <th style="background:rgba(239,68,68,.03);">
+                <div>
+                  <span>Traditional MoRs</span>
+                  <div style="font-size:12px;color:var(--text-secondary);font-weight:400;margin-top:4px;">Shared Entity Model</div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Legal Entity</strong></td>
+              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Dedicated exclusively to your platform</td>
+              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Shared across multiple merchants</td>
+            </tr>
+            <tr>
+              <td><strong>Risk Exposure</strong></td>
+              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Fully isolated, no cross-contamination</td>
+              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Shared risk pool</td>
+            </tr>
+            <tr>
+              <td><strong>MCC Configuration</strong></td>
+              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Optimized for gaming platforms</td>
+              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Often fixed or limited</td>
+            </tr>
+            <tr>
+              <td><strong>PSP Relationships</strong></td>
+              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Platform-specific terms and routing</td>
+              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Pooled or constrained</td>
+            </tr>
+            <tr>
+              <td><strong>Audit Trail</strong></td>
+              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Clean, transparent records</td>
+              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Co-mingled activity</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section" style="text-align:center;background:var(--bg-secondary);border-top:1px solid var(--border-color);">
+    <div class="container">
+      <h2 class="section-title">
+        Unlocking $<span class="dynamic-value">2.9M</span> in Mexico?<br/>That's a lot of Robux!
+      </h2>
+      <button class="btn btn-cta-large" style="margin-top:40px;" onclick="openModal()">Book demo →</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="disclaimer-footer">
+    <div class="container">
+      <div class="disclaimer-content">
+        <p class="disclaimer-text">
+          The cost savings estimates on this website are for informational purposes only and based on general assumptions and publicly available data. Actual results may vary significantly based on your specific business circumstances, transaction volumes, and market conditions. These estimates do not constitute guarantees, formal quotes, or professional advice. You should consult qualified advisors before making business decisions. Outpost disclaims all liability for any loss arising from reliance on these projections. Viewing this website does not create any client relationship. Governed by English law. 2025
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Achievement System
+    const achievements = {
+      firstClick: { id: 'firstClick', icon: '🎯', title: 'First Click!', desc: 'Started your journey', unlocked: false },
+      scrollMaster: { id: 'scrollMaster', icon: '📜', title: 'Scroll Master', desc: 'Scrolled 50% of the page', unlocked: false },
+      calculator: { id: 'calculator', icon: '🧮', title: 'Number Cruncher', desc: 'Used the calculator', unlocked: false },
+      maxValue: { id: 'maxValue', icon: '💎', title: 'High Roller', desc: 'Set GMV to maximum', unlocked: false },
+      explorer: { id: 'explorer', icon: '🗺️', title: 'Explorer', desc: 'Visited all sections', unlocked: false },
+      hoverMaster: { id: 'hoverMaster', icon: '✨', title: 'Hover Master', desc: 'Hovered 10 elements', unlocked: false },
+      speedRunner: { id: 'speedRunner', icon: '⚡', title: 'Speed Runner', desc: 'Quick site navigation', unlocked: false },
+      togglePro: { id: 'togglePro', icon: '🔄', title: 'Toggle Pro', desc: 'Switched calculator modes', unlocked: false },
+      stackBuilder: { id: 'stackBuilder', icon: '🏗️', title: 'Stack Builder', desc: 'Built the full stack', unlocked: false },
+      completionist: { id: 'completionist', icon: '👑', title: 'Completionist', desc: 'Unlocked all achievements', unlocked: false }
+    };
+
+    let unlockedCount = 0;
+    let hoverCount = 0;
+    let sectionsVisited = new Set();
+    let startTime = Date.now();
+
+    function unlockAchievement(achievementId) {
+      const achievement = achievements[achievementId];
+      if (!achievement || achievement.unlocked) return;
+      
+      achievement.unlocked = true;
+      unlockedCount++;
+      
+      // Create achievement notification
+      const notification = document.createElement('div');
+      notification.className = 'achievement';
+      notification.innerHTML = `
+        <div class="achievement-icon">${achievement.icon}</div>
+        <div class="achievement-content">
+          <div class="achievement-title">Achievement Unlocked!</div>
+          <div class="achievement-desc">${achievement.title}: ${achievement.desc}</div>
+        </div>
+      `;
+      
+      document.getElementById('achievementContainer').appendChild(notification);
+      setTimeout(() => notification.remove(), 4000);
+      
+      // Update tracker
+      document.getElementById('achievementCurrent').textContent = unlockedCount;
+      
+      // Launch confetti for achievement
+      launchMiniConfetti();
+      
+      // Check for completionist
+      if (unlockedCount === Object.keys(achievements).length - 1) {
+        setTimeout(() => unlockAchievement('completionist'), 1000);
+      }
+    }
+
+    function launchMiniConfetti() {
+      const colors = ['#ef4444', '#10b981', '#3b82f6', '#f59e0b'];
+      for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.right = '20px';
+          confetti.style.top = '60px';
+          confetti.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
+          confetti.style.background = confetti.style.getPropertyValue('--color');
+          confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), 3000);
+        }, i * 30);
+      }
+    }
+
+    function trackSection(sectionId) {
+      sectionsVisited.add(sectionId);
+      if (sectionsVisited.size >= 4) {
+        unlockAchievement('explorer');
+      }
+    }
+
+    // Particle effect on button clicks
+    function createParticles(e) {
+      const colors = ['#ef4444', '#10b981', '#3b82f6', '#f59e0b'];
+      for (let i = 0; i < 8; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle active';
+        particle.style.left = e.clientX + 'px';
+        particle.style.top = e.clientY + 'px';
+        particle.style.width = '8px';
+        particle.style.height = '8px';
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.borderRadius = '50%';
+        particle.style.setProperty('--x', (Math.random() - 0.5) * 100 + 'px');
+        particle.style.setProperty('--y', (Math.random() - 0.5) * 100 + 'px');
+        document.body.appendChild(particle);
+        setTimeout(() => particle.remove(), 800);
+      }
+    }
+
+    // Confetti on CTA click
+    function launchConfetti() {
+      const colors = ['#ef4444', '#10b981', '#3b82f6', '#f59e0b', '#8b5cf6'];
+      for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = Math.random() * 100 + '%';
+          confetti.style.top = '-10px';
+          confetti.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
+          confetti.style.background = confetti.style.getPropertyValue('--color');
+          confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), 3000);
+        }, i * 50);
+      }
+    }
+
+    // Mexico-style calculator constants (from "Roblox MX w Appstore")
+    const MexicoCalc = {
+      OUTPOST_FEE: 0.085,
+      APP_STORE_FEE: 0.30,
+    
+      // Payments & FX defaults
+      PAYMENTS_APP_PCT: 0.03,
+      PAYMENTS_DIRECT_PCT: 0.07,
+    
+      // Approvals
+      APPROVAL_UPLIFT_PER_POINT: 0.003,
+      APPROVAL_CURRENT: 0.65,
+      APPROVAL_NEW: 0.85,
+    
+      // Invoicing / compliance
+      INVOICE_MULTIPLIER: 2.0,
+      INVOICE_COST: 0.05,
+    
+      // Transfer pricing
+      REVENUE_BOOKED_MARKET: 0.07,
+      CORP_TAX_MEXICO: 0.30,
+      CORP_TAX_HOME: 0.21,
+    
+      // ✅ Effective tax assumptions - applies for Brazil only 
+      EFFECTIVE_TAX_APP_PCT: 0.25,      // 25% on App/Play store
+      EFFECTIVE_TAX_DIRECT_PCT: 0.52,   // 52% when going direct
+      OUTPOST_EFFECTIVE_TAX_PCT: 0.2975 // 29.75% with Outpost (optimised)
+    };
+
+
+    // Live state
+    const Live = {
+      activeCalc: 'calc1',
+      gmv_usd: 5640800,  // Default from spreadsheet
+      avg_txn_usd: 10, //transaction size
+      e_pct: 0.04,  // 4% additional payments/FX
+      netImpact: 0
+    };
+
+    // Utility functions
+    const utils = {
+      formatCurrency(a) {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0
+        }).format(a || 0);
+      },
+      formatShortCurrency(a) {
+        const sign = (a || 0) < 0 ? '-' : '';
+        const v = Math.abs(a || 0);
+        if (v >= 1000000) return sign + (v / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+        if (v >= 1000)    return sign + Math.round(v / 1000) + 'K';
+        return sign + Math.round(v);
+      },
+      formatPercent(val, decimals = 1) {
+        return (val * 100).toFixed(decimals) + '%';
+      }
+    };
+
+    function formatShortMoney1dp(a) {
+      const v = Math.abs(a || 0);
+      if (v >= 1e6) return `$${(v / 1e6).toFixed(1)}M`;
+      if (v >= 1e3) return `$${(v / 1e3).toFixed(1)}K`;
+    return `$${v.toFixed(1)}`;
+    }
+    
+    function formatPctEqShortMoney(amount, pct) {
+      const pctStr   = (pct >= 0 ? '+' : '-') + utils.formatPercent(Math.abs(pct));
+      const moneyStr = (amount >= 0 ? '+' : '-') + formatShortMoney1dp(Math.abs(amount));
+      return `${pctStr} = ${moneyStr}`;
+    }
+
+    function formatMoneyEqPercent(value, percent) {
+      const moneyStr = (value >= 0 ? '+' : '-') + utils.formatCurrency(Math.abs(value));
+      const pctStr   = (percent >= 0 ? '+' : '-') + utils.formatPercent(Math.abs(percent));
+      return `${moneyStr} = ${pctStr}`;
+    }
+
+    // Calculators
+    // App / Play Store vs Outpost — matches Excel model exactly
+    function runCalc1(gmv, additionalFees) {
+      // App/Play side - only fee and additional payments (no separate tax)
+      const appStoreFee        = MexicoCalc.APP_STORE_FEE * gmv;
+      const additionalPayments = additionalFees * gmv;
+      const totalApp           = appStoreFee + additionalPayments;
+    
+      // Outpost side - only the fee (no separate tax)
+      const outpostFee   = MexicoCalc.OUTPOST_FEE * gmv;
+      const totalOutpost = outpostFee;
+    
+      const netImpact = totalApp - totalOutpost;
+    
+      // Percents (as % of GMV)
+      const appStoreFeePct        = MexicoCalc.APP_STORE_FEE;
+      const additionalPaymentsPct = additionalFees;
+      const totalAppPct           = appStoreFeePct + additionalPaymentsPct;
+    
+      const outpostFeePct   = MexicoCalc.OUTPOST_FEE;
+      const totalOutpostPct = outpostFeePct;
+    
+      const netImpactPct = totalAppPct - totalOutpostPct;
+    
+      return {
+        appStoreFee, additionalPayments, totalApp,
+        outpostFee, totalOutpost, netImpact,
+        appStoreFeePct, additionalPaymentsPct, totalAppPct,
+        outpostFeePct, totalOutpostPct, netImpactPct
+      };
+    }
+    
+    // "Other solutions" (Direct) vs Outpost — transfer-pricing folded into ongoing
+   function runCalc2(gmv, atv, additionalFees) {
+      const numTransactions = atv > 0 ? gmv / atv : 0;
+    
+      // Stripe-style block
+      const stripeTaxCost   = 0.005 * gmv + 0.4 * numTransactions * MexicoCalc.INVOICE_MULTIPLIER;
+      const stripeInvoicing = MexicoCalc.INVOICE_MULTIPLIER * numTransactions * MexicoCalc.INVOICE_COST;
+      const stripeTotal     = stripeTaxCost + stripeInvoicing;
+    
+      // Quaderno-style block
+      const quadernoCost      = 100 * (numTransactions / 2500) * 12 * MexicoCalc.INVOICE_MULTIPLIER;
+      const quadernoInvoicing = MexicoCalc.INVOICE_MULTIPLIER * numTransactions * MexicoCalc.INVOICE_COST;
+      const quadernoTotal     = quadernoCost + quadernoInvoicing;
+    
+      // Average + transfer pricing (tax impact is included here)
+      const avgCompliance   = (stripeTotal + quadernoTotal) / 2;
+      const transferPricing =
+        MexicoCalc.REVENUE_BOOKED_MARKET * gmv *
+        (MexicoCalc.CORP_TAX_MEXICO - MexicoCalc.CORP_TAX_HOME);
+      const ongoingCompliance = avgCompliance + transferPricing;
+    
+      // Direct payments & FX (slider; default 7%)
+      const paymentsFx = additionalFees * gmv;
+    
+      // Lost revenue from lower approvals
+      const approvalImpact =
+        gmv *
+        (MexicoCalc.APPROVAL_NEW - MexicoCalc.APPROVAL_CURRENT) *
+        MexicoCalc.APPROVAL_UPLIFT_PER_POINT *
+        100;
+    
+      // Total = ongoing + payments + approvals (NO separate tax line)
+      const totalDirect = ongoingCompliance + paymentsFx + approvalImpact;
+    
+      // Outpost = just the fee (no separate tax in this model)
+      const outpostFee   = MexicoCalc.OUTPOST_FEE * gmv;
+      const totalOutpost = outpostFee;
+    
+      const netImpact = totalDirect - totalOutpost;
+    
+      // Percents
+      const ongoingCompliancePct = ongoingCompliance / gmv;
+      const paymentsFxPct        = additionalFees;
+      const approvalImpactPct    = approvalImpact / gmv;
+      const totalDirectPct       = totalDirect / gmv;
+    
+      const outpostFeePct   = MexicoCalc.OUTPOST_FEE;
+      const totalOutpostPct = outpostFeePct;
+    
+      const netImpactPct = totalDirectPct - totalOutpostPct;
+    
+      return {
+        ongoingCompliance, paymentsFx, approvalImpact, totalDirect,
+        outpostFee, totalOutpost, netImpact,
+        ongoingCompliancePct, paymentsFxPct, approvalImpactPct,
+        totalDirectPct, outpostFeePct, totalOutpostPct, netImpactPct
+      };
+    }
+
+    // Paint functions
+    function paintCalc1(r) {
+      // Line items: show as % of GMV
+      document.getElementById('c1_app_fee').textContent = formatPctEqShortMoney(-r.appStoreFee, -r.appStoreFeePct);
+      document.getElementById('c1_addl_payments').textContent = formatPctEqShortMoney(-r.additionalPayments, -r.additionalPaymentsPct);
+      document.getElementById('c1_indirect_tax').textContent = formatPctEqShortMoney(-r.appStoreTax, -r.appStoreTaxPct);
+    
+      // TOTAL with App / Play store => "money = percent"
+     const totalEl = document.getElementById('c1_total_app');
+    totalEl.textContent = formatPctEqShortMoney(-r.totalApp, -r.totalAppPct);
+    totalEl.classList.add('negative');
+    totalEl.classList.remove('positive');
+
+      // NET impact with Outpost — show % = $
+      const netEl = document.getElementById('c1_net');
+      netEl.textContent = formatPctEqShortMoney(r.netImpact, r.netImpactPct);
+      netEl.classList.toggle('positive', r.netImpactPct >= 0);
+      netEl.classList.toggle('negative', r.netImpactPct < 0);
+    }
+    
+   function paintCalc2(r) {
+      // Line items: show as % of GMV
+      document.getElementById('c2_tp_ongoing').textContent = formatPctEqShortMoney(-r.ongoingCompliance, -r.ongoingCompliancePct);
+      document.getElementById('c2_payfx').textContent = formatPctEqShortMoney(-r.paymentsFx, -r.paymentsFxPct);
+      document.getElementById('c2_lower_approvals').textContent = formatPctEqShortMoney(-r.approvalImpact, -r.approvalImpactPct);
+    
+      // TOTAL with other solutions — show % = $
+      const totalEl = document.getElementById('c2_total_comp');
+      totalEl.textContent = formatPctEqShortMoney(-r.totalDirect, -r.totalDirectPct);
+      totalEl.classList.add('negative');
+      totalEl.classList.remove('positive');
+    
+      // NET impact with Outpost — show % = $
+      const netEl = document.getElementById('c2_net');
+      netEl.textContent = formatPctEqShortMoney(r.netImpact, r.netImpactPct);
+      netEl.classList.toggle('positive', r.netImpactPct >= 0);
+      netEl.classList.toggle('negative', r.netImpactPct < 0);
+    }
+    // Update UI functions
+    function updateSiteDynamics() {
+      // Compute these FIRST so we can safely use complianceDiff below
+      const r1 = runCalc1(Live.gmv_usd, Live.e_pct);
+      const r2 = runCalc2(Live.gmv_usd, Live.avg_txn_usd, Live.e_pct);
+      const complianceDiff = Math.max(0, r2.totalDirect - r1.totalApp);
+
+      document.querySelectorAll('.dynamic-compliance').forEach(el =>
+        el.textContent = '$' + utils.formatShortCurrency(complianceDiff)
+      );
+
+    
+      const shortValue = utils.formatShortCurrency(Live.netImpact);
+      const pct = Live.gmv_usd > 0 ? Math.round((Live.netImpact / Live.gmv_usd) * 100) : 0;
+    
+      document.querySelectorAll('.dynamic-value').forEach(el => el.textContent = shortValue);
+      document.querySelectorAll('.dynamic-total-value').forEach(el =>
+        el.textContent = '+' + utils.formatCurrency(Live.netImpact) + ' to your bank account'
+      );
+      document.querySelectorAll('.dynamic-value-mexico').forEach(el => el.textContent = shortValue);
+      document.querySelectorAll('.dynamic-percentage-mexico').forEach(el => el.textContent = pct + '%');
+    
+      // Payments & compliance callouts
+      document.querySelectorAll('.dynamic-fx').forEach(el =>
+        el.textContent = '$' + utils.formatShortCurrency(Live.e_pct * Live.gmv_usd)
+      );
+    
+      // Solution section
+      document.querySelectorAll('.dynamic-outpost-fee-pct').forEach(el =>
+        el.textContent = (MexicoCalc.OUTPOST_FEE * 100).toFixed(1) + '%'
+      );
+    
+      const lessVsAlt = Live.activeCalc === 'calc1'
+        ? Math.round((r1.netImpact / r1.totalApp) * 100)
+        : Math.round((r2.netImpact / r2.totalDirect) * 100);
+    
+      document.querySelectorAll('.dynamic-less-vs-alt').forEach(el => el.textContent = lessVsAlt + '%');
+    }
+
+   function updateCTA() {
+      const ctaText = document.getElementById('calc-cta-text');
+      const impactNote = document.getElementById('calc-impact-note');
+      if (ctaText) {
+        ctaText.textContent = `Unlock $${utils.formatShortCurrency(Live.netImpact)} — Book a demo`;
+      }
+    }
+
+    function computeAndPaint() {
+      const r1 = runCalc1(Live.gmv_usd, Live.e_pct);
+      const r2 = runCalc2(Live.gmv_usd, Live.avg_txn_usd, Live.e_pct);
+
+      paintCalc1(r1);
+      paintCalc2(r2);
+
+      Live.netImpact = Live.activeCalc === 'calc1' ? r1.netImpact : r2.netImpact;
+      updateSiteDynamics();
+      updateCTA();
+    }
+
+    // Handlers
+    function handleGMVSlider(el) {
+      const raw = parseInt(el.value, 10) || 0;
+      Live.gmv_usd = raw;
+      document.getElementById('in_gmv_val').textContent = utils.formatCurrency(Live.gmv_usd);
+      computeAndPaint();
+      
+      unlockAchievement('calculator');
+      if (raw >= 50000000) {
+        unlockAchievement('maxValue');
+      }
+    }
+
+    function handleATVSlider(el) {
+      const raw = parseInt(el.value, 10) || 0;
+      Live.avg_txn_usd = raw;
+      document.getElementById('in_atv_val').textContent = utils.formatCurrency(Live.avg_txn_usd);
+      computeAndPaint();
+    }
+
+    function handlePayFxInput(el) {
+      const eVal = (parseFloat(el.value) || 0) / 100;
+      Live.e_pct = eVal;
+      document.getElementById('in_payfx_val').textContent = (eVal * 100).toFixed(1) + '%';
+      computeAndPaint();
+    }
+
+    function toggleCalc(which) {
+      Live.activeCalc = which;
+    
+      // UI toggles
+      document.getElementById('btn-calc1').classList.toggle('active', which === 'calc1');
+      document.getElementById('btn-calc2').classList.toggle('active', which === 'calc2');
+      document.getElementById('panel-calc1').style.display = which === 'calc1' ? 'block' : 'none';
+      document.getElementById('panel-calc2').style.display = which === 'calc2' ? 'block' : 'none';
+      document.getElementById('atv-group').classList.toggle('hidden', which !== 'calc2');
+    
+      // Update payments/FX slider + label
+      const payfxEl = document.getElementById('in_payfx');
+      const payfxValEl = document.getElementById('in_payfx_val');
+    
+      if (which === 'calc2') {
+        Live.e_pct = MexicoCalc.PAYMENTS_DIRECT_PCT; // 7%
+        payfxEl.value = 7;
+        payfxValEl.textContent = '7.0%';
+      } else {
+        Live.e_pct = MexicoCalc.PAYMENTS_APP_PCT; // 3%
+        payfxEl.value = 3;
+        payfxValEl.textContent = '3.0%';
+      }
+    
+      // Make the track color follow the knob
+      setProgress(payfxEl);
+    
+      // Recompute and award cheevo
+      computeAndPaint();
+      unlockAchievement('togglePro');
+    }
+
+    function openModal() {
+    window.open('https://calendly.com/will-outpostnow/30min','_blank');
+    }
+
+    window.toggleCalc = toggleCalc;
+    window.handleGMVSlider = handleGMVSlider;
+    window.handleATVSlider = handleATVSlider;
+    window.handlePayFxInput = handlePayFxInput;
+    window.openModal = openModal;
+
+    // Initialize
+    window.addEventListener('load', () => {
+      // Scroll effect
+      document.addEventListener('scroll', () => {
+        const n = document.getElementById('navbar');
+        if (window.scrollY > 50) n.classList.add('scrolled'); 
+        else n.classList.remove('scrolled');
+        
+        // Check scroll achievement
+        const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        if (scrollPercent >= 50) {
+          unlockAchievement('scrollMaster');
+        }
+      });
+
+      // Smooth scrolling
+      document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(a => {
+        a.addEventListener('click', e => {
+          const href = a.getAttribute('href');
+          if (!href || href === '#') return;     // let your modal handler run
+          e.preventDefault();
+          const target = document.getElementById(href.slice(1));
+          if (target) {
+            window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+            trackSection(href.slice(1));
+          }
+        });
+      });
+
+      // Initialize achievements counter
+      document.getElementById('achievementTotal').textContent = Object.keys(achievements).length;
+
+      // Track hover events
+      document.querySelectorAll('.card, .btn, .impact-item').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          hoverCount++;
+          if (hoverCount >= 10) unlockAchievement('hoverMaster');
+        });
+      });
+
+      // Track first click
+      document.addEventListener('click', () => {
+        unlockAchievement('firstClick');
+      }, { once: true });
+
+      // Speed runner achievement
+      setTimeout(() => {
+        if (sectionsVisited.size >= 3) {
+          unlockAchievement('speedRunner');
+        }
+      }, 30000);
+
+      // Add particle effects to all buttons
+      document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', createParticles);
+      });
+
+      // Mexico sheet defaults
+      Live.gmv_usd = 5640800;
+      const gmvSlider = document.getElementById('in_gmv_num');
+      gmvSlider.value = 5640800;
+      document.getElementById('in_gmv_val').textContent = utils.formatCurrency(5640800);
+      setProgress(gmvSlider);                 // <— add this
+    
+      // Start on calc1 with 3% payments+FX
+      Live.e_pct = MexicoCalc.PAYMENTS_APP_PCT;
+      const payfx = document.getElementById('in_payfx');
+      payfx.value = 3;
+      document.getElementById('in_payfx_val').textContent = '3.0%';
+      setProgress(payfx);                      // <— and this
+
+      // Initialize the calculator
+      computeAndPaint();
+      
+      // Hide tax rows (Mexico model doesn’t show them)
+      document.querySelector('#c1_indirect_tax').closest('.result-item').style.display = 'none';
+      document.querySelector('#c2_tax_comp').closest('.result-item').style.display = 'none';
+    });
+  </script>
+  <script>
+    function setProgress(slider){
+      const min = +slider.min || 0, max = +slider.max || 100, val = +slider.value || 0;
+      const pct = ((val - min) / (max - min)) * 100;
+      slider.style.setProperty('--progress', pct + '%');
+    }
+    document.addEventListener('input', e => {
+      if (e.target.matches('.range-input')) setProgress(e.target);
+    });
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.range-input').forEach(setProgress);
+    });
+    </script>
+</body>
+</html>
