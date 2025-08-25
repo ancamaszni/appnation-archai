@@ -17,6 +17,34 @@
     --primary-blue:#3b82f6;
   }
 
+/* --- AppNation look/feel overrides --- */
+:root{
+  --primary-green:#00ff84;         /* bright AppNation green */
+  --bg-primary:#0a0f13;            /* deep charcoal */
+  --bg-card:#111820;
+  --text-primary:#ffffff;
+  --text-secondary:#8b9cae;
+  --text-tertiary:#6b7c8e;
+  --border-color:#1f2a36;
+}
+
+.btn-cta-large{
+  background:var(--primary-green);
+  color:#0a0f13;
+  border:none;
+  padding:16px 28px;
+  font-size:17px;
+  font-weight:800;
+  border-radius:9999px;
+  box-shadow:0 0 16px rgba(0,255,132,.30);
+}
+.btn-cta-large:hover{ background:#00e678; box-shadow:0 0 20px rgba(0,255,132,.50); }
+
+.hero{ background:linear-gradient(180deg,#0a0f13,#0f1620); }
+.solid-green-text{ color:var(--primary-green); font-weight:900; }
+
+/*finish of Appnation look / feel section */
+  
   *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
   html,body{height:100%}
   body{
