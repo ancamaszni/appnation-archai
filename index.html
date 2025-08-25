@@ -176,6 +176,22 @@
     .hero{padding:140px 0 84px}
     .grid-3{grid-template-columns:1fr}
   }
+
+/* explanation block (from your earlier version) */
+.calculator-explanation{margin-top:40px;padding:32px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px}
+.explanation-title{font-size:20px;font-weight:700;margin-bottom:18px}
+.explanation-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.explanation-item h4{font-size:16px;margin-bottom:8px}
+.explanation-item p{color:var(--text-secondary);font-size:14px;line-height:1.6}
+
+.table-container{background:var(--bg-card);border-radius:16px;border:1px solid var(--border-color);overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:16px}
+thead{background:#0a1a2a;border-bottom:1px solid var(--border-color)}
+th{padding:22px 26px;text-align:left;font-weight:800}
+tbody tr{border-bottom:1px solid var(--border-color)}
+td{padding:18px 26px}
+  
+  
 </style>
 
 <!-- NAV -->
@@ -399,6 +415,99 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Explanation Section -->
+<div class="calculator-explanation">
+  <h3 class="explanation-title">How we calculate your savings</h3>
+  <div class="explanation-grid">
+    <div class="explanation-item">
+      <h4>App / Play Store</h4>
+      <p>
+        The App / Play Store charge 30% commission to act as an ‘MoR’. They also
+        charge fixed fees for refunds/chargebacks and take FX spread on payouts –
+        we assume this is ~3% of GMV.
+      </p>
+    </div>
+
+    <div class="explanation-item">
+      <h4>Other solutions – Direct</h4>
+      <p>
+        Using a compliance platform with a PSP (or another MoR) adds ongoing costs
+        and FX. We assume PSP + FX is ~7% and lower approvals from international
+        acquiring. PE/TP items competitors don’t cover are also included.
+      </p>
+    </div>
+
+    <div class="explanation-item">
+      <h4>Outpost</h4>
+      <p>
+        Outpost is a flat 8.5% of GMV with no extra lines. The calculator compares
+        that against Store and Direct totals to show your savings.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Comparison Table -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">
+        We are the only enterprise-grade MoR, delivering the above with your
+        <span class="solid-green-text">dedicated Outpost entity</span>
+      </h2>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th style="background:rgba(16,185,129,.03);">
+              <div>
+                <span>Outpost One</span>
+                <div style="font-size:12px;color:var(--text-secondary);font-weight:400;margin-top:4px;">Dedicated Entity Model</div>
+              </div>
+            </th>
+            <th style="background:rgba(239,68,68,.03);">
+              <div>
+                <span>Traditional MoRs</span>
+                <div style="font-size:12px;color:var(--text-secondary);font-weight:400;margin-top:4px;">Shared Entity Model</div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Legal Entity</strong></td>
+            <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Dedicated exclusively to your platform</td>
+            <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Shared across multiple merchants</td>
+          </tr>
+          <tr>
+            <td><strong>Risk Exposure</strong></td>
+            <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Fully isolated, no cross-contamination</td>
+            <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Shared risk pool</td>
+          </tr>
+          <tr>
+            <td><strong>MCC Configuration</strong></td>
+            <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Optimized for gaming platforms</td>
+            <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Often fixed or limited</td>
+          </tr>
+          <tr>
+            <td><strong>PSP Relationships</strong></td>
+            <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Platform-specific terms and routing</td>
+            <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Pooled or constrained</td>
+          </tr>
+          <tr>
+            <td><strong>Audit Trail</strong></td>
+            <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Clean, transparent records</td>
+            <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Co-mingled activity</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
