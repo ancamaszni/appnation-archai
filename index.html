@@ -155,9 +155,21 @@ h1{ font-size:clamp(64px, 9.6vw, 104px); font-weight:900; line-height:1.05; lett
 
 /* Calculator shell */
 .calculator-container{
-  display:grid; grid-template-columns:minmax(420px,.45fr) minmax(420px,.55fr); gap:48px;
-  background:#0c1b2b; border-radius:20px; padding:48px; border:1px solid var(--border-color);
+  display:grid;
+  /* give the results column a bigger guaranteed min width */
+  grid-template-columns: minmax(420px, 1fr) minmax(520px, 1.2fr);
+  gap:48px;
+  background:#0c1b2b;
+  border-radius:20px;
+  padding:48px;
+  border:1px solid var(--border-color);
+  align-items:start;
 }
+/* let grid items expand/shrink properly inside the tracks */
+.calculator-container > *{ min-width:0; }
+/* make sure the card spans the full grid cell */
+.calculator-results{ width:100%; }
+  
 .left-panel{ position:sticky; top:100px; align-self:start; }
 .calculator-inputs{ display:flex; flex-direction:column; gap:24px; }
 .inputs-title{ font-size:24px; font-weight:900; margin-bottom:4px; }
@@ -676,12 +688,12 @@ td{ padding:20px 28px; color:var(--text-primary); }
 
   // --- Core compute ---
   function compute(country){
-    const gmv   = Calc[country].gmv;
-    const payfx = Calc[country].payfx;
+  const gmv   = Calc[country].gmv;
+  const payfx = Calc[country].payfx;
 
-    const appFee   = APP_FEE * gmv;
-    const addl     = payfx * gmv;
-    const totalApp = appFee + addl + tax;
+  const appFee   = APP_FEE * gmv;
+  const addl     = payfx * gmv;
+  const totalApp = appFee + addl;           // ← no 'tax' anymore
 
   const outpost  = OUTPOST_FEE * gmv;
   const net      = totalApp - outpost;
@@ -695,7 +707,6 @@ td{ padding:20px 28px; color:var(--text-primary); }
   } else {
     setText('br_app_fee',       pctEqMoney(-APP_FEE, -appFee), 'neg');
     setText('br_addl_payments', pctEqMoney(-payfx,  -addl),    'neg');
-    // no br_tax line anymore
     setText('br_total_app',     pctEqMoney(-(APP_FEE + payfx), -(totalApp)), 'neg');
     setText('br_net',           pctEqMoney((APP_FEE + payfx - OUTPOST_FEE), net), 'pos');
     document.getElementById('br_cta').textContent = `UNLOCK ${fmtShort(net)} — BOOK A DEMO`;
