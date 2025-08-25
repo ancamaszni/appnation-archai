@@ -265,6 +265,28 @@ td{ padding:20px 28px; color:var(--text-primary); }
   h1{ font-size:48px; }
   .grid-3{ grid-template-columns:1fr; }
 }
+
+  /* Top-right CTA (navbar) → purple */
+#nav-cta{
+  background: var(--accent-purple) !important;
+  color:#fff !important;
+  border:none !important;
+  box-shadow: 0 0 16px rgba(var(--accent-purple-rgb), .35) !important;
+}
+#nav-cta:hover{
+  background: var(--accent-purple-strong) !important;
+  box-shadow: 0 0 22px rgba(var(--accent-purple-rgb), .55) !important;
+}
+
+/* Make the “Outpost partners …” line larger */
+.hero-callout-text{ font-size:19px !important; }
+
+/* Make “+ $X to your bank account” purple */
+.value-highlight{ color: var(--accent-purple) !important; }
+
+/* Optional: country header styling (if you want a clearer header look) */
+.inputs-title{ font-size:26px !important; }
+
 </style>
 
 <!-- NAV -->
@@ -463,10 +485,7 @@ td{ padding:20px 28px; color:var(--text-primary); }
             <span class="result-label">Additional payments costs</span>
             <span class="result-value negative" id="br_addl_payments">-4.0% = -$169.2K</span>
           </div>
-          <div class="result-item">
-            <span class="result-label">Effective tax</span>
-            <span class="result-value negative" id="br_tax">-25.0% = -$1.2M</span>
-          </div>
+
 
           <div class="highlight-box-red" style="margin-top:10px">
             <div class="result-item" style="border-bottom:none;padding:0;">
@@ -606,12 +625,11 @@ td{ padding:20px 28px; color:var(--text-primary); }
 <script>
   // --- State & constants ---
   const Calc = {
-    mexico: { gmv: 14102000, payfx: 0.04 },
-    brazil: { gmv: 14102000, payfx: 0.04 }
+    mexico: { gmv: 1365000, payfx: 0.04 },
+    brazil: { gmv: 2750000, payfx: 0.04 }
   };
   const APP_FEE = 0.30;
   const OUTPOST_FEE = 0.085;
-  const TAX_BR = 0.25;
   let current = 'mexico';
 
   // --- Formatters ---
@@ -663,33 +681,31 @@ td{ padding:20px 28px; color:var(--text-primary); }
 
     const appFee   = APP_FEE * gmv;
     const addl     = payfx * gmv;
-    const tax      = country === 'brazil' ? TAX_BR * gmv : 0;
     const totalApp = appFee + addl + tax;
 
-    const outpost  = OUTPOST_FEE * gmv;
-    const net      = totalApp - outpost;
+  const outpost  = OUTPOST_FEE * gmv;
+  const net      = totalApp - outpost;
 
-    if (country === 'mexico') {
-      setText('mx_app_fee',       pctEqMoney(-APP_FEE, -appFee), 'neg');
-      setText('mx_addl_payments', pctEqMoney(-payfx,  -addl),    'neg');
-      setText('mx_total_app',     pctEqMoney(-(APP_FEE + payfx), -(totalApp)), 'neg');
-      setText('mx_net',           pctEqMoney((APP_FEE + payfx - OUTPOST_FEE), net), 'pos');
-      document.getElementById('mx_cta').textContent = `UNLOCK ${fmtShort(net)} — BOOK A DEMO`;
-    } else {
-      setText('br_app_fee',       pctEqMoney(-APP_FEE, -appFee), 'neg');
-      setText('br_addl_payments', pctEqMoney(-payfx,  -addl),    'neg');
-      setText('br_tax',           pctEqMoney(-TAX_BR, -tax),     'neg');
-      setText('br_total_app',     pctEqMoney(-(APP_FEE + payfx + TAX_BR), -(totalApp)), 'neg');
-      setText('br_net',           pctEqMoney((APP_FEE + payfx + TAX_BR - OUTPOST_FEE), net), 'pos');
-      document.getElementById('br_cta').textContent = `UNLOCK ${fmtShort(net)} — BOOK A DEMO`;
-    }
-
-    // Only update global UI for active country
-    if (country === current) {
-      document.getElementById('fx-card').textContent = fmtShort(payfx * gmv).replace('$','');
-      updateGlobals(country, net, net / gmv);
-    }
+  if (country === 'mexico') {
+    setText('mx_app_fee',       pctEqMoney(-APP_FEE, -appFee), 'neg');
+    setText('mx_addl_payments', pctEqMoney(-payfx,  -addl),    'neg');
+    setText('mx_total_app',     pctEqMoney(-(APP_FEE + payfx), -(totalApp)), 'neg');
+    setText('mx_net',           pctEqMoney((APP_FEE + payfx - OUTPOST_FEE), net), 'pos');
+    document.getElementById('mx_cta').textContent = `UNLOCK ${fmtShort(net)} — BOOK A DEMO`;
+  } else {
+    setText('br_app_fee',       pctEqMoney(-APP_FEE, -appFee), 'neg');
+    setText('br_addl_payments', pctEqMoney(-payfx,  -addl),    'neg');
+    // no br_tax line anymore
+    setText('br_total_app',     pctEqMoney(-(APP_FEE + payfx), -(totalApp)), 'neg');
+    setText('br_net',           pctEqMoney((APP_FEE + payfx - OUTPOST_FEE), net), 'pos');
+    document.getElementById('br_cta').textContent = `UNLOCK ${fmtShort(net)} — BOOK A DEMO`;
   }
+
+  if (country === current) {
+    document.getElementById('fx-card').textContent = fmtShort(payfx * gmv).replace('$','');
+    updateGlobals(country, net, net / gmv);
+  }
+}
 
   // --- Slider handlers ---
   function handleSlider(country, field, el){
