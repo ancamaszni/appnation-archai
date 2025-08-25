@@ -1,15 +1,21 @@
 <style>
-     :root{
-      --bg-primary:#0a0f13;     /* darker background */
-      --bg-card:#111820;        /* card background closer to AppNation */
-      --text-primary:#ffffff;   /* pure white text */
-      --text-secondary:#8b9cae; /* muted grey */
-      --text-tertiary:#6b7c8e;
-    
-      --primary-green:#00ff84;  /* AppNation bright green */
-      --primary-red:#ef4444;
-      --primary-blue:#3b82f6;
-    }
+  :root{
+    /* AppNation-ish palette */
+    --bg-primary:#0a0f13;
+    --bg-card:#111820;
+    --bg-secondary:#0c131a;
+
+    --text-primary:#ffffff;
+    --text-secondary:#8b9cae;
+    --text-tertiary:#6b7c8e;
+
+    --border-color:#1e2a36;     /* <-- restored (was missing) */
+    --border-light:#263442;
+
+    --primary-green:#00ff84;    /* bright green */
+    --primary-red:#ef4444;
+    --primary-blue:#3b82f6;
+  }
 
   *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
   html,body{height:100%}
@@ -34,66 +40,48 @@
   .nav-links a:not(.btn):hover{color:var(--text-primary)}
 
   /* Buttons */
-  .btn{padding:10px 18px;border-radius:9999px;text-decoration:none;font-weight:700;cursor:pointer;border:1px solid transparent;font-size:14px;line-height:1;display:inline-block;transition:background .15s ease,color .15s ease, border-color .15s ease}
+  .btn{padding:10px 18px;border-radius:9999px;text-decoration:none;font-weight:700;cursor:pointer;border:1px solid transparent;font-size:14px;line-height:1;display:inline-block;transition:background .15s ease,color .15s ease,border-color .15s ease}
   .btn-primary{background:#0d2538;color:#fff;border-color:#16324a}
   .btn-primary:hover{background:#0b2a45}
   .btn-secondary{background:transparent;color:#e6f0ff;border-color:#2a4662}
   .btn-secondary:hover{background:#11283c}
-  .btn-cta-large{background:#16a34a;color:#06101a;border-color:#16a34a;padding:14px 22px;font-size:16px}
-  .btn-cta-large:hover{background:#19914a}
+
+  /* AppNation-style CTA */
+  .btn-cta-large{
+    background:var(--primary-green);
+    color:#0a0f13;
+    border:none;
+    padding:16px 28px;
+    font-size:17px;
+    font-weight:800;
+    border-radius:9999px;
+    box-shadow:0 0 16px rgba(0,255,132,0.3);
+  }
+  .btn-cta-large:hover{
+    background:#00e678;
+    box-shadow:0 0 20px rgba(0,255,132,0.5);
+  }
 
   /* Hero */
-  .hero{padding:160px 0 96px;text-align:center;position:relative;background:linear-gradient(180deg,#08121d, #0c1a29)}
+  .hero{padding:160px 0 96px;text-align:center;position:relative;background:linear-gradient(180deg,#08121d,#0c1a29)}
   .hero .container{max-width:920px}
-  
-    h1{
-      font-size:clamp(56px,9.6vw,96px);
-      font-weight:900;
-      line-height:1.05;
-      letter-spacing:-0.03em;
-    }
-    
-    .solid-green-text{
-      color:var(--primary-green);
-      font-weight:900;
-    }
-    
-    .btn-cta-large{
-      background:var(--primary-green);
-      color:#0a0f13;
-      border:none;
-      padding:16px 28px;
-      font-size:17px;
-      font-weight:800;
-      border-radius:9999px;
-      box-shadow:0 0 16px rgba(0,255,132,0.3);
-    }
-    .btn-cta-large:hover{
-      background:#00e678;
-      box-shadow:0 0 20px rgba(0,255,132,0.5);
-    }
+  h1{font-size:clamp(56px,9.6vw,96px);font-weight:900;line-height:1.05;letter-spacing:-0.03em}
+  .hero-subtitle{max-width:800px;margin:12px auto 0;color:var(--text-secondary);font-size:20px}
+  .solid-green-text{color:var(--primary-green);font-weight:900}
+  .hero-buttons{display:flex;justify-content:center;gap:14px;margin-top:22px}
 
   .hero-callout{
-  margin:32px auto 0;
-  max-width:880px;
-  background: var(--bg-card);
-  border:1px solid var(--border-color);
-  border-top:2px solid var(--primary-red);
-  border-radius:16px;
-  padding:22px 24px;
-}
-.hero-callout-text{
-  color: var(--text-secondary);
-  font-size:16px;
-  line-height:1.65;
-}
-.hero-callout strong{ color: var(--text-primary); }
-  
+    margin:32px auto 0;max-width:880px;background:var(--bg-card);
+    border:1px solid var(--border-color);border-top:2px solid var(--primary-red);
+    border-radius:16px;padding:22px 24px;
+  }
+  .hero-callout-text{color:var(--text-secondary);font-size:16px;line-height:1.65}
+  .hero-callout strong{color:var(--text-primary)}
+
   /* Cards / panels */
   .card{background:var(--bg-card);border-radius:16px;padding:26px;border:1px solid var(--border-color)}
   .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px}
   .card-icon{width:56px;height:56px;background:#0a2136;border:1px solid #133a59;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#cfe3f9}
-
   .card-value{font-size:26px;font-weight:800;margin-bottom:6px}
   .card-label{font-size:14px;font-weight:700;color:var(--text-secondary);margin-bottom:10px}
 
@@ -130,19 +118,16 @@
   .result-value.positive{color:var(--primary-green)}
   .result-value.negative{color:var(--primary-red)}
 
-  /* Soft highlight boxes (total / net impact) */
   .highlight-box-red{background:rgba(239,68,68,.10);border:1px solid rgba(239,68,68,.35);border-radius:10px;padding:16px}
-  .highlight-box-green{background:rgba(34,197,94,.10);border:1px solid rgba(34,197,94,.35);border-radius:10px;padding:16px;margin-top:10px}
+  .highlight-box-green{background:rgba(0,255,132,.10);border:1px solid rgba(0,255,132,.35);border-radius:10px;padding:16px;margin-top:10px}
 
   .calc-cta-bottom{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:10px}
   .calc-note{font-size:12px;color:var(--text-tertiary);text-align:center}
 
-  /* Value hero */
   .value-hero{margin:64px auto;max-width:1060px;padding:44px 32px;background:#0c1b2b;border-radius:16px;text-align:center;border:1px solid var(--border-color)}
   .value-hero-content{font-size:20px;font-weight:700}
   .value-highlight{font-size:28px;font-weight:900;display:block;margin-top:8px}
 
-  /* Table */
   .table-container{background:#0c1b2b;border-radius:16px;border:1px solid var(--border-color);overflow:hidden}
   table{width:100%;border-collapse:collapse;font-size:16px}
   thead{background:#0a1a2a;border-bottom:1px solid var(--border-color)}
@@ -150,7 +135,6 @@
   tbody tr{border-bottom:1px solid var(--border-color)}
   td{padding:18px 26px}
 
-  /* Footer */
   .disclaimer-footer{background:#0a1a2a;border-top:1px solid var(--border-color);padding:36px 0}
   .disclaimer-text{color:var(--text-secondary);font-size:13px}
 
@@ -184,28 +168,29 @@
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-      <h1>
-        Get <span class="solid-green-text" id="hero-pct">21%</span> more out<br/>
-        of <span id="hero-country-title">Mexico</span> with Outpost
-      </h1>    
+    <h1>
+      Get <span class="solid-green-text" id="hero-pct">21%</span> more out<br/>
+      of <span id="hero-country-title">Mexico</span> with Outpost
+    </h1>
     <p class="hero-subtitle">
-      AppNation is leaving $<span id="hero-value">2.9M</span> on the table every year in <span id="hero-country">Mexico</span>.<br><br><strong>Unlock it with Outpost.</strong>
+      AppNation is leaving $<span id="hero-value">2.9M</span> on the table every year in <span id="hero-country">Mexico</span>.
+      <br><br><strong>Unlock it with Outpost.</strong>
     </p>
     <div class="hero-buttons">
-      <a href="#calculator" class="btn btn-cta-large">Calculate impact →</a>
-      <button class="btn btn-secondary" onclick="openModal()">Book demo</button>
+      <a href="#calculator" class="btn btn-cta-large">CALCULATE IMPACT →</a>
+      <button class="btn btn-secondary" onclick="openModal()">BOOK DEMO</button>
     </div>
     <div class="hero-callout">
       <p class="hero-callout-text">
         <strong>Outpost</strong> partners with gaming platforms like <strong>AppNation</strong>
-        so they can sell in Mexico like a local. Offload your tax, compliance, payments,
-        legal and operational burdens to Outpost.
+        so they can sell in <strong><span id="callout-country">Mexico</span></strong> like a local.
+        Offload your tax, compliance, payments, legal and operational burdens to Outpost.
       </p>
     </div>
   </div>
 </section>
 
-<!-- PROBLEM (unchanged content – trimmed for brevity) -->
+<!-- PROBLEM -->
 <section class="section" id="problem">
   <div class="container">
     <div class="section-header">
@@ -244,14 +229,9 @@
   </div>
 </section>
 
-<!-- SOLUTION (kept same layout) -->
+<!-- SOLUTION -->
 <section class="section" id="solution">
   <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">The solution: Outpost One.</h2>
-      <p class="section-subtitle">Outpost One is a complete Merchant of Record solution. We become the local seller and handle payment infrastructure and indirect tax compliance to deliver tangible uplift.</p>
-    </div>
-
     <div class="value-hero">
       <div class="value-hero-content">
         <span>Total value unlocked by Outpost</span>
@@ -278,7 +258,6 @@
       <div class="left-panel">
         <div class="calculator-inputs">
           <h3 class="inputs-title">Your business in Mexico</h3>
-
           <div class="input-group">
             <label class="input-label">Current GMV ($)</label>
             <div class="input-wrapper">
@@ -286,7 +265,6 @@
               <span class="range-value" id="mx_gmv_val">$14,102,000</span>
             </div>
           </div>
-
           <div class="input-group">
             <label class="input-label">Additional payments fees and FX (%)</label>
             <div class="input-wrapper">
@@ -338,7 +316,6 @@
       <div class="left-panel">
         <div class="calculator-inputs">
           <h3 class="inputs-title">Your business in Brazil</h3>
-
           <div class="input-group">
             <label class="input-label">Current GMV ($)</label>
             <div class="input-wrapper">
@@ -346,7 +323,6 @@
               <span class="range-value" id="br_gmv_val">$14,102,000</span>
             </div>
           </div>
-
           <div class="input-group">
             <label class="input-label">Additional payments fees and FX (%)</label>
             <div class="input-wrapper">
@@ -399,68 +375,7 @@
   </div>
 </section>
 
-  <!-- Comparison Table -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">
-          We are the only enterprise-grade MoR, delivering the above with your
-        <span class="solid-green-text">dedicated Outpost entity</span>
-        </h2>
-      </div>
-
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th style="background:rgba(16,185,129,.03);">
-                <div>
-                  <span>Outpost One</span>
-                  <div style="font-size:12px;color:var(--text-secondary);font-weight:400;margin-top:4px;">Dedicated Entity Model</div>
-                </div>
-              </th>
-              <th style="background:rgba(239,68,68,.03);">
-                <div>
-                  <span>Traditional MoRs</span>
-                  <div style="font-size:12px;color:var(--text-secondary);font-weight:400;margin-top:4px;">Shared Entity Model</div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Legal Entity</strong></td>
-              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Dedicated exclusively to your platform</td>
-              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Shared across multiple merchants</td>
-            </tr>
-            <tr>
-              <td><strong>Risk Exposure</strong></td>
-              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Fully isolated, no cross-contamination</td>
-              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Shared risk pool</td>
-            </tr>
-            <tr>
-              <td><strong>MCC Configuration</strong></td>
-              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Optimized for gaming platforms</td>
-              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Often fixed or limited</td>
-            </tr>
-            <tr>
-              <td><strong>PSP Relationships</strong></td>
-              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Platform-specific terms and routing</td>
-              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Pooled or constrained</td>
-            </tr>
-            <tr>
-              <td><strong>Audit Trail</strong></td>
-              <td style="background:rgba(16,185,129,.03);"><span style="color:var(--primary-green);font-weight:700;">✓</span> Clean, transparent records</td>
-              <td style="background:rgba(239,68,68,.03);"><span style="color:var(--primary-red);">✗</span> Co-mingled activity</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-<!-- FINAL CTA (kept) -->
+<!-- FINAL CTA -->
 <section class="section" style="text-align:center;">
   <div class="container">
     <h2 class="section-title">Unlocking $<span class="bottom-dynamic">2.9M</span> in <span id="bottom-country">Mexico</span>?<br/>That's a lot of Robux!</h2>
@@ -468,17 +383,15 @@
   </div>
 </section>
 
-<!-- FOOTER (unchanged text) -->
- <!-- Footer -->
-  <footer class="disclaimer-footer">
-    <div class="container">
-      <div class="disclaimer-content">
-        <p class="disclaimer-text">
-          The cost savings estimates on this website are for informational purposes only and based on general assumptions and publicly available data. Actual results may vary significantly based on your specific business circumstances, transaction volumes, and market conditions. These estimates do not constitute guarantees, formal quotes, or professional advice. You should consult qualified advisors before making business decisions. Outpost disclaims all liability for any loss arising from reliance on these projections. Viewing this website does not create any client relationship. Governed by English law. 2025
-        </p>
-      </div>
+<!-- Footer -->
+<footer class="disclaimer-footer">
+  <div class="container">
+    <div class="disclaimer-content">
+      <p class="disclaimer-text">
+          The cost savings estimates on this website are for informational purposes only and based on general assumptions and publicly available data. Actual results may vary significantly based on your specific business circumstances, transaction volumes, and market conditions. These estimates do not constitute guarantees, formal quotes, or professional advice. You should consult qualified advisors before making business decisions. Outpost disclaims all liability for any loss arising from reliance on these projections. Viewing this website does not create any client relationship. Governed by English law. 2025      </p>
     </div>
-  </footer>
+  </div>
+</footer>
 
 <script>
   // --- State & constants ---
@@ -518,13 +431,15 @@
     el.classList.toggle('negative', cls === 'neg');
   }
   function updateGlobals(country, netAmt, netPct){
-    document.getElementById('hero-country').textContent = country === 'mexico' ? 'Mexico' : 'Brazil';
-    document.getElementById('bottom-country').textContent = country === 'mexico' ? 'Mexico' : 'Brazil';
-    document.getElementById('hero-country-title').textContent = country === 'mexico' ? 'Mexico' : 'Brazil';
+    const countryName = country === 'mexico' ? 'Mexico' : 'Brazil';
+    document.getElementById('hero-country').textContent = countryName;
+    document.getElementById('hero-country-title').textContent = countryName;
+    document.getElementById('bottom-country').textContent = countryName;
+    document.getElementById('callout-country').textContent = countryName;
 
-    const short = fmtShort(netAmt).replace('-','');           // "+$1.4M" → "$1.4M"
+    const short = fmtShort(netAmt).replace('-','');
     document.querySelectorAll('.problem-dynamic,.bottom-dynamic,.nav-dynamic')
-      .forEach(el => el.textContent = short.replace('$','')); // "1.4M"
+      .forEach(el => el.textContent = short.replace('$',''));
     document.getElementById('hero-value').textContent = short.replace('$','');
     document.getElementById('total-value').textContent = `+${currency0(Math.max(0, netAmt))} to your bank account`;
     document.getElementById('hero-pct').textContent = Math.round(netPct * 100) + '%';
@@ -544,7 +459,6 @@
     const outpost  = OUTPOST_FEE * gmv;
     const net      = totalApp - outpost;
 
-    // Update rows
     if (country === 'mexico') {
       setText('mx_app_fee',       pctEqMoney(-APP_FEE, -appFee), 'neg');
       setText('mx_addl_payments', pctEqMoney(-payfx,  -addl),    'neg');
@@ -560,12 +474,12 @@
       document.getElementById('br_cta').textContent = `UNLOCK ${fmtShort(net)} — BOOK A DEMO`;
     }
 
-    // Only update global/hero/FX when this country is active
+    // Only update global UI for active country
     if (country === current) {
       document.getElementById('fx-card').textContent = fmtShort(payfx * gmv).replace('$','');
       updateGlobals(country, net, net / gmv);
     }
-  } // ← this closing brace was missing before
+  }
 
   // --- Slider handlers ---
   function handleSlider(country, field, el){
@@ -591,20 +505,17 @@
     compute('brazil');
   }
 
-  // --- Calendly ---
+  // Calendly
   function openModal(){ window.open('https://calendly.com/will-outpostnow/30min','_blank'); }
 
   // Init
   window.addEventListener('load', ()=>{
-    // sticky nav style
     document.addEventListener('scroll', ()=>{
       const n = document.getElementById('navbar');
       if (window.scrollY > 50) n.classList.add('scrolled'); else n.classList.remove('scrolled');
     });
-    // first paint
     compute('mexico');
     compute('brazil');
     toggleCountry('mexico');
   });
 </script>
-
