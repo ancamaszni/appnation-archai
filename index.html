@@ -270,7 +270,7 @@
               <label class="input-label">Current GMV ($)</label>
               <div class="input-wrapper">
                 <input type="range" id="gmv_num" class="range-input"/>
-                <span class="range-value" id="gmv_val">$1,365,000</span>
+                <span class="range-value" id="gmv_val">$27,300,000</span>
               </div>
             </div>
 
@@ -416,7 +416,7 @@
    ========================================================= */
   const CONFIG = {
     company: "AppNation",
-    gmvStart: 1_365_000,           // starting GMV for the global calculator
+    gmvStart: 27300000,           // starting GMV for the global calculator
     fees: { app: 0.30, outpost: 0.085 }, // % of GMV (decimals)
     payfxDefault: 0.04,            // 4% default additional pay/FX
   };
@@ -426,7 +426,7 @@
      Change only if you need a different range/step.
    ========================================================= */
   const SLIDERS = {
-    gmvMin: 500_000, gmvMax: 10_000_000, gmvStep: 50_000,
+    gmvMin: 1000_000, gmvMax: 50_000_000, gmvStep: 100_000,
     payfxMin: 2, payfxMax: 10, payfxStep: 0.5
   };
 
