@@ -123,6 +123,41 @@
   .result-value.positive{color:var(--pos)!important;text-shadow:0 0 10px rgba(0,255,132,.18);}
   .result-value.negative{color:var(--neg)!important;text-shadow:0 0 10px rgba(239,68,68,.18);}
 
+    /* === How we calculate — 3-column layout (uses your design tokens) === */
+    .calculator-explanation{
+      max-width: var(--container);
+      margin: 40px auto 0;
+      padding: 32px 40px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .explanation-title{
+      font-size: 22px;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+    .explanation-grid{
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 columns on desktop */
+      gap: 26px;
+    }
+    .explanation-item h4{
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .explanation-item p{
+      color: var(--text-2);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    
+    /* Responsive: stack on small screens */
+    @media (max-width: 900px){
+      .calculator-explanation{ padding: 24px; }
+      .explanation-grid{ grid-template-columns: 1fr; }
+    }
+    
   /* Emphasis rows (full-width, with gap) */
   .highlight-box-red,.highlight-box-green{display:block;width:100%;margin-top:14px;padding:18px;border-radius:10px;}
   .highlight-box-red{background:rgba(239,68,68,.10);border:1px solid rgba(239,68,68,.35);}
@@ -148,6 +183,7 @@
   .tick{color:var(--pos);font-weight:700;}
   .cross{color:var(--neg);}
 
+    
   /* Footer */
   .disclaimer-footer{background:var(--bg-section);border-top:1px solid var(--border);padding:56px 0;}
   .disclaimer-content{max-width:900px;margin:0 auto;text-align:center;}
@@ -335,24 +371,21 @@
           <h4>App / Play Store</h4>
           <p>
             The App / Play Store charge a 30% commission to act as a Merchant of Record (MoR).
-            They also charge fixed fees for refunds/chargebacks and take FX spread on payouts —
-            we assume this is ~4% of GMV in the calculator defaults.
+            This is applied to the total GMV.
           </p>
         </div>
     
         <div class="explanation-item">
           <h4>Additional costs</h4>
           <p>
-            The App / Play store charge additional fixed fees for processing refunds and chargebacks. These vary by market. 
-            Thet also charge FX and an FX spread for payouts. We estimated all these costs to come to c.4%. 
+            Stores charge fixed fees for refunds/chargebacks and take FX spread on payouts. We model these at ~4% of GMV by default.
           </p>
         </div>
     
         <div class="explanation-item">
           <h4>Outpost fee</h4>
           <p>
-            Outpost is a flat percentage of GMV with no extra lines. We compare that directly against the
-            App / Play Store total (30% + pay/FX costs) to show your net value unlocked. Our exact fee % depends on the market complexity - contact us for more details. 
+            Outpost is a flat percentage of GMV with no extra lines. We compare that directly to the store total (30% + additional costs) to show net value unlocked.
           </p>
         </div>
       </div>
